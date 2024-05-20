@@ -4,6 +4,7 @@ import App from './App.jsx'
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import { BrowserRouter } from 'react-router-dom'
 
+
 // 2. Extend the theme to include custom colors, fonts, etc
 const colors = {
   brand: {
@@ -13,7 +14,16 @@ const colors = {
   },
 }
 
-const theme = extendTheme({ colors })
+const breakpoints = {
+  base: '0em',
+  sm: '30em',
+  md: '48em',
+  lg: '1090px',
+  xl: '80em',
+  '2xl': '96em',
+}
+
+const theme = extendTheme({ colors, breakpoints })
 
 export default theme
 
