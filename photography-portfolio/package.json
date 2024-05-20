@@ -17,6 +17,7 @@
     "embla-carousel-react": "^8.0.4",
     "framer-motion": "^11.1.7",
     "localforage": "^1.10.0",
+    "locomotive-scroll": "^5.0.0-beta.12",
     "match-sorter": "^6.3.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

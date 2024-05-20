@@ -9,12 +9,11 @@ import HeroPage from "./Pages/HeroPage";
 
 function App() {
 
-
   return (
     <>
       <PageLayout>
         <Routes>
-          <Route path="/" element={<HeroPage/>}/>
+          <Route path="/" element={<HeroPage />}/>
         </Routes>
       </PageLayout>
       
