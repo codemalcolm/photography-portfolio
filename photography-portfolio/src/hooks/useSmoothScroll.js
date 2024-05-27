@@ -1,34 +1,46 @@
 import { useEffect, useRef } from "react";
 
 const useSmoothScroll = () => {
-  const scrollRef = useRef(null);
-  const locomotiveScrollRef = useRef(null);
+	const scrollContainerRef = useRef(null);
+	const locomotiveScrollRef = useRef(null);
 
-  useEffect(() => {
-    const initLocomotiveScroll = async () => {
-      const LocomotiveScroll = (await import("locomotive-scroll")).default;
-      const locomotiveScroll = new LocomotiveScroll({
-        el: scrollRef.current,
-        smooth: true,
-      });
+	useEffect(() => {
+		// import "locomotive-scroll" when DOM is mounted
+		const initLocomotiveScroll = async () => {
+			const LocomotiveScroll = (await import("locomotive-scroll")).default;
+			const locomotiveScroll = new LocomotiveScroll({
+				el: scrollContainerRef.current,
+				smooth: true,
+			});
 
-      locomotiveScrollRef.current = locomotiveScroll;
+			locomotiveScrollRef.current = locomotiveScroll;
 
-      return () => {
-        locomotiveScroll.destroy();
-      };
-    };
+			return () => {
+				locomotiveScroll.destroy();
+			};
+		};
 
-    initLocomotiveScroll();
-  }, []);
+		if (scrollContainerRef.current) {
+			initLocomotiveScroll();
+		}
 
-  const scrollTo = (target, options = {}) => {
-    if (locomotiveScrollRef.current) {
-      locomotiveScrollRef.current.scrollTo(target, options);
-    }
-  };
+		return () => {
+			if (locomotiveScrollRef.current) {
+				locomotiveScrollRef.current.destroy();
+			}
+		};
+	}, []);
 
-  return { scrollRef, scrollTo, locomotiveScrollRef };
+	// Scroll function
+	const scrollToSection = (section, options = {
+     duration: 1.5 
+    }) => {
+		if (!locomotiveScrollRef.current) return;
+      console.log(section)
+		locomotiveScrollRef.current.scrollTo(section, options);
+	};
+
+	return { scrollContainerRef, scrollToSection };
 };
 
 export default useSmoothScroll;

@@ -12,7 +12,7 @@ const HeroPage = () => {
       if (window.scrollY > 50) {
         scrollTo("#contact-section", {
           duration: 1000,
-          easing: [0.25, 0.00, 0.35, 1.00],
+          easing: [0.25, 0.50, 0.35, 1.00],
         });
         window.removeEventListener("scroll", handleScroll);
       }

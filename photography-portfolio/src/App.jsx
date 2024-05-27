@@ -1,24 +1,16 @@
-import {
-  createBrowserRouter,
-  Route,
-  RouterProvider,
-  Routes,
-} from "react-router-dom";
+import React from "react";
+import { Routes, Route } from "react-router-dom";
 import PageLayout from "./Layouts/PageLayout";
-import HeroPage from "./Pages/HeroPage";
+import TestPage from "./Pages/TestPage";
 
 function App() {
-
   return (
-    <>
-      <PageLayout>
-        <Routes>
-          <Route path="/" element={<HeroPage />}/>
-        </Routes>
-      </PageLayout>
-      
-    </>
-  )
+    <PageLayout>
+      <Routes>
+        <Route path="/" element={<TestPage />} />
+      </Routes>
+    </PageLayout>
+  );
 }
 
-export default App
+export default App;
