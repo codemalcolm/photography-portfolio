@@ -1,7 +1,5 @@
-import React from "react";
 import { Box, Flex } from "@chakra-ui/react";
 import Navbar from "../Navigation/Navbar";
-import useSmoothScroll from "../hooks/useSmoothScroll";
 
 const PageLayout = ({ children }) => {
   return (

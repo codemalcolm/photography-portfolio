@@ -4,10 +4,10 @@ import useSmoothScroll from "../hooks/useSmoothScroll";
 const SmoothScrollContext = createContext();
 
 export const SmoothScrollProvider = ({ children }) => {
-  const smoothScroll = useSmoothScroll();
+  const { scrollContainerRef, scrollToSection } = useSmoothScroll();
 
   return (
-    <SmoothScrollContext.Provider value={smoothScroll}>
+    <SmoothScrollContext.Provider value={{ scrollContainerRef, scrollToSection }}>
       {children}
     </SmoothScrollContext.Provider>
   );

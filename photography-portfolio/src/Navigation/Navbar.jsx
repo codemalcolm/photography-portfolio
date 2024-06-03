@@ -12,7 +12,6 @@ import {
 	DrawerCloseButton,
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
-import useSmoothScroll from "../hooks/useSmoothScroll.js";
 import { useSmoothScrollContext } from "../contexts/SmoothScrollContext.jsx";
 
 const Navbar = () => {
