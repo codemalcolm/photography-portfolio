@@ -25,17 +25,18 @@ const Navbar = () => {
 	};
 
 	return (
-		<Box position={"relative"} zIndex={999}>
+		<Box position={"relative"}>
 			<Box
 				px={6}
 				py={3}
 				flex={1}
 				w={{ base: "calc(100% - 70px)", md: "calc(100% - 540px)" }}
 				mx={"auto"}
-				bgGradient="linear(to-r, green.100 0%, green.200 10%, green.400 50%)"
-				opacity={"70%"}
-				backdropFilter={"blur(10px)"}
+				// bgGradient="linear(to-r, green.100 0%, green.200 10%, green.400 50%)"
+				bgColor={"#090D0B"}
+				opacity={"85%"}
 				position={"absolute"}
+				
 				left={"50%"}
 				style={{
 					position: "absolute",
@@ -44,7 +45,8 @@ const Navbar = () => {
 					transform: "translate(-50%, -5%)",
 				}}
 			>
-				<Flex justifyContent={"space-between"} alignItems={"center"}>
+				<Flex justifyContent={"space-between"} alignItems={"center"}
+				color={"white"}>
 					<Flex alignItems={"center"} justifyContent={"center"} gap={3}>
 						<Box
 							backgroundColor={"lightgray"}
@@ -55,7 +57,7 @@ const Navbar = () => {
 						>
 							i
 						</Box>
-						<Box>Jiří Macháček</Box>
+						<Box color={""}>Jiří Macháček</Box>
 					</Flex>
 
 					{/* Navbar links */}
@@ -64,22 +66,26 @@ const Navbar = () => {
 						alignItems={"center"}
 						color={"black"}
 						display={{ base: "none", lg: "flex" }}
+						opacity={"160%"}
+						color={"white"}
 					>
-						<Flex gap={10}>
+						<Flex gap={10} >
 							<Box
-								_hover={{ color: "white" }}
+								_hover={{ color: "#ADD4D9" }}
 								onClick={() => handleNavLinkClick("#first-section")}
-							>
-								<Link to="/">portfolio</Link>
-							</Box>
-							<Box
-								_hover={{ color: "white" }}
-								onClick={() => handleNavLinkClick("#second-section")}
 							>
 								<Link to="/">about</Link>
 							</Box>
+
 							<Box
-								_hover={{ color: "white" }}
+								_hover={{ color: "#ADD4D9" }}
+								onClick={() => handleNavLinkClick("#second-section")}
+							>
+								<Link to="/">portfolio</Link>
+							</Box>
+
+							<Box
+								_hover={{ color: "#ADD4D9" }}
 								onClick={() => handleNavLinkClick("#third-section")}
 							>
 								<Link to="/">exhibitions</Link>
@@ -87,13 +93,13 @@ const Navbar = () => {
 						</Flex>
 
 						<Flex gap={2}>
-							<Box _hover={{ color: "white" }}>
+							<Box _hover={{ color: "#ADD4D9" }}>
 								<Link to="/">
 									<FaFacebook />
 								</Link>
 							</Box>
 
-							<Box _hover={{ color: "white" }}>
+							<Box _hover={{ color: "#ADD4D9" }}>
 								<Link to="/">
 									<FaInstagram />
 								</Link>
@@ -124,6 +130,14 @@ const Navbar = () => {
 							<DrawerHeader>Jiří Macháček</DrawerHeader>
 							<DrawerBody>
 								<Flex flexDirection={"column"} gap={2}>
+									<Box 
+										fontSize={22} pl={2} py={2} 
+										_hover={{ color: "white" }}
+										onClick={() => handleNavLinkClick("#second-section")}
+									>
+										<Link to="/">about</Link>
+									</Box>
+
 									<Box
 										fontSize={22}
 										pl={2}
@@ -133,15 +147,12 @@ const Navbar = () => {
 									>
 										<Link to="/">portfolio</Link>
 									</Box>
-									<Box fontSize={22} pl={2} py={2} 
-                  _hover={{ color: "white" }}
-                  onClick={() => handleNavLinkClick("#second-section")}
-                  >
-										<Link to="/">about</Link>
-									</Box>
-									<Box fontSize={22} pl={2} py={2} 
-                  _hover={{ color: "white" }}
-                  onClick={() => handleNavLinkClick("#third-section")}>
+
+									<Box 
+										fontSize={22} pl={2} py={2} 
+										_hover={{ color: "white" }}
+										onClick={() => handleNavLinkClick("#third-section")}
+									>
 										<Link to="/">exhibitions</Link>
 									</Box>
 								</Flex>

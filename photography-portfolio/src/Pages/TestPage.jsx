@@ -1,9 +1,11 @@
 import { Box, Button } from "@chakra-ui/react";
-import img1 from "../assets/images/roadsigns3.jpg";
+import img1 from "../assets/images/title_cheez.png";
 import useSmoothScroll from "../hooks/useSmoothScroll";
 import { useEffect, useState } from "react";
 import { useSmoothScrollContext } from "../contexts/SmoothScrollContext"
 import AboutSection from "../components/AboutSection";
+import PortfolioSection from "./PortfolioSection";
+import ExhibitionSection from "./ExhibitionSection";
 
 const TestPage = () => {
   const sections = ["#landing-section", "#first-section", "#second-section", "#third-section"];
@@ -14,33 +16,33 @@ const TestPage = () => {
     const [isScrolling, setIsScrolling] = useState(false);
     const [lastScrollY, setLastScrollY] = useState(0);
 
-    // useEffect(() => {
-    //   const handleScroll = () => {
-    //     if (isScrolling) return;
+    useEffect(() => {
+      const handleScroll = () => {
+        if (isScrolling) return;
   
-    //     const currentScrollY = window.scrollY;
+        const currentScrollY = window.scrollY;
   
-    //     // Check if the user has scrolled past the threshold and hasn't scrolled back up
-    //     if (currentScrollY > 40 && currentScrollY > lastScrollY) {
-    //       setIsScrolling(true);
-    //       const nextSectionIndex = (currentSectionIndex + 1) % sections.length;
-    //       setCurrentSectionIndex(nextSectionIndex);
-    //       smoothScrollTo(sections[nextSectionIndex], 1000, () => {
-    //         setIsScrolling(false); // Reset scrolling state once animation is done
-    //         setLastScrollY(window.scrollY); // Update lastScrollY to the current scroll position
-    //       });
-    //     }
+        // Check if the user has scrolled past the threshold and hasn't scrolled back up
+        if (currentScrollY > 40 && currentScrollY > lastScrollY) {
+          setIsScrolling(true);
+          const nextSectionIndex = (currentSectionIndex + 1) % sections.length;
+          setCurrentSectionIndex(nextSectionIndex);
+          smoothScrollTo(sections[nextSectionIndex], 1000, () => {
+            setIsScrolling(false); // Reset scrolling state once animation is done
+            setLastScrollY(window.scrollY); // Update lastScrollY to the current scroll position
+          });
+        }
   
-    //     setLastScrollY(currentScrollY);
-    //   };
+        setLastScrollY(currentScrollY);
+      };
   
-    //   window.addEventListener("scroll", handleScroll);
+      window.addEventListener("scroll", handleScroll);
   
-    //   return () => {
-    //     window.removeEventListener("scroll", handleScroll);
-    //   };
-    // }, [currentSectionIndex, isScrolling, lastScrollY, sections]);
-
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }, [currentSectionIndex, isScrolling, lastScrollY, sections]);
+    
   return (
     <Box
       ref={scrollContainerRef}
@@ -55,17 +57,8 @@ const TestPage = () => {
       >
         <img src={img1} alt="Landing" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
       </Box>
-
       <Box
         id="first-section"
-        data-scroll-section
-        style={{ height: "100vh", backgroundColor: "blue", color: "white" }}
-      >
-        <h1>Portfolio Section</h1>
-      </Box>
-
-      <Box
-        id="second-section"
         data-scroll-section
         style={{ height: "100vh", backgroundColor: "white", color: "black" }}
       >
@@ -73,11 +66,20 @@ const TestPage = () => {
       </Box>
 
       <Box
+        id="second-section"
+        data-scroll-section
+        style={{ height: "100vh", backgroundColor: "white", color: "white" }}
+      >
+        <PortfolioSection/>
+      </Box>
+
+
+      <Box
         id="third-section"
         data-scroll-section
-        style={{ height: "100vh", backgroundColor: "red", color: "white" }}
+        style={{ height: "100vh", backgroundColor: "white", color: "white" }}
       >
-        <h1>Exhibitions Section</h1>
+        <ExhibitionSection/>
       </Box>
     </Box>
   );
