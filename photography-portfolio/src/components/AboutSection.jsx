@@ -7,7 +7,7 @@ const AboutSection = () => {
 		<Box
 		style={{ height: "100vh"}}
 		>
-			<img src={jiriImg} alt="Landing" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+			<img src={jiriImg} alt="about-section" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
 		</Box>
 		// <Flex py={"220px"} px={"360px"}>
 		// 	<Box border={"1px solid black"} width={"350px"}>

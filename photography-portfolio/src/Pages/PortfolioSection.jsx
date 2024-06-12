@@ -7,7 +7,7 @@ const PortfolioSection = () => {
     <Box
 		style={{ height: "100vh"}}
 		>
-			<img src={jiriImg} alt="Landing" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+			<img src={jiriImg} alt="Landing" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
     </Box>
   )
 }

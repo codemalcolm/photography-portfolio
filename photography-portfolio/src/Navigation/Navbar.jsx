@@ -25,7 +25,7 @@ const Navbar = () => {
 	};
 
 	return (
-		<Box position={"relative"}>
+		<Box position={"relative"} zIndex={999}>
 			<Box
 				px={6}
 				py={3}
@@ -57,7 +57,9 @@ const Navbar = () => {
 						>
 							i
 						</Box>
-						<Box color={""}>Jiří Macháček</Box>
+						<Box
+						display={{base:"none", lg:"block"}} 
+						color={""}>Jiří Macháček</Box>
 					</Flex>
 
 					{/* Navbar links */}
