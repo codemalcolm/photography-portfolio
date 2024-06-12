@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-rou
 import PageLayout from "./Layouts/PageLayout";
 import TestPage from "./Pages/TestPage";
 import { SmoothScrollProvider } from "./contexts/SmoothScrollContext";
+import "../src/index.css"
 
 function App() {
   return (

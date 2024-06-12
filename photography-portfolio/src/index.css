@@ -1,15 +1,42 @@
 .embla {
-    overflow: hidden;
+  overflow: hidden;
 
-  }
-  .embla__container {
-    display: flex;
-  }
-  .embla__slide {
-    flex: 0 0 100%;
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-    top: 0;
-    left: 0;
-  }
+}
+.embla__container {
+  display: flex;
+}
+.embla__slide {
+  flex: 0 0 100%;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+}
+
+::-webkit-scrollbar{
+  width: 8px;
+}
+
+::-webkit-scrollbar-track{
+  background: #252835;
+
+}
+
+::-webkit-scrollbar-thumb{
+  width: 6px;
+  background: #525870;
+  border-radius: 16px;
+}
+
+
+
+/* ::-webkit-scrollbar-button:single-button:decrement {
+  background: url('path/to/up-arrow.png') no-repeat center;
+  background-size: contain;
+}
+
+::-webkit-scrollbar-button:single-button:increment {
+  background: url('path/to/up-arrow.png') no-repeat center;
+  background-size: contain;
+} */

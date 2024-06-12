@@ -8,6 +8,7 @@ import PortfolioSection from "./PortfolioSection";
 import ExhibitionSection from "./ExhibitionSection";
 import jiriImg from "../assets/images/that-cheez.jpg";
 
+
 const TestPage = () => {
 	const sections = [
 		"#landing-section",
@@ -49,39 +50,43 @@ const TestPage = () => {
 	//   };
 	// }, [currentSectionIndex, isScrolling, lastScrollY, sections]);
 
+	const handleBtnClick = (sectionId) => {
+		if (!scrollToSection(sectionId, { duration: 5 })) return;
+	};
+
 	return (
 		<Box
 			ref={scrollContainerRef}
 			data-scroll-container
 			style={{ height: "100vh" }}
-      overflow={"hidden"}
+      		overflowX={"hidden"}
 		>
 			{/* Landing page */}
 
-			<Box id="landing-section" data-scroll-section>
+			<Box id="landing-section" data-scroll-section
+			>
 				<Box height="100vh"
-        position="relative"
-        aspectRatio={{base:"1 / 1", lg:"auto"}}
-
-        >
+				position="relative"
+				aspectRatio={{base:"1 / 1", lg:"auto"}}
+				>
 					<Image
 						src={jiriImg}
 						alt="landing-page"
-            objectFit={"cover"}
-            w={{base:"100%"}}
-            h={{base:"100%"}}
+						objectFit={"cover"}
+						w={{base:"100%"}}
+						h={{base:"100%"}}
 					/>
           {/* My work btn */}
 					<Button
 						left={{base:"75px", lg:"60px"}}
 						bottom={"100px"}
 						borderRadius={"0px"}
-            minW={"220px"}
-            minH={"50px"}
-            fontSize={"22px"}
-            paddingY={"16px"}
-            paddingX={"32px"}
-
+						minW={"220px"}
+						minH={"50px"}
+						fontSize={"22px"}
+						paddingY={"16px"}
+						paddingX={"32px"}
+						onClick={() => handleBtnClick("#second-section")}
 					>
 						MY WORK
 					</Button>

@@ -68,7 +68,7 @@ const Navbar = () => {
 						alignItems={"center"}
 						color={"black"}
 						display={{ base: "none", lg: "flex" }}
-						opacity={"160%"}
+						opacity={"100%"}
 						color={"white"}
 					>
 						<Flex gap={10} >
@@ -110,7 +110,7 @@ const Navbar = () => {
 					</Flex>
 
 					{/* Hamburger */}
-					<Flex display={{ base: "flex", lg: "none" }}>
+					<Flex display={{ base: "flex", lg: "none" }} opacity={ isOpen ? 0 : 1}>
 						<CgMenuRight
 							style={{
 								width: "25px",
