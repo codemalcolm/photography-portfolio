@@ -6,57 +6,66 @@ const AboutSection = () => {
 	return (
 		<Flex
 			style={{ height: "100vh" }}
+			width={"100%"}
 			justifyContent={"center"}
 			alignItems={"center"}
+			margin={"0 auto"}
 		>
 			{/* FlexBox Desktop Version*/}
-			<Flex w={"80%"} justifyContent={"center"}>
-				<Flex w="450px" border={"1px solid black"} justifyContent={"center"}>
-					<Flex padding={"16px"} flexDirection={"column"}>
-						<Flex borderRadius={"16px"} border={"1px solid black"}>
+			<Flex w={{base:"auto", lg:"80%"}} justifyContent={{base:"start", lg:"center"}} flexDirection={{base:"column", lg:"row"}} id="lemme">
+				<Flex w="325px" justifyContent={"center"}>
+				<Flex py={{base:"0px",lg:"16px"}} px={{base:"0px",lg:"16px"}} flexDirection={"column"}>
+						<Flex borderRadius={"16px"} border={"1px solid black"} justifyContent={"center"}>
 							<Image
 								src={jiriImg}
 								objectFit={"cover"}
-								width={"350px"}
-								height={"450px"}
+								width={{base:"195px",lg:"350px"}}
+								height={{base:"245px",lg:"450px"}}
 								opacity={0.9}
-								px={"16px"}
-								py={"32px"}
+								px={{base:"10px",lg:"16px"}}
+								py={{base:"18px",lg:"32px"}}
 							/>
 						</Flex>
 
 						<Flex alignItems={"center"} flexDirection={"column"}>
-							<Text fontSize={"32px"} mt={"16px"}>
+							<Text fontSize="clamp(22px, 2.5vw, 42px)" mt={"16px"} mb={"8px"}>
 								Jiří Macháček
 							</Text>
 							<Button
-								w={"225px"}
+								w={"100%"}
+								maxWidth={"225px"}
+								minWidth={"125px"}
 								borderRadius={"full"}
 								border={"1px solid black"}
 								backgroundColor={"white"}
+								fontSize={{base:"12px", lg:"16px"}}
+								px={{base:"0px", lg:"16px"}}
+								display={{base:"none", lg:"block"}}
 							>
 								UKÁZAT PRÁCI
 							</Button>
 						</Flex>
 					</Flex>
 				</Flex>
-				<Flex w="950px" border={"1px solid black"} p={"24px"} flexDirection={"column"}>
+				<Flex w={{base: "325px",lg:"950px"}} py={{base:"12px", lg:"24px"}} px={"24px"} flexDirection={"column"}>
 					{/* 1st TEXT BOX  */}
 					<Box>
 						<Text 
-							fontSize={"42px"}
+							fontSize="clamp(22px, 2.5vw, 42px)"
 							fontWeight={500}
-							lineHeight={"42px"}
+							lineHeight="clamp(22px, 2.5vw, 42px)"
 						>
 							O Mně
 						</Text>
 						<Text 
 							mt={"16px"}
-							fontSize={"18px"}
+							fontSize="clamp(12px, 1.5vw, 18px)"
 							fontWeight={400}
-							lineHeight={"18px"}
+							lineHeight="clamp(12px, 1.5vw, 18px)"
+							wordWrap={"break-word"}
+
 						>
-							Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed convallis magna eu sem. Mauris suscipit, ligula sit amet pharetra semper, nibh ante cursus purus, vel sagittis velit mauris vel metus. Nunc auctor. Aliquam erat volutpat. Etiam ligula pede, sagittis quis, interdum ultricies, scelerisque eu. Aliquam ornare wisi eu metus. Etiam sapien elit, consequat eget, tristique non, venenatis quis, ante. Nullam feugiat, turpis at pulvinar vulputate, erat libero tristique tellus, nec bibendum odio risus
+							Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed convallis magna eu 
 						</Text>
 					</Box>
 
@@ -64,14 +73,14 @@ const AboutSection = () => {
 					<Flex>
 						<Box>
 							<Text 
-								fontSize={"42px"}
+								fontSize="clamp(22px, 2.5vw, 42px)"
 								fontWeight={500}
-								lineHeight={"42px"}
+								lineHeight="clamp(22px, 2.5vw, 42px)"
 								mt={"18px"}
 							>
 								Bibliografie
 							</Text>
-							<UnorderedList styleType="'- '" fontSize={"18px"} mt={"16px"} textAlign={"start"}>
+							<UnorderedList styleType="'- '" fontSize="clamp(12px, 1.5vw, 18px)" mt={"16px"} textAlign={"start"}>
 								<ListItem>Lorem ipsum dolor sit amet</ListItem>
 								<ListItem>Consectetur adipiscing elit</ListItem>
 								<ListItem>Integer molestie lorem at massa</ListItem>
@@ -81,14 +90,14 @@ const AboutSection = () => {
 						{/* 3rd TEXT BOX  */}
 						<Box ml={"22px"}>
 							<Text 
-								fontSize={"42px"}
+								fontSize="clamp(22px, 2.5vw, 42px)"
 								fontWeight={500}
-								lineHeight={"42px"}
+								lineHeight="clamp(22px, 2.5vw, 42px)"
 								mt={"18px"}
 							>
 								Exhibice
 							</Text>
-							<UnorderedList styleType="'- '" fontSize={"18px"} mt={"16px"} textAlign={"start"}>
+							<UnorderedList styleType="'- '" fontSize="clamp(12px, 1.5vw, 18px)" mt={"16px"} textAlign={"start"}>
 								<ListItem><Link fontWeight={500}>Lorem ipsum dolor sit amet</Link></ListItem>
 								<ListItem><Link fontWeight={500}>Consectetur adipiscing elit</Link></ListItem>
 								<ListItem><Link fontWeight={500}>Integer molestie lorem at massa</Link></ListItem>
@@ -97,16 +106,16 @@ const AboutSection = () => {
 						</Box>
 					</Flex>
 					{/* 4th TEXT BOX  */}
-					<Box>
+					<Box >
 							<Text 
-								fontSize={"42px"}
+								fontSize="clamp(22px, 2.5vw, 42px)"
 								fontWeight={500}
-								lineHeight={"42px"}
+								lineHeight="clamp(22px, 2.5vw, 42px)"
 								mt={"18px"}
 							>
 								Klienti
 							</Text>
-							<UnorderedList styleType="'- '" fontSize={"18px"} mt={"16px"} textAlign={"start"}>
+							<UnorderedList styleType="'- '" fontSize="clamp(12px, 1.5vw, 18px)" mt={"16px"} textAlign={"start"}>
 								<ListItem>Lorem ipsum dolor sit amet</ListItem>
 								<ListItem>Consectetur adipiscing elit</ListItem>
 								<ListItem>Integer molestie lorem at massa</ListItem>
@@ -114,7 +123,24 @@ const AboutSection = () => {
 							</UnorderedList>
 						</Box>
 				</Flex>
+				<Flex justifyContent={"center"}>
+					<Button
+						w={"100%"}
+						maxWidth={"225px"}
+						minWidth={"125px"}
+						borderRadius={"full"}
+						border={"1px solid black"}
+						backgroundColor={"white"}
+						fontSize={{base:"12px", lg:"16px"}}
+						px={{base:"0px", lg:"16px"}}
+						display={{base:"block", lg:"none"}}
+					>
+						UKÁZAT PRÁCI
+					</Button>
+				</Flex>
 			</Flex>
+			{/* FlexBox Mobile Version */}
+			
 		</Flex>
 		// <Flex py={"220px"} px={"360px"}>
 		// 	<Box border={"1px solid black"} width={"350px"}>
