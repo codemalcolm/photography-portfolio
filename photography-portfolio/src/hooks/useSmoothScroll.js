@@ -50,7 +50,7 @@ const useSmoothScroll = () => {
   const scrollContainerRef = useRef(null);
 
   const scrollToSection = (sectionId, options = {}) => {
-    console.log(sectionId)
+
     const section = document.querySelector(sectionId);
     if (section) {
      

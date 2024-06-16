@@ -1,51 +1,53 @@
-import { Box, Image } from "@chakra-ui/react";
-import img1 from "../assets/images/roadsigns2.jpg";
+import { Box, Button, Image, Text } from "@chakra-ui/react";
+import img1 from "../assets/images/that-cheez.jpg";
 import { useEffect } from "react";
 import useSmoothScroll from "../hooks/useSmoothScroll";
 
 const HeroPage = () => {
-  const { scrollTo } = useSmoothScroll();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      // Adjust the threshold as needed
-      if (window.scrollY > 50) {
-        scrollTo("#contact-section", {
-          duration: 1000,
-          easing: [0.25, 0.50, 0.35, 1.00],
-        });
-        window.removeEventListener("scroll", handleScroll);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [scrollTo]);
 
   return (
-    <Box margin={0} data-scroll-container>
-      <Box w={"100vw"} h={"100vh"} overflow={"hidden"} top={0} left={0}>
-        <Image
-          src={img1}
-          h={"100%"}
-          w={"100%"}
-          objectFit={"cover"}
-          objectPosition={"center"}
-        />
-      </Box>
-      <Box
-        id="contact-section"
-        width={"100vw"}
-        minH={"100vh"}
-        backgroundColor={"blue"}
-        color={"white"}
-        m={0}
-        overflow={"hidden"}
-      >
-        Contact section
+    <Box
+      style={{ height: "100vh" }}
+      overflowX={{ base: "hidden", lg: "visible" }}
+      overflowY={{ base: "visible", lg: "hidden" }}
+    >
+      <Box id="landing-section" data-scroll-section>
+        <Box height="100vh" position="relative" aspectRatio={{ base: "1 / 1", lg: "auto" }}>
+          <Image src={img1} alt="landing-page" objectFit={"cover"} w={{ base: "100%" }} h={{ base: "100%" }} />
+          <Button
+            left={{ base: "75px", lg: "60px" }}
+            bottom={"100px"}
+            borderRadius={"0px"}
+            minW={"220px"}
+            minH={"50px"}
+            fontSize={"22px"}
+            paddingY={"16px"}
+            paddingX={"32px"}
+            // onClick={() => handleBtnClick("/photography")}
+          >
+            MY WORK
+          </Button>
+          <Box display={{ base: "none", lg: "block" }} position="absolute" zIndex={1} top={{ base: "45px", lg: "90px" }} left={{ base: "16px", lg: "45px" }}>
+            <Text color="white" fontSize={{ base: "45px", lg: "105px" }} lineHeight={{ base: "45px", lg: "105px" }}>
+              Jiří
+            </Text>
+            <Text color="white" fontSize={{ base: "45px", lg: "105px" }} lineHeight={{ base: "45px", lg: "105px" }}>
+              Macháček
+            </Text>
+          </Box>
+          <Text position="absolute" zIndex={1} textAlign={"center"} top={"60px"} left={"60px"} color="white" display={{ base: "block", lg: "none" }} fontSize={{ base: "45px", lg: "105px" }} lineHeight={{ base: "45px", lg: "105px" }}>
+            Jiří Macháček
+          </Text>
+          <Box display={{ base: "none", lg: "block" }} position="absolute" zIndex={1} top="450px" right="60px">
+            <Text color="white" fontSize="65px" lineHeight="65px">
+              Photography
+            </Text>
+            <Text color="white" fontSize="40px" lineHeight="40px">
+              Portfolio
+            </Text>
+          </Box>
+        </Box>
       </Box>
     </Box>
   );
