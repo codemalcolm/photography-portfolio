@@ -74,16 +74,16 @@ const Navbar = () => {
 						<Flex gap={10} >
 							<Box
 								_hover={{ color: "#ADD4D9" }}
-								onClick={() => handleNavLinkClick("#about-section")}
+								onClick={() => handleNavLinkClick("#about")}
 							>
-								<Link to="#about-section">about</Link>
+								<Link to="about">about</Link>
 							</Box>
 
 							<Box
 								_hover={{ color: "#ADD4D9" }}
-								onClick={() => handleNavLinkClick("#photography-section")}
+								onClick={() => handleNavLinkClick("#photography")}
 							>
-								<Link to="#photography-section">portfolio</Link>
+								<Link to="photography">portfolio</Link>
 							</Box>
 
 							<Box

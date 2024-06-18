@@ -1,26 +1,37 @@
-import { Box, Text, UnorderedList } from '@chakra-ui/react'
-import React from 'react'
+import { Box, Text,  } from '@chakra-ui/react'
 import jiriImg from "../assets/images/portfolio_section.png"
-import { Link, Route, Routes,} from 'react-router-dom'
-import Cars from '../components/Cars'
-import Animals from '../components/Animals'
+import { Link, Route, Routes, useLocation,useNavigate } from 'react-router-dom'
+
+import Shows from './Shows'
+import Street from './Street'
+import Art from './Art'
+import Gallery from '../components/Gallery'
 
 const PortfolioSection = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
 
+  const handleGoBack = () => {
+    navigate(-1); // Navigate back one step
+  };
   return (
     
     <Box
 		style={{ height: "100vh"}}
-    backgroundColor={"red"}
+    backgroundColor={"#F5F5F5"}
 		>
-        <Text fontSize={"36px"}><Link to={`/#photography`}>BACK</Link></Text>
-        <Link to={`cars`}>Cars</Link>
-        <Link to={`animals`}>Animals</Link>
+    <Box display={location.pathname === "/photography" ? "none" : "block"}>
+        <Text fontSize={"36px"} onClick={handleGoBack} style={{ cursor: 'pointer' }}>
+          BACK
+        </Text>
+      </Box>
+       
 
         <Routes>
-          <Route path="/" element={<h3>Please select a category.</h3>} />
-          <Route path="cars" element={<Cars />} />
-          <Route path="animals" element={<Animals />} />
+          <Route path="/" element={<Gallery />} />
+          <Route path="koncerty/*" element={<Shows />} />
+          <Route path="street" element={<Street />} />
+          <Route path="art" element={<Art />} />
       </Routes>
     </Box>
   )
