@@ -10,7 +10,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { Link, useNavigate } from "react-router-dom";
 
 const PhotoCarousel = (props) => {
-	const { slides, options, show } = props;
+	const { slides, options, showId } = props;
 	const [emblaRef, emblaApi] = useEmblaCarousel(options);
 	const [activeIndex, setActiveIndex] = useState(0);
 
@@ -75,7 +75,7 @@ const PhotoCarousel = (props) => {
 						p={4}
 						w={"50px"}
 						backgroundColor={""}
-						onClick={() => galleryNavigation(show.id)}
+						onClick={() => galleryNavigation(showId)}
 					>
 						<GrGallery style={{ width: "25px", height: "25px" }} />
 					</Button>

@@ -8,19 +8,23 @@ import CollectionMenu from '../components/CollectionMenu'
 import { CgCarousel } from 'react-icons/cg'
 import ShowCarouselWrapper from '../components/ShowCarouselWrapper'
 import ShowGalleryWrapper from '../components/ShowGalleryWrapper'
+import useGetPhotos from '../hooks/useGetPhotos'
+import useGetCategories from '../hooks/useGetCategories'
 
 const Shows = () => {
-
-
+  
+// const {isLoading, posts} = useGetPhotos("zizkovska-noc")
+const {isLoading, categories} = useGetCategories()
+  if(!isLoading){
+    console.log(categories,"photos here")
+  }
 
   const data = [
     {
       id: 'show1',
       title: 'Show 1',
       description: 'Description for Show 1. This show features an array of stunning visuals and performances.',
-      photos: [
-        // Add photos data here if needed
-      ],
+      photos:"",
     },
     {
       id: 'show2',
@@ -85,42 +89,14 @@ const Shows = () => {
     },
   ];
  
-  
-  const generatePhotoData = () => {
-    // Sample names and descriptions
-    const names = ["Sunset", "Mountain", "Cityscape", "Forest", "Ocean"];
-    const descriptions = [
-      "A beautiful view of the sunset.",
-      "A majestic mountain range.",
-      "A bustling cityscape.",
-      "A serene forest.",
-      "A vast ocean."
-    ];
-  
-    // Function to get a random element from an array
-    const getRandomElement = (array) => array[Math.floor(Math.random() * array.length)];
-  
-    // Generate a random ID
-    const generateID = () => Math.floor(Math.random() * 1000000);
-  
-    // Generate random photo data object
-    const photoData = {
-      id: generateID(),
-      name: getRandomElement(names),
-      description: getRandomElement(descriptions),
-      imageUrl: `https://plus.unsplash.com/premium_photo-1718146019339-0b1bbd663523?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8`
-    };
-  
-    return photoData;
-  };
   return (
     <>
       <Flex height={"750px"} id='lol'>
 
         <Routes>
-            <Route path="/" element={<CollectionMenu data={data}/>} />
-            <Route path="carousel/:showId" element={<ShowCarouselWrapper showsData={data}/>} />
-            <Route path="gallery/:showId" element={<ShowGalleryWrapper showsData={data}/>} />
+            <Route path="/" element={<CollectionMenu data={categories}/>} />
+            <Route path="carousel/:showId" element={<ShowCarouselWrapper showsData={categories}/>} />
+            <Route path="gallery/:showId" element={<ShowGalleryWrapper showsData={categories}/>} />
         </Routes>
 
       </Flex>

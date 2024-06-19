@@ -2,10 +2,13 @@ import { Box, Button, Image, Text } from "@chakra-ui/react";
 import img1 from "../assets/images/that-cheez.jpg";
 import { useEffect } from "react";
 import useSmoothScroll from "../hooks/useSmoothScroll";
+import { useNavigate } from "react-router-dom";
 
 const HeroPage = () => {
-
-
+  const navigate = useNavigate();
+  const handleBtnClick = () => {
+    navigate("/photography")
+  }
   return (
     <Box
       style={{ height: "100vh" }}
@@ -24,8 +27,9 @@ const HeroPage = () => {
             fontSize={"22px"}
             paddingY={"16px"}
             paddingX={"32px"}
-            // onClick={() => handleBtnClick("/photography")}
+            onClick={() => handleBtnClick()}
           >
+
             MY WORK
           </Button>
           <Box display={{ base: "none", lg: "block" }} position="absolute" zIndex={1} top={{ base: "45px", lg: "90px" }} left={{ base: "16px", lg: "45px" }}>
