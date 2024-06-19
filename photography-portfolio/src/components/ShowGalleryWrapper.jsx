@@ -3,9 +3,11 @@ import { useParams } from 'react-router-dom';
 import PhotoCarousel from './PhotoCarousel';
 import GalleryItem from './GalleryItem';
 import PhotoGallery from './PhotoGallery';
+import useGetPhotos from '../hooks/useGetPhotos';
 
 const ShowGalleryWrapper = ({ showsData }) => {
   const { showId } = useParams();
+  const {isLoading, posts} = useGetPhotos(showId)
   console.log('ShowCarouselWrapper rendered'); // Check if component renders
   console.log('showId:', showId); // Log showId to verify extraction
 
@@ -17,10 +19,10 @@ const ShowGalleryWrapper = ({ showsData }) => {
     return <div>Show not found</div>;
   }
 
-  const slides = show.photos.map((photo) => ({
+  const slides = posts.map((photo) => ({
     id: photo.id || [],
     name: photo.name || 'No name found',
-    description: photo.description || 'No description found',
+    category: photo.category || 'No description found',
     imageUrl: photo.imageUrl || null,
   }));
 

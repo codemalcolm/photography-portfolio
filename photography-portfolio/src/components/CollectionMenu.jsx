@@ -14,7 +14,7 @@ const CollectionMenu = (props) => {
         <VStack spacing={4}>
         {data?.map((show) => (
           <Link key={show.id} to={`carousel/${show.id}`}>
-            {show.title}
+            {show.folderName}
           </Link>
         ))}
       </VStack>

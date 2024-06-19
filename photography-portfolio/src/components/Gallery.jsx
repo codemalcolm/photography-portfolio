@@ -12,7 +12,7 @@ const Gallery = () => {
                 <Box width={"750px"} minWidth={"285px"} minHeight={"285px"}>
                     <Image src={koncertImg1} objectFit={"cover"}/>
                 </Box>
-                <Text color="white" position={"absolute"} left={"45%"} textAlign={"center"}>
+                <Text fontSize={"22px"} fontWeight={500}color="white" position={"absolute"} left={"45%"} top={"50%"} textAlign={"center"}>
                     Shows
                 </Text>
             </Flex>
@@ -23,7 +23,7 @@ const Gallery = () => {
                 <Box width={"750px"} minWidth={"285px"} minHeight={"285px"} >
                     <Image src={koncertImg2} objectFit={"cover"}/>
                 </Box>
-                <Text color="white" position={"absolute"} left={"50%"} textAlign={"center"}>
+                <Text fontSize={"22px"} fontWeight={500}color="white" position={"absolute"} left={"50%"} top={"50%"} textAlign={"center"}>
                     Art
                 </Text>
             </Flex>

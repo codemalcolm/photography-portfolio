@@ -10,9 +10,14 @@ import {
 	UnorderedList,
 } from "@chakra-ui/react";
 import React from "react";
-import jiriImg from "../assets/images/jiri.jpg";
+import jiriImg from "../assets/images/jiri-beer.jpg";
+import { useNavigate } from "react-router-dom";
 
 const AboutSection = () => {
+	const navigate = useNavigate();
+	const handleBtnClick = () => {
+	  navigate("/photography")
+	}
 	return (
 		<Flex
 			style={{ height: "100vh" }}
@@ -36,8 +41,8 @@ const AboutSection = () => {
 						flexDirection={"column"}
 					>
 						<Flex
-							borderRadius={"16px"}
-							border={"1px solid black"}
+							// borderRadius={"16px"}
+							// border={"1px solid black"}
 							justifyContent={"center"}
 						>
 							<Image
@@ -71,6 +76,7 @@ const AboutSection = () => {
 								fontSize={{ base: "12px", lg: "16px" }}
 								px={{ base: "0px", lg: "16px" }}
 								display={{ base: "none", lg: "block" }}
+								onClick={()=>handleBtnClick()}
 							>
 								UKÁZAT PRÁCI
 							</Button>
@@ -82,10 +88,12 @@ const AboutSection = () => {
 					py={{ base: "0px", lg: "24px" }}
 					px={{ base: "4px", lg: "24px" }}
 					flexDirection={"column"}
-					mt={{base:"16px", lg:"2px"}}
+					justifyContent={"start"}
+					gap={16}
+					mt={{base:"16px", lg:"16px"}}
 				>
 					{/* 1st TEXT BOX  */}
-					<Box>
+					{/* <Box>
 						<Text
 							fontSize="clamp(22px, 2.5vw, 30px)"
 							fontWeight={500}
@@ -106,11 +114,11 @@ const AboutSection = () => {
 							ipsum dolor sit amet, consectetuer adipiscing elit. Sed convallis
 							magna eu
 						</Text>
-					</Box>
+					</Box> */}
 
 					{/* 2nd TEXT BOX  */}
 					<Flex>
-						<Box>
+						{/* <Box>
 							<Text
 								fontSize="clamp(22px, 2.5vw, 30px)"
 								fontWeight={500}
@@ -130,9 +138,9 @@ const AboutSection = () => {
 								<ListItem>Integer molestie lorem at massa</ListItem>
 								<ListItem>Facilisis in pretium nisl aliquet</ListItem>
 							</UnorderedList>
-						</Box>
+						</Box> */}
 						{/* 3rd TEXT BOX  */}
-						<Box ml={"22px"}>
+						<Box>
 							<Text
 								fontSize="clamp(22px, 2.5vw, 30px)"
 								fontWeight={500}
@@ -165,7 +173,7 @@ const AboutSection = () => {
 						</Box>
 					</Flex>
 					{/* 4th TEXT BOX  */}
-					<Box>
+					<Box width={"500px"}>
 						<Text
 							fontSize="clamp(22px, 2.5vw, 30px)"
 							fontWeight={500}
@@ -175,15 +183,23 @@ const AboutSection = () => {
 							Klienti
 						</Text>
 						<UnorderedList
-							styleType="'- '"
+							display={"grid"}
+							gridTemplateColumns={"repeat(2, 1fr)"}
+							gridTemplateRow={"repeat(2, 1fr)"}
+
+							styleType="'• '"
 							fontSize="clamp(12px, 1.5vw, 18px)"
 							mt={"16px"}
 							textAlign={"start"}
+							gap={"15px"}
 						>
-							<ListItem>Lorem ipsum dolor sit amet</ListItem>
-							<ListItem>Consectetur adipiscing elit</ListItem>
-							<ListItem>Integer molestie lorem at massa</ListItem>
-							<ListItem>Facilisis in pretium nisl aliquet</ListItem>
+							<ListItem>X-Massacre</ListItem>
+							<ListItem>Stop Zevling</ListItem>
+							<ListItem>PR Klub</ListItem>
+							<ListItem>Digital Forest</ListItem>
+							<ListItem>Hefty Mess</ListItem>
+							<ListItem>Malcuth & Facutum</ListItem>
+							<ListItem>F.H. Prager</ListItem>
 						</UnorderedList>
 					</Box>
 				</Flex>
