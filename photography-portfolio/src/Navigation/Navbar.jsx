@@ -19,9 +19,10 @@ const Navbar = () => {
 	const { scrollToSection } = useSmoothScrollContext();
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
-	const handleNavLinkClick = (sectionId) => {
-		if (!scrollToSection(sectionId, { duration: 5 })) return;
-		onClose(); // Close the drawer if it's open (for mobile)
+	const handleNavLinkClick = () => {
+		// if (!scrollToSection(sectionId, { duration: 5 })) return;
+		// onClose(); // Close the drawer if it's open (for mobile)
+		//ADD! sectionId to parameter on uncomment
 	};
 
 	return (
@@ -75,6 +76,7 @@ const Navbar = () => {
 							<Box
 								_hover={{ color: "#ADD4D9" }}
 								onClick={() => handleNavLinkClick("#about")}
+	
 							>
 								<Link to="about">about</Link>
 							</Box>
@@ -135,9 +137,12 @@ const Navbar = () => {
 									<Box 
 										fontSize={22} pl={2} py={2} 
 										_hover={{ color: "white" }}
-										onClick={() => handleNavLinkClick("#second-section")}
+										onClick={
+											onClose
+									// () => handleNavLinkClick("#about")
+									}
 									>
-										<Link to="/">about</Link>
+										<Link to="about">about</Link>
 									</Box>
 
 									<Box
@@ -145,15 +150,20 @@ const Navbar = () => {
 										pl={2}
 										py={2}
 										_hover={{ color: "white" }}
-										onClick={() => handleNavLinkClick("#first-section")}
+										onClick={
+											onClose
+									// () => handleNavLinkClick("#about")
+									}
 									>
-										<Link to="/">portfolio</Link>
+										<Link to="photography">portfolio</Link>
 									</Box>
 
 									<Box 
 										fontSize={22} pl={2} py={2} 
 										_hover={{ color: "white" }}
-										onClick={() => handleNavLinkClick("#third-section")}
+										onClick={onClose
+									// () => handleNavLinkClick("#about")
+									}
 									>
 										<Link to="/">exhibitions</Link>
 									</Box>

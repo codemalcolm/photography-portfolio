@@ -87,9 +87,9 @@ const AboutSection = () => {
 					{/* 1st TEXT BOX  */}
 					<Box>
 						<Text
-							fontSize="clamp(22px, 2.5vw, 38px)"
+							fontSize="clamp(22px, 2.5vw, 30px)"
 							fontWeight={500}
-							lineHeight="clamp(22px, 2.5vw, 38px)"
+							lineHeight="clamp(22px, 2.5vw, 30px)"
 						>
 							O Mně
 						</Text>
@@ -112,9 +112,9 @@ const AboutSection = () => {
 					<Flex>
 						<Box>
 							<Text
-								fontSize="clamp(22px, 2.5vw, 38px)"
+								fontSize="clamp(22px, 2.5vw, 30px)"
 								fontWeight={500}
-								lineHeight="clamp(22px, 2.5vw, 38px)"
+								lineHeight="clamp(22px, 2.5vw, 30px)"
 								mt={"18px"}
 							>
 								Bibliografie
@@ -134,9 +134,9 @@ const AboutSection = () => {
 						{/* 3rd TEXT BOX  */}
 						<Box ml={"22px"}>
 							<Text
-								fontSize="clamp(22px, 2.5vw, 38px)"
+								fontSize="clamp(22px, 2.5vw, 30px)"
 								fontWeight={500}
-								lineHeight="clamp(22px, 2.5vw, 38px)"
+								lineHeight="clamp(22px, 2.5vw, 30px)"
 								mt={"18px"}
 							>
 								Exhibice
@@ -167,9 +167,9 @@ const AboutSection = () => {
 					{/* 4th TEXT BOX  */}
 					<Box>
 						<Text
-							fontSize="clamp(22px, 2.5vw, 38px)"
+							fontSize="clamp(22px, 2.5vw, 30px)"
 							fontWeight={500}
-							lineHeight="clamp(22px, 2.5vw, 38px)"
+							lineHeight="clamp(22px, 2.5vw, 30px)"
 							mt={"18px"}
 						>
 							Klienti
