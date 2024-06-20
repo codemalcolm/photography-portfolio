@@ -2,7 +2,7 @@ import { collection, getDocs, query, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import { firestore } from '../firebase/firebase';
 
-const useGetCategories = () => {
+const useGetCategories = (type) => {
     const [isLoading, setIsLoading] = useState(true);
     const [categories,setCategories] = useState([])
 
@@ -12,7 +12,7 @@ const useGetCategories = () => {
             try {
                 const q = query(
 					collection(firestore, "categories"),
-					where("type", "==", "shows")
+					where("type", "==", type)
                 )
                 const querySnapshot = await getDocs(q);
 
@@ -34,7 +34,7 @@ const useGetCategories = () => {
         }
         getPosts()
 
-    },[]);
+    },[type]);
 
     return { isLoading, categories}
 }
