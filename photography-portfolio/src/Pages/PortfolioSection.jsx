@@ -19,6 +19,7 @@ const PortfolioSection = () => {
     <Box
 		style={{ height: "100vh"}}
     backgroundColor={"#F5F5F5"}
+    overflowY={"hidden"}
 		>
     <Box display={location.pathname === "/photography" ? "none" : "block"}>
         <Box h={"75px"} w={"75px"} onClick={handleGoBack} style={{ cursor: 'pointer' }}>
@@ -31,7 +32,7 @@ const PortfolioSection = () => {
           <Route path="/" element={<Gallery />} />
           <Route path="shows/*" element={<Shows />} />
           <Route path="street" element={<Street />} />
-          <Route path="art" element={<Art />} />
+          <Route path="art/*" element={<Art />} />
       </Routes>
     </Box>
   )

@@ -7,6 +7,8 @@ import "../src/index.css"
 import AboutSection from "./components/AboutSection";
 import PortfolioSection from "./Pages/PortfolioSection";
 import HeroPage from "./Pages/HeroPage";
+import ImagePicker from "./components/ImagePicker";
+
 
 
 function App() {
@@ -17,6 +19,7 @@ function App() {
             <Route path="/" element={<HeroPage />} />
             <Route path="about" element={<AboutSection />} />
             <Route path="photography/*" element={<PortfolioSection />} />
+            <Route path="/lol" element={<ImagePicker />} />
           </Routes>
         </PageLayout>
     </SmoothScrollProvider>

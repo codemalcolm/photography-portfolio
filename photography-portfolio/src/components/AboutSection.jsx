@@ -89,7 +89,7 @@ const AboutSection = () => {
 					px={{ base: "4px", lg: "24px" }}
 					flexDirection={"column"}
 					justifyContent={"start"}
-					gap={16}
+					gap={"16px"}
 					mt={{base:"16px", lg:"16px"}}
 				>
 					{/* 1st TEXT BOX  */}
@@ -173,7 +173,7 @@ const AboutSection = () => {
 						</Box>
 					</Flex>
 					{/* 4th TEXT BOX  */}
-					<Box width={"500px"}>
+					<Box maxW={"350px"}>
 						<Text
 							fontSize="clamp(22px, 2.5vw, 30px)"
 							fontWeight={500}
@@ -185,13 +185,13 @@ const AboutSection = () => {
 						<UnorderedList
 							display={"grid"}
 							gridTemplateColumns={"repeat(2, 1fr)"}
-							gridTemplateRow={"repeat(2, 1fr)"}
+							width={"350px"}
 
 							styleType="'• '"
 							fontSize="clamp(12px, 1.5vw, 18px)"
 							mt={"16px"}
 							textAlign={"start"}
-							gap={"15px"}
+							gap={"8px"}
 						>
 							<ListItem>X-Massacre</ListItem>
 							<ListItem>Stop Zevling</ListItem>

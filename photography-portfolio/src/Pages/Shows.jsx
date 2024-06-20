@@ -1,4 +1,4 @@
-import { Flex, Image, Text, VStack } from '@chakra-ui/react'
+import { Box, Flex, Image, Text, VStack } from '@chakra-ui/react'
 import EmblaCarousel from '../components/EmblaCarousel/EmblaCarousel'
 import '../components/EmblaCarousel/css/base.css'
 import '../components/EmblaCarousel/css/embla.css'
@@ -91,7 +91,7 @@ const {isLoading, categories} = useGetCategories()
  
   return (
     <>
-      <Flex height={"750px"} id='lol'>
+      <Box id='lol' overflowY={"hidden"}>
 
         <Routes>
             <Route path="/" element={<CollectionMenu data={categories}/>} />
@@ -99,9 +99,7 @@ const {isLoading, categories} = useGetCategories()
             <Route path="gallery/:showId" element={<ShowGalleryWrapper showsData={categories}/>} />
         </Routes>
 
-      </Flex>
-
-      
+      </Box>
 
     </>
   )

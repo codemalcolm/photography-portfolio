@@ -13,13 +13,13 @@ const ShowCarouselWrapper = ({ showsData }) => {
   console.log('ShowCarouselWrapper rendered'); // Check if component renders
   console.log('showId:', showId); // Log showId to verify extraction
 
-  // const show = showsData.find((show) => show.id === showId);
-  // console.log('show:', show); // Log show data to verify
+  const show = showsData.find((show) => show.id === showId);
+  console.log('show:', show); // Log show data to verify
 
-  // if (!show) {
-  //   console.log('Show not found'); // Log if show is not found
-  //   return <div>Show not found</div>;
-  // }
+  if (!show) {
+    console.log('Show not found'); // Log if show is not found
+    return <div>Show not found</div>;
+  }
 
   const slides = posts.map((photo) => ({
     id: photo.id || [],
@@ -35,7 +35,7 @@ const ShowCarouselWrapper = ({ showsData }) => {
     containScroll: false,
   };
 
-  return <PhotoCarousel slides={slides} options={options} showId={showId}/>;
+  return <PhotoCarousel slides={slides} options={options} show={show}/>;
 };
 
 export default ShowCarouselWrapper;
