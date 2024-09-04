@@ -23,9 +23,9 @@ const GalleryItem = (props) => {
     
   return (
     <Box >
-      <Image
+      <img
         src={image.imageUrl} 
-
+        fetchpriority="high"
       />
     </Box>
 

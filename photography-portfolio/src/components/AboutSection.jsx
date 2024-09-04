@@ -156,18 +156,7 @@ const AboutSection = () => {
 								textAlign={"start"}
 							>
 								<ListItem>
-									<Link fontWeight={500}>Lorem ipsum dolor sit amet</Link>
-								</ListItem>
-								<ListItem>
-									<Link fontWeight={500}>Consectetur adipiscing elit</Link>
-								</ListItem>
-								<ListItem>
-									<Link fontWeight={500}>Integer molestie lorem at massa</Link>
-								</ListItem>
-								<ListItem>
-									<Link fontWeight={500}>
-										Facilisis in pretium nisl aliquet
-									</Link>
+									<Link href={"https://www.akademiemichael.cz/pozvanka-na-vernisaz-vystavy-dvojite-videni/"} target="_blank" fontWeight={500}>Dvojité Vidění</Link>
 								</ListItem>
 							</UnorderedList>
 						</Box>

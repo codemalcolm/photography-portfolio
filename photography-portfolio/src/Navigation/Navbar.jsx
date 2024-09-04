@@ -26,7 +26,7 @@ const Navbar = () => {
 	};
 
 	return (
-		<Box position={"relative"} zIndex={999}>
+		<Box position={"relative"} zIndex={2} >
 			<Box
 				px={6}
 				py={3}
@@ -58,9 +58,14 @@ const Navbar = () => {
 						>
 							i
 						</Box>
-						<Box
-						display={{base:"none", lg:"block"}} 
-						color={""}>Jiří Macháček</Box>
+						<Link to={"/"}>
+							<Box
+							display={{base:"none", lg:"block"}} 
+							_hover={{ color: "#ADD4D9" }}
+							cursor={"pointer"}>
+							Jiří Macháček
+							</Box>
+						</Link>
 					</Flex>
 
 					{/* Navbar links */}
@@ -85,28 +90,28 @@ const Navbar = () => {
 								_hover={{ color: "#ADD4D9" }}
 								onClick={() => handleNavLinkClick("#photography")}
 							>
-								<Link to="photography">portfolio</Link>
+								<Link to="photography">photography</Link>
 							</Box>
 
-							<Box
+							{/* <Box
 								_hover={{ color: "#ADD4D9" }}
 								onClick={() => handleNavLinkClick("#third-section")}
 							>
 								<Link to="/">exhibitions</Link>
-							</Box>
+							</Box> */}
 						</Flex>
 
 						<Flex gap={2}>
 							<Box _hover={{ color: "#ADD4D9" }}>
-								<Link to="/">
+								<a href="https://www.instagram.com/jirimachacek.raw?igsh=MWg1a2xwbmxqeGxwdw==" target={"_blank"}>
 									<FaFacebook />
-								</Link>
+								</a>
 							</Box>
 
 							<Box _hover={{ color: "#ADD4D9" }}>
-								<Link to="/">
+								<a href="https://www.instagram.com/jirimachacek.raw?igsh=MWg1a2xwbmxqeGxwdw==" target={"_blank"}>
 									<FaInstagram />
-								</Link>
+								</a>
 							</Box>
 						</Flex>
 					</Flex>
@@ -123,17 +128,17 @@ const Navbar = () => {
 						/>
 					</Flex>
 
-					<Drawer onClose={onClose} isOpen={isOpen} size={"xs"} zIndex={999}>
+					<Drawer onClose={onClose} isOpen={isOpen} size={"xs"} zIndex={2}>
 						<DrawerOverlay />
 						<DrawerContent
-							bgGradient="linear(to-t, green.100 1%, green.200 15%, green.400 84%)"
+							bgGradient="linear(to-tr, gray.900, black)"
 							opacity={"75%"}
 							backdropFilter={"blur(10px)"}
 						>
-							<DrawerCloseButton />
-							<DrawerHeader>Jiří Macháček</DrawerHeader>
+							<DrawerCloseButton color={"white"}/>
+
 							<DrawerBody>
-								<Flex flexDirection={"column"} gap={2}>
+								<Flex flexDirection={"column"} gap={2} color={"white"} mt={"32px"}>
 									<Box 
 										fontSize={22} pl={2} py={2} 
 										_hover={{ color: "white" }}
@@ -155,10 +160,10 @@ const Navbar = () => {
 									// () => handleNavLinkClick("#about")
 									}
 									>
-										<Link to="photography">portfolio</Link>
+										<Link to="photography">photography</Link>
 									</Box>
 
-									<Box 
+									{/* <Box 
 										fontSize={22} pl={2} py={2} 
 										_hover={{ color: "white" }}
 										onClick={onClose
@@ -166,7 +171,7 @@ const Navbar = () => {
 									}
 									>
 										<Link to="/">exhibitions</Link>
-									</Box>
+									</Box> */}
 								</Flex>
 							</DrawerBody>
 						</DrawerContent>

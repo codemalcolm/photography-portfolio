@@ -18,12 +18,14 @@ const PortfolioSection = () => {
     
     <Box
 		style={{ height: "100vh"}}
+    bgGradient='linear(to-tr, black, gray.900)'
     backgroundColor={"#F5F5F5"}
     overflowY={"hidden"}
+    fontWeight={700} fontFamily={"Oswald"} color={"white"}
 		>
-    <Box display={location.pathname === "/photography" ? "none" : "block"}>
+    <Box display={location.pathname === "/photography" ? "none" : "block"} mt={{base:"40px" ,lg:"0px"}}>
         <Box h={"75px"} w={"75px"} onClick={handleGoBack} style={{ cursor: 'pointer' }}>
-            <MdOutlineKeyboardBackspace style={{height:"75px", width:"75px"}}/>
+            <MdOutlineKeyboardBackspace style={{height:"75px", width:"75px" ,color:"white"}}/>
         </Box>
       </Box>
        

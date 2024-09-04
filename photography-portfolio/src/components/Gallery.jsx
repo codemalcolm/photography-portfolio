@@ -9,8 +9,8 @@ const Gallery = () => {
     <Flex gap={18} justifyContent={"center"} alignItems={"center"} height={"100%"} width={"100%"}>
        
 
-        <Link to={`art`}>
-            <Flex flexDirection={"column"} position={"relative"}>
+        <Link to={`art`} >
+            <Flex flexDirection={"column"} position={"relative"} _hover={{opacity:"0.8" ,color:"white"}}>
                 <Box maxWidth={"750px"} minWidth={"285px"} minHeight={"285px"} padding={"16px"}>
                     <Image src={koncertImg2} objectFit={"cover"}/>
                 </Box>

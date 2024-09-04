@@ -12,7 +12,7 @@ const Art = () => {
   }
   return (
     <>
-      <Box id='lol' overflowY={"hidden"}>
+      <Box id='lol' >
 
         <Routes>
             <Route path="/" element={<CollectionMenu data={categories}/>} />

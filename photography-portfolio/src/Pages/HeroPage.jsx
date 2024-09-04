@@ -13,13 +13,14 @@ const HeroPage = () => {
     <Box
       style={{ height: "100vh" }}
       overflowX={{ base: "hidden", lg: "visible" }}
-      overflowY={{ base: "visible", lg: "hidden" }}
+      overflowY={{ base: "hidden", lg: "hidden" }}
+      fontFamily={"Oswald"}
     >
       <Box id="landing-section" data-scroll-section>
         <Box height="100vh" position="relative" aspectRatio={{ base: "1 / 1", lg: "auto" }}>
           <Image src={img1} alt="landing-page" objectFit={"cover"} w={{ base: "100%" }} h={{ base: "100%" }} />
           <Button
-            left={{ base: "75px", lg: "60px" }}
+            left={{ base: "84px", lg: "60px" }}
             bottom={"100px"}
             borderRadius={"0px"}
             minW={"220px"}
@@ -40,7 +41,7 @@ const HeroPage = () => {
               Macháček
             </Text>
           </Box>
-          <Text position="absolute" zIndex={1} textAlign={"center"} top={"60px"} left={"60px"} color="white" display={{ base: "block", lg: "none" }} fontSize={{ base: "45px", lg: "105px" }} lineHeight={{ base: "45px", lg: "105px" }}>
+          <Text position="absolute" zIndex={1} textAlign={"center"} top={"60px"} left={"88px"} color="white" display={{ base: "block", lg: "none" }} fontSize={{ base: "45px", lg: "105px" }} lineHeight={{ base: "45px", lg: "105px" }}>
             Jiří Macháček
           </Text>
           <Box display={{ base: "none", lg: "block" }} position="absolute" zIndex={1} top="450px" right="60px">

@@ -6,8 +6,8 @@ import "../index.css"
 const PhotoGallery = (props) => {
     const {slides,show} = props
   return (
-    <Box >
-      <Text mb={"32px"} textAlign={"center"}>{show.collectionName}</Text>
+    <Box>
+      <Text fontSize="28px" mb={"32px"} textAlign={"center"}>{show.collectionName}</Text>
         <div className="scrolling-wrapper">
           <div className="grid-wrapper">
             { slides.map((image) => (

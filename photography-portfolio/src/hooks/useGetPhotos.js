@@ -11,6 +11,7 @@ const useGetPhotos = (category) => {
             if(!category) return;
             setIsLoading(true)
             try {
+                // querying documents by using the provided categoryId in parameter to find the correct photos 
                 const q = query(
 					collection(firestore, "photos"),
 					where("category", "==", category)
@@ -26,7 +27,7 @@ const useGetPhotos = (category) => {
                 })
                 
                 setPosts(photos)
-                
+                console.log(posts + "posts here !!!!!")
             } catch (error) {
                 console.error('Error fetching posts:', error);
             } finally {

@@ -11,6 +11,7 @@
   .embla__container {
     backface-visibility: hidden;
     display: flex;
+
     touch-action: pan-y pinch-zoom;
     margin-left: calc(var(--slide-spacing) * -1);
   }
@@ -65,3 +66,14 @@
     height: 35%;
   }
   
+  @media all and (min-width: 380px) and (max-width: 750px) {
+
+    .embla__slide {
+      max-height: 650px;
+      
+    }
+
+    .embla {
+      max-width: 40rem;
+    }
+}
