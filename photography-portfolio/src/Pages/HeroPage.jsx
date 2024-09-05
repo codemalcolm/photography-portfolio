@@ -1,7 +1,5 @@
 import { Box, Button, Image, Text } from "@chakra-ui/react";
-import img1 from "../assets/images/that-cheez.jpg";
-import { useEffect } from "react";
-import useSmoothScroll from "../hooks/useSmoothScroll";
+import img1 from "../assets/images/that-cheez.webp";
 import { useNavigate } from "react-router-dom";
 
 const HeroPage = () => {

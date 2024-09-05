@@ -1,5 +1,6 @@
 import { Box, Image } from '@chakra-ui/react'
-import React from 'react'
+
+
 
 const GalleryItem = (props) => {
     const {image} = props
@@ -22,12 +23,13 @@ const GalleryItem = (props) => {
 
     
   return (
-    <Box >
+    <div>
       <img
         src={image.imageUrl} 
-        fetchpriority="high"
+        fetchPriority="high"
+        loading='lazy'
       />
-    </Box>
+    </div>
 
   )
 }

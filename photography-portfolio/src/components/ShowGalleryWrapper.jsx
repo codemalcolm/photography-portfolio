@@ -11,11 +11,11 @@ const ShowGalleryWrapper = ({ showsData }) => {
   
   
 
-  console.log('ShowCarouselWrapper rendered'); // Check if component renders
-  console.log('showId:', showId); // Log showId to verify extraction
+  // console.log('ShowCarouselWrapper rendered'); // Check if component renders
+  // console.log('showId:', showId); // Log showId to verify extraction
 
   const show = showsData.find((show) => show.id === showId);
-  console.log('show:', show); // Log show data to verify
+  // console.log('show:', show); // Log show data to verify
 
   if (!show) {
     console.log('Show not found'); // Log if show is not found
@@ -29,7 +29,7 @@ const ShowGalleryWrapper = ({ showsData }) => {
     imageUrl: photo.imageUrl || null,
   }));
 
-  console.log('slides:', slides); // Log slides data to verify
+  // console.log('slides:', slides); // Log slides data to verify
 
   const options = {
     dragFree: false,

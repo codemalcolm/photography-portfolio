@@ -16,8 +16,6 @@ const useGetCategories = (type) => {
                 )
                 const querySnapshot = await getDocs(q);
 
-                console.log(querySnapshot , "query")
-
                 const arr = []
 
                 querySnapshot.forEach(doc => {

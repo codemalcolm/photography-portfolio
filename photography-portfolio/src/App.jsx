@@ -1,29 +1,38 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-router-dom";
+import React, { Suspense } from "react";
+import {
+	BrowserRouter as Router,
+	Routes,
+	Route,
+	BrowserRouter,
+} from "react-router-dom";
+import "../src/index.css";
+
+// Lazy loading imports
+const PortfolioSection = React.lazy(() => import("./Pages/PortfolioSection"));
+const AboutSection = React.lazy(() => import("./components/AboutSection"));
+const HeroPage = React.lazy(() => import("./Pages/HeroPage"));
+
 import PageLayout from "./Layouts/PageLayout";
 import TestPage from "./Pages/TestPage";
 import { SmoothScrollProvider } from "./contexts/SmoothScrollContext";
-import "../src/index.css"
-import AboutSection from "./components/AboutSection";
-import PortfolioSection from "./Pages/PortfolioSection";
-import HeroPage from "./Pages/HeroPage";
+
 import ImagePicker from "./components/ImagePicker";
 
-
-
 function App() {
-  return (
-    <SmoothScrollProvider>
-        <PageLayout>
-          <Routes>
-            <Route path="/" element={<HeroPage />} />
-            <Route path="about" element={<AboutSection />} />
-            <Route path="photography/*" element={<PortfolioSection />} />
-            {/* <Route path="/lol" element={<ImagePicker />} /> */}
-          </Routes>
-        </PageLayout>
-    </SmoothScrollProvider>
-  );
+	return (
+		<SmoothScrollProvider>
+			<PageLayout>
+				<Suspense fallback={<div>Loading...</div>}>
+					<Routes>
+						<Route path="/" element={<HeroPage />} />
+						<Route path="about" element={<AboutSection />} />
+						<Route path="photography/*" element={<PortfolioSection />} />
+						{/* <Route path="/lol" element={<ImagePicker />} /> */}
+					</Routes>
+				</Suspense>
+			</PageLayout>
+		</SmoothScrollProvider>
+	);
 }
 
 export default App;

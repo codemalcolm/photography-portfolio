@@ -15,9 +15,7 @@ const Shows = () => {
   
 // const {isLoading, posts} = useGetPhotos("zizkovska-noc")
 const {isLoading, categories} = useGetCategories()
-  if(!isLoading){
-    console.log(categories,"photos here")
-  }
+
 
   return (
     <>

@@ -7,19 +7,15 @@ import ShowCarouselWrapper from "./ShowCarouselWrapper";
 const CollectionMenu = (props) => {
 	const { data } = props;
 	return (
-		<Box px={"16px"} ml={{base:"32px",lg:"59px"}}>
+		<Box px={"16px"} ml={{base:"32px",lg:"60px"}}>
 			<Text fontSize={"36px"}></Text>
 			<VStack spacing={2} align="start" mt={"32px"}>
 				{data?.map((show) => (
 					<Link key={show.id} to={`carousel/${show.id}`}>
-						<Text fontSize={"28px"}>{show.collectionName}</Text>
+						<Box>{show.collectionName}</Box>
 					</Link>
 				))}
 			</VStack>
-			{/* <Routes>
-          <Route path="gallery/*" element={<div>We here lol</div>} />
-          <Route path="carousel" element={<div>ssssssssss</div>} />
-        </Routes> */}
 		</Box>
 	);
 };

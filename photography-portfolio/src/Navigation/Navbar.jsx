@@ -1,8 +1,8 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { FaInstagram } from "react-icons/fa6";
-import { FaFacebook } from "react-icons/fa";
-import { CgMenuRight } from "react-icons/cg";
+import fbIcon from "../assets/icons/fb-icon.svg";
+import igIcon from "../assets/icons/ig-icon.svg";
+import hamburgerIcon from "../assets/icons/hamburger-icon.svg";
 import {
 	Drawer,
 	DrawerBody,
@@ -26,7 +26,7 @@ const Navbar = () => {
 	};
 
 	return (
-		<Box position={"relative"} zIndex={2} >
+		<Box zIndex={2} >
 			<Box
 				px={6}
 				py={3}
@@ -35,16 +35,6 @@ const Navbar = () => {
 				mx={"auto"}
 				// bgGradient="linear(to-r, green.100 0%, green.200 10%, green.400 50%)"
 				bgColor={"#090D0B"}
-				opacity={"85%"}
-				position={"absolute"}
-				
-				left={"50%"}
-				style={{
-					position: "absolute",
-					top: "50%",
-					left: "50%",
-					transform: "translate(-50%, -5%)",
-				}}
 			>
 				<Flex justifyContent={"space-between"} alignItems={"center"}
 				color={"white"}>
@@ -72,7 +62,6 @@ const Navbar = () => {
 					<Flex
 						gap={10}
 						alignItems={"center"}
-						color={"black"}
 						display={{ base: "none", lg: "flex" }}
 						opacity={"100%"}
 						color={"white"}
@@ -93,24 +82,18 @@ const Navbar = () => {
 								<Link to="photography">photography</Link>
 							</Box>
 
-							{/* <Box
-								_hover={{ color: "#ADD4D9" }}
-								onClick={() => handleNavLinkClick("#third-section")}
-							>
-								<Link to="/">exhibitions</Link>
-							</Box> */}
 						</Flex>
 
 						<Flex gap={2}>
 							<Box _hover={{ color: "#ADD4D9" }}>
 								<a href="https://www.instagram.com/jirimachacek.raw?igsh=MWg1a2xwbmxqeGxwdw==" target={"_blank"}>
-									<FaFacebook />
+									<img src={fbIcon} alt="Facebook Icon"/>
 								</a>
 							</Box>
 
 							<Box _hover={{ color: "#ADD4D9" }}>
 								<a href="https://www.instagram.com/jirimachacek.raw?igsh=MWg1a2xwbmxqeGxwdw==" target={"_blank"}>
-									<FaInstagram />
+								<img src={igIcon} alt="Instagram Icon"/>
 								</a>
 							</Box>
 						</Flex>
@@ -118,10 +101,8 @@ const Navbar = () => {
 
 					{/* Hamburger */}
 					<Flex display={{ base: "flex", lg: "none" }} opacity={ isOpen ? 0 : 1}>
-						<CgMenuRight
+						<img src={hamburgerIcon}
 							style={{
-								width: "25px",
-								height: "25px",
 								cursor: "pointer",
 							}}
 							onClick={onOpen}
@@ -155,23 +136,11 @@ const Navbar = () => {
 										pl={2}
 										py={2}
 										_hover={{ color: "white" }}
-										onClick={
-											onClose
-									// () => handleNavLinkClick("#about")
-									}
+										onClick={onClose}
 									>
 										<Link to="photography">photography</Link>
 									</Box>
 
-									{/* <Box 
-										fontSize={22} pl={2} py={2} 
-										_hover={{ color: "white" }}
-										onClick={onClose
-									// () => handleNavLinkClick("#about")
-									}
-									>
-										<Link to="/">exhibitions</Link>
-									</Box> */}
 								</Flex>
 							</DrawerBody>
 						</DrawerContent>
