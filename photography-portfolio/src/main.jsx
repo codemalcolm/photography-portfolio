@@ -31,7 +31,7 @@ export default theme
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
-      <ChakraProvider theme={theme}>
+      <ChakraProvider theme={theme} resetCSS>
         <App/>
       </ChakraProvider>
     </BrowserRouter>

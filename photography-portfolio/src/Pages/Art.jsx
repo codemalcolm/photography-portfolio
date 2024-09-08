@@ -7,10 +7,12 @@ import useGetCategories from "../hooks/useGetCategories"
 
 const Art = () => {
   const {isLoading, categories} = useGetCategories("art")
-
+  if(!isLoading){
+    console.log(categories,"photos here")
+  }
   return (
     <>
-      <Box id='lol' >
+      <Box id='lol'>
 
         <Routes>
             <Route path="/" element={<CollectionMenu data={categories}/>} />
@@ -19,8 +21,6 @@ const Art = () => {
         </Routes>
 
       </Box>
-
-      
 
     </>
   )

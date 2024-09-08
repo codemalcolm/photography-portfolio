@@ -8,16 +8,16 @@ const ShowCarouselWrapper = ({ showsData }) => {
 
   const {isLoading, posts} = useGetPhotos(showId)
 
-  // if(!isLoading) console.log(posts, "herere");
+  if(!isLoading) console.log(posts, "herere");
 
-  // console.log('ShowCarouselWrapper rendered'); // Check if component renders
-  // console.log('showId:', showId); // Log showId to verify extraction
+  console.log('ShowCarouselWrapper rendered'); // Check if component renders
+  console.log('showId:', showId); // Log showId to verify extraction
 
   const show = showsData.find((show) => show.id === showId);
-  // console.log('show:', show); // Log show data to verify
+  console.log('show:', show); // Log show data to verify
 
   if (!show) {
-    // console.log('Show not found'); // Log if show is not found
+    console.log('Show not found'); // Log if show is not found
     return <div>Show not found</div>;
   }
 
@@ -28,7 +28,7 @@ const ShowCarouselWrapper = ({ showsData }) => {
     imageUrl: photo.imageUrl || null,
   }));
 
-  // console.log('slides:', slides); // Log slides data to verify
+  console.log('slides:', slides); // Log slides data to verify
 
   const options = {
     dragFree: false,

@@ -12,11 +12,11 @@ import {
 	DrawerCloseButton,
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
-import { useSmoothScrollContext } from "../contexts/SmoothScrollContext.jsx";
+
 
 const Navbar = () => {
 	// const { scrollContainerRef, scrollToSection } = useSmoothScroll();
-	const { scrollToSection } = useSmoothScrollContext();
+	// const { scrollToSection } = useSmoothScrollContext();
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	const handleNavLinkClick = () => {
@@ -26,13 +26,22 @@ const Navbar = () => {
 	};
 
 	return (
-		<Box zIndex={2} >
+		<Box zIndex={2} position={"relative"}>
 			<Box
+				position={"absolute"}
 				px={6}
 				py={3}
 				flex={1}
 				w={{ base: "calc(100% - 70px)", md: "calc(100% - 540px)" }}
 				mx={"auto"}
+				opacity={"85%"}
+				left={"50%"}
+				style={{
+					position: "absolute",
+					top: "50%",
+					left: "50%",
+					transform: "translate(-50%, -5%)",
+				}}
 				// bgGradient="linear(to-r, green.100 0%, green.200 10%, green.400 50%)"
 				bgColor={"#090D0B"}
 			>
@@ -52,7 +61,8 @@ const Navbar = () => {
 							<Box
 							display={{base:"none", lg:"block"}} 
 							_hover={{ color: "#ADD4D9" }}
-							cursor={"pointer"}>
+							cursor={"pointer"}
+							>
 							Jiří Macháček
 							</Box>
 						</Link>
