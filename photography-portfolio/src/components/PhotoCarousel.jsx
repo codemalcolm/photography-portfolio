@@ -9,6 +9,7 @@ import {
 import useEmblaCarousel from "embla-carousel-react";
 import { Link, useNavigate } from "react-router-dom";
 import { color } from "framer-motion";
+import LazyImage from "./LazyImage.jsx";
 
 const PhotoCarousel = (props) => {
 	const { slides, options, show } = props;
@@ -91,43 +92,48 @@ const PhotoCarousel = (props) => {
 
 				
 				<Flex>
-				<section className="embla">
-					<div className="embla__viewport" ref={emblaRef}>
-						<div className="embla__container">
-							{slides.map((slide, index) => (
-								<div className="embla__slide" key={slide.id}>
-									<Image loading={"lazy"} src={slide.imageUrl} />
-								</div>
-							))}
+					<section className="embla">
+						<div className="embla__viewport" ref={emblaRef}>
+							<div className="embla__container">
+								{slides.map((slide, index) => (
+									<div className="embla__slide" key={slide.id}>
+										{/* Pass the next slide's imageUrl as nextSrc */}
+										<LazyImage
+											src={slide.imageUrl}
+											nextSrc={slides[index + 1]?.imageUrl}
+											alt={slide.name}
+										/>
+									</div>
+								))}
+							</div>
+							{/* <Flex position={"absolute"}>
+				<PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
+				<NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
+				</Flex> */}
 						</div>
-						{/* <Flex position={"absolute"}>
-              <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
-              <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
-            </Flex> */}
-					</div>
-				<Flex width={"100%"} display={{base:"flex", lg:"none"}} alignItems="center" flexDirection={"column"}>
-					<Flex>
+					<Flex width={"100%"} display={{base:"flex", lg:"none"}} alignItems="center" flexDirection={"column"}>
+						<Flex>
 
-						<Flex alignItems={"center"} justifyContent={"center"} width={"100%"}>
-							<PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
-							<NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
+							<Flex alignItems={"center"} justifyContent={"center"} width={"100%"}>
+								<PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
+								<NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
+							</Flex>
+							<Text width={"150px"} textAlign={"start"}>{show.collectionName}</Text>
+							<Button
+									p={4}
+									backgroundColor={""}
+									onClick={() => galleryNavigation(show)}
+									_hover={{background:"none" ,color:"gray"}}
+									variant={"ghost"}
+									color={"white"}
+								>
+									<GrGallery style={{ width: "35px", height: "35px" }} />
+							</Button>
 						</Flex>
-						<Text width={"150px"} textAlign={"start"}>{show.collectionName}</Text>
-						<Button
-								p={4}
-								backgroundColor={""}
-								onClick={() => galleryNavigation(show)}
-								_hover={{background:"none" ,color:"gray"}}
-								variant={"ghost"}
-								color={"white"}
-							>
-								<GrGallery style={{ width: "35px", height: "35px" }} />
-						</Button>
 					</Flex>
-				</Flex>
 
-				</section>
-			</Flex>
+					</section>
+				</Flex>
 			</Flex>
 
 			

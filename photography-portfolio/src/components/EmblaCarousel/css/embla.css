@@ -1,79 +1,163 @@
 .embla {
-    max-width: 48rem;
-    margin: auto;
-    --slide-height: 19rem;
-    --slide-spacing: 0rem;
-    --slide-size: 90%;
-  }
-  .embla__viewport {
-    overflow: hidden;
-  }
-  .embla__container {
-    backface-visibility: hidden;
-    display: flex;
+  max-width: 48rem;
+  margin: auto;
+  --slide-height: 19rem;
+  --slide-spacing: 0rem;
+  --slide-size: 90%;
+}
+.embla__viewport {
+  overflow: hidden;
+}
+.embla__container {
+  backface-visibility: hidden;
+  display: flex;
 
-    touch-action: pan-y pinch-zoom;
-    margin-left: calc(var(--slide-spacing) * -1);
-  }
+  touch-action: pan-y pinch-zoom;
+  margin-left: calc(var(--slide-spacing) * -1);
+}
+.embla__slide {
+  max-height: 750px;
+  width: auto;
+  padding-left: var(--slide-spacing);
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  flex-direction: column;
+}
+.embla__slide__number {
+  box-shadow: inset 0 0 0 0.2rem var(--detail-medium-contrast);
+  border: 1px solid black;
+  border-radius: 1.8rem;
+  font-size: 4rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--slide-height);
+}
+
+.embla__button {
+  -webkit-tap-highlight-color: rgba(var(--text-high-contrast-rgb-value), 0.5);
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  touch-action: manipulation;
+  display: inline-flex;
+  text-decoration: none;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  box-shadow: inset 0 0 0 0.2rem var(--detail-medium-contrast);
+  width: 3.6rem;
+  height: 3.6rem;
+  z-index: 1;
+  border-radius: 50%;
+  color: var(--text-body);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.embla__button:disabled {
+  color: var(--detail-high-contrast);
+}
+.embla__button__svg {
+  width: 35%;
+  height: 35%;
+}
+
+@media all and (min-width: 380px) and (max-width: 750px) {
+
   .embla__slide {
-    max-height: 750px;
-    min-width: 0;
-    padding-left: var(--slide-spacing);
-    display: flex;
-    align-items: start;
-    justify-content: center;
-    flex-direction: column;
+    max-height: 650px;
+    
   }
-  .embla__slide__number {
-    box-shadow: inset 0 0 0 0.2rem var(--detail-medium-contrast);
-    border: 1px solid black;
-    border-radius: 1.8rem;
-    font-size: 4rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: var(--slide-height);
-  }
-  
-  .embla__button {
-    -webkit-tap-highlight-color: rgba(var(--text-high-contrast-rgb-value), 0.5);
-    -webkit-appearance: none;
-    appearance: none;
-    background-color: transparent;
-    touch-action: manipulation;
-    display: inline-flex;
-    text-decoration: none;
-    cursor: pointer;
-    border: 0;
-    padding: 0;
-    margin: 0;
-    box-shadow: inset 0 0 0 0.2rem var(--detail-medium-contrast);
-    width: 3.6rem;
-    height: 3.6rem;
-    z-index: 1;
-    border-radius: 50%;
-    color: var(--text-body);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .embla__button:disabled {
-    color: var(--detail-high-contrast);
-  }
-  .embla__button__svg {
-    width: 35%;
-    height: 35%;
-  }
-  
-  @media all and (min-width: 380px) and (max-width: 750px) {
 
-    .embla__slide {
-      max-height: 650px;
-      
-    }
+  .embla {
+    max-width: 40rem;
+  }
+}
 
-    .embla {
-      max-width: 40rem;
-    }
+.embla {
+  overflow: hidden;
+
+}
+.embla__container {
+  display: flex;
+}
+.embla__slide {
+  flex: 0 0 100%;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+}
+
+::-webkit-scrollbar{
+  width: 8px;
+}
+
+::-webkit-scrollbar-track{
+  background: #252835;
+
+}
+
+::-webkit-scrollbar-thumb{
+  width: 6px;
+  background: #525870;
+  border-radius: 16px;
+}
+
+*{
+  box-sizing: border-box;
+  margin: 0;
+
+}
+
+/* ::-webkit-scrollbar-button:single-button:decrement {
+  background: url('path/to/up-arrow.png') no-repeat center;
+  background-size: contain;
+}
+
+::-webkit-scrollbar-button:single-button:increment {
+  background: url('path/to/up-arrow.png') no-repeat center;
+  background-size: contain;
+} */
+
+img{
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.grid-wrapper > div {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:100%;
+}
+
+.grid-wrapper > div > img {
+  width:100%;
+  height:100%;
+  object-fit: contain;
+  border-radius: 5px;
+}
+
+.grid-wrapper {
+  padding: 5px;
+  display:grid;
+  grid-gap:16px;
+  grid-template-columns: repeat(auto-fit, minmax(375px, 1fr));
+  grid-auto-rows:300px;
+  grid-auto-flow:dense;
+}
+
+.scrolling-wrapper {
+  width: 100%; /* Take full width of parent container */
+  height: 100vh; /* Take full height of parent container */
+  
+  overflow-y: auto; /* Enable vertical scrolling */
 }
