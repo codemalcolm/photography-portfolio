@@ -1,6 +1,6 @@
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
-import { firestore } from '../firebase/firebase';
+import { firestore } from '../../firebase/firebase';
 
 const useGetCategories = (type) => {
     const [isLoading, setIsLoading] = useState(true);

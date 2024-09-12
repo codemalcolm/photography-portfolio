@@ -3,7 +3,7 @@ import Navbar from "../Navigation/Navbar";
 
 const PageLayout = ({ children }) => {
 	return (
-		<Flex flexDirection={"column"} bgColor={"black"}>
+		<Flex flexDirection={"column"}>
 			<Box>
 				<Navbar />
 				{children}

@@ -1,62 +1,47 @@
-import { Box, Button, Input } from '@chakra-ui/react';
-import React, { useRef, useState } from 'react'
-import usePreviewImg from '../hooks/usePreviewImg';
-import { color } from 'framer-motion';
-import useUploadImages from '../hooks/useUploadImages';
+import { Text, Button, Flex, Input } from "@chakra-ui/react";
+import { useRef, useState } from "react";
+import usePreviewImg from "../hooks/usePreviewImg";
+import { color } from "framer-motion";
+import useUploadImages from "../hooks/useUploadImages";
+import AddPhotoCollectionForm from "./PhotoCollection/AddPhotoCollectionForm";
+import UploadPhotosForm from "./PhotoCollection/UploadPhotosForm";
+import Dashboard from "./Dashboard/Dashboard";
+import AddCategoryForm from "./Category/AddCategoryForm";
 
 const ImagePicker = () => {
-    const fileRef = useRef(null);
-    const [inputs, setInputs] = useState({
+	const fileRef = useRef(null);
+	const [inputs, setInputs] = useState({
 		category: "",
 		name: "",
 	});
-    const {uploadImages ,isUpdating } = useUploadImages()
-    const { handleImageChange, selectedFile, setSelectedFile } = usePreviewImg();
+	const { uploadImages, isUpdating } = useUploadImages();
+	const { handleImageChange, selectedFile, setSelectedFile } = usePreviewImg();
 
-
-    const handleClick = async () => {
+	const handleClick = async () => {
 		try {
-            
 			await uploadImages(inputs, selectedFile);
 			setSelectedFile(null);
-
 		} catch (error) {
 			console.log("Error", error.message, "error");
 		}
 	};
 
-  return (
-    <Box mt={64}>
-        <Input
-        value={inputs.category}
-        onChange={(e) =>
-            setInputs({ ...inputs, category: e.target.value })
-        }
-        
-        placeholder='category'
-        />
-        <Input
-        value={inputs.name}
-        onChange={(e) =>
-            setInputs({ ...inputs, name: e.target.value })
-        }
-        placeholder='name'
-        />
-        <Button w="full" onClick={() => fileRef.current.click()}>
-            Upload Image
-        </Button>
-        <Input
-        type="file"
-        hidden
-        ref={fileRef}
-        onChange={handleImageChange}
-        />
-                        <Button w="full" color="red" 
-                        onClick={handleClick}>
-            Done
-        </Button>                            
-    </Box>
-  )
-}
+	return (
+		<Flex
+			mt={64}
+			width={"560px"}
+			flexDirection={"column"}
+			alignItems={"center"}
+		>
+			<Dashboard/>
+			{/* Add Category */}
+			<AddCategoryForm />
+			{/* Add Photo collection */}
+			<AddPhotoCollectionForm />
+			{/* Add Photos to collection */}
+			<UploadPhotosForm />
+		</Flex>
+	);
+};
 
-export default ImagePicker
+export default ImagePicker;

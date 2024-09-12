@@ -1,11 +1,13 @@
 import React from 'react'
 import GalleryItem from './GalleryItem'
 import { Box,Text } from '@chakra-ui/react'
-import "../index.css"
 
 const PhotoGallery = (props) => {
     const {slides,show} = props
+
   return (
+
+
     <Box>
       <Text fontSize="28px" mb={"32px"} textAlign={"center"}>{show.collectionName}</Text>
         <div className="scrolling-wrapper">
