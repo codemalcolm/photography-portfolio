@@ -4,7 +4,7 @@ import { Box, Image } from '@chakra-ui/react'
 
 const GalleryItem = (props) => {
     const {image} = props
-    const { imageUrl, width, height } = image;
+    const { url, width, height } = image;
     const calculateGridSpan = (width, height) => {
       let style = {};
     
@@ -25,8 +25,8 @@ const GalleryItem = (props) => {
   return (
     <div>
       <img
-        src={image.imageUrl} 
-        fetchPriority="high"
+        src={image.url} 
+        fetchpriority="high"
         loading='lazy'
       />
     </div>
