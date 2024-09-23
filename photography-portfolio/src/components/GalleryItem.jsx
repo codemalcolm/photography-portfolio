@@ -1,7 +1,5 @@
 import { Box, Image } from '@chakra-ui/react'
 
-
-
 const GalleryItem = (props) => {
     const {image} = props
     const { url, width, height } = image;

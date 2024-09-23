@@ -1,4 +1,3 @@
-import React from 'react'
 import GalleryItem from './GalleryItem'
 import { Box,Spinner,Text } from '@chakra-ui/react'
 import useFetchPhotoIdsByCollection from '../hooks/PhotoCollection/useFetchPhotoIdsByCollection';

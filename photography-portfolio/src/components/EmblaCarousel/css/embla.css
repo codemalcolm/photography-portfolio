@@ -125,7 +125,7 @@
   background-size: contain;
 } */
 
-img{
+/* img{
   max-width: 100%;
   height: auto;
   vertical-align: middle;
@@ -158,6 +158,5 @@ img{
 .scrolling-wrapper {
   width: 100%; /* Take full width of parent container */
   height: 100vh; /* Take full height of parent container */
-  
   overflow-y: auto; /* Enable vertical scrolling */
-}
+} */
