@@ -1,10 +1,7 @@
-import { Flex, Image, Text, Box, Link } from "@chakra-ui/react";
+import { Flex, Image, Text, Box, Spinner } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 
-const Categories = ({ categories, isLoading }) => {
-	if (isLoading) {
-		return <Text>Loading categories...</Text>;
-	}
+const Categories = ({ categories }) => {
 
 	return (
 		<Flex
@@ -24,7 +21,7 @@ const Categories = ({ categories, isLoading }) => {
 						<Box maxWidth="750px" minWidth="285px" padding="16px">
 							<Image
 								src={category.coverPhotoUrl}
-								alt={category.name}
+								alt={category.displayName}
 								objectFit="cover"
 								loading="lazy"
 							/>
