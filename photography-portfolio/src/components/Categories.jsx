@@ -20,7 +20,7 @@ const Categories = ({ categories }) => {
 					>
 						<Box maxWidth="750px" minWidth="285px" padding="16px">
 							<Image
-								src={category.coverPhotoUrl}
+								src={category.imageUrl}
 								alt={category.displayName}
 								objectFit="cover"
 								loading="lazy"
