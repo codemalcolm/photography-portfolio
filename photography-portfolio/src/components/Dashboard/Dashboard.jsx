@@ -6,6 +6,8 @@ import useDeletePhoto from '../../hooks/Photos/useDeletePhoto';
 import useEditPhoto from '../../hooks/Photos/useEditPhoto';
 import useDeleteCollection from '../../hooks/PhotoCollection/useDeleteCollection';
 import useEditCollection from '../../hooks/PhotoCollection/useEditCollection';
+import useFetchCategories from '../../hooks/Category/useFetchCategories';
+import useFetchCollectionsByCategory from '../../hooks/PhotoCollection/useFetchCollectionsByCategory';
 
 const Dashboard = () => {
   const { collections, loading: collectionsLoading, error: collectionsError } = useFetchCollections();
@@ -14,6 +16,11 @@ const Dashboard = () => {
   const { photos, loading: photosLoading, error: photosError } = useFetchPhotosByIds(
     selectedCollection ? selectedCollection.photos : []
   );
+
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null); // Track selected category
+  const { categories, loading: categoriesLoading, error: categoriesError } = useFetchCategories()
+  const { collections: collectionsFromCategory, isLoading: collectionsFromCategoryLoading, error: collectionsFromCategoryError } = useFetchCollectionsByCategory(selectedCategoryId);
+
   const { deletePhoto } = useDeletePhoto();
   const { editPhoto } = useEditPhoto();
   const { deleteCollection } = useDeleteCollection();
@@ -23,6 +30,12 @@ const Dashboard = () => {
   const [newPhotoName, setNewPhotoName] = useState('');
   const [editingCollection, setEditingCollection] = useState(null);
   const [newCollectionName, setNewCollectionName] = useState('');
+
+  
+
+  const handleCategoryClick = (categoryId) => {
+    setSelectedCategoryId(categoryId);
+  };
 
   const handleCollectionClick = (collection) => {
     if (selectedCollection?.id === collection.id) {
@@ -92,37 +105,88 @@ const Dashboard = () => {
   };
 
   return (
-    <Box p={4}>
-      <Text fontSize="3xl" mb={4}>Dashboard</Text>
+    <Box p={4} >
+    <VStack>
+      <Text fontSize="32px" mb={4}>DASHBOARD</Text>
 
-      {/* Display collections */}
       {collectionsLoading ? (
         <Spinner />
       ) : collectionsError ? (
         <Text color="red.500">{collectionsError}</Text>
       ) : (
-        <VStack align="stretch" mb={8}>
-          {collections.map((collection) => (
-            <Flex key={collection.id} align="center" mb={4}>
-              <Text flex="1">{collection.name}</Text>
+        <VStack align="stretch" mb={8} >
+          {/* Display collections */}
+          <Text fontSize="24px" fontWeight={500}>Collections</Text>
+          <Flex border={"1px solid black"} justifyContent={"center"} flexDirection={"column"}>
+            {collections.map((collection) => (
+              <Flex key={collection.id} align="center" mb={4} >
+                <Text flex="1">{collection.name}</Text>
+                <Button
+                  onClick={() => handleCollectionClick(collection)}
+                  colorScheme={selectedCollection?.id === collection.id ? 'green' : 'gray'}
+                  mr={2}
+                  isDisabled={collection.photos.length === 0} // Disable if no photos
+                >
+                  {showPhotos && selectedCollection?.id === collection.id ? 'Hide Photos' : 'Show Photos'}
+                </Button>
+                <Button onClick={() => handleEditCollection(collection)} mr={2}>
+                  Edit Collection
+                </Button>
+                <Button colorScheme="red" onClick={() => handleDeleteCollection(collection.id)}>
+                  Delete Collection
+                </Button>
+              </Flex>
+            ))}
+          </Flex>
+
+        {/* Display categories */}
+        <Text fontSize="24px" fontWeight={500}>Categories</Text>
+        {categoriesLoading ? (
+          <Spinner />
+        ) : categoriesError ? (
+          <Text color="red.500">{categoriesError}</Text>
+        ) : (
+          <Flex justifyContent={"start"} flexDirection={"column"} border={"1px solid black"}>
+            {categories.map(category => (
               <Button
-                onClick={() => handleCollectionClick(collection)}
-                colorScheme={selectedCollection?.id === collection.id ? 'green' : 'gray'}
-                mr={2}
-                isDisabled={collection.photos.length === 0} // Disable if no photos
+                key={category.id}
+                onClick={() => handleCategoryClick(category.id)}
+                colorScheme={selectedCategoryId === category.id ? 'teal' : 'blue'}
+                mb={2}
               >
-                {showPhotos && selectedCollection?.id === collection.id ? 'Hide Photos' : 'Show Photos'}
+                {category.displayName}
               </Button>
-              <Button onClick={() => handleEditCollection(collection)} mr={2}>
-                Edit Collection
-              </Button>
-              <Button colorScheme="red" onClick={() => handleDeleteCollection(collection.id)}>
-                Delete Collection
-              </Button>
-            </Flex>
-          ))}
+            ))}
+          </Flex>
+        )}
+
+        {/* Display collections for the selected category */}
+        {selectedCategoryId && (
+          <VStack align="stretch" mt={8}>
+            <Text fontSize="24px" fontWeight={500}>Collections in Selected Category</Text>
+
+            {collectionsLoading ? (
+              <Spinner />
+            ) : collectionsError ? (
+              <Text color="red.500">{collectionsError}</Text>
+            ) : collectionsFromCategory.length === 0 ? (
+              <Text color={"red"}>No collections found in this category.</Text>
+            ) : (
+              <Flex flexDirection={"column"}>
+                {collectionsFromCategory.map(collection => (
+                  <Flex key={collection.id} align="center" mb={4}>
+                    <Text flex="1">{collection.name}</Text>
+                    {/* Add more actions like show photos, edit, delete if needed */}
+                  </Flex>
+                ))}
+              </Flex>
+            )}
+          </VStack>
+        )}
+
         </VStack>
       )}
+    </VStack>
 
       {/* Display photos in selected collection */}
       {selectedCollection && showPhotos && (
