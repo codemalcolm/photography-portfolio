@@ -8,6 +8,7 @@ import useDeleteCollection from '../../hooks/PhotoCollection/useDeleteCollection
 import useEditCollection from '../../hooks/PhotoCollection/useEditCollection';
 import useFetchCategories from '../../hooks/Category/useFetchCategories';
 import useFetchCollectionsByCategory from '../../hooks/PhotoCollection/useFetchCollectionsByCategory';
+import useDeleteCategory from '../../hooks/Category/useDeleteCategory';
 
 const Dashboard = () => {
   const { collections, loading: collectionsLoading, error: collectionsError } = useFetchCollections();
@@ -19,12 +20,13 @@ const Dashboard = () => {
 
   const [selectedCategoryId, setSelectedCategoryId] = useState(null); // Track selected category
   const { categories, loading: categoriesLoading, error: categoriesError } = useFetchCategories()
-  const { collections: collectionsFromCategory, isLoading: collectionsFromCategoryLoading, error: collectionsFromCategoryError } = useFetchCollectionsByCategory(selectedCategoryId);
+  const { collections: collectionsFromCategory, isLoading: collectionsFromCategoryLoading, error: collectionsFromCategoryError,fetchCollectionsByCategory } = useFetchCollectionsByCategory(selectedCategoryId);
 
-  const { deletePhoto } = useDeletePhoto();
+  const { deletePhoto, deletePhotoFromCollection } = useDeletePhoto();
   const { editPhoto } = useEditPhoto();
   const { deleteCollection } = useDeleteCollection();
   const { editCollection } = useEditCollection();
+  const { deleteCategory } = useDeleteCategory();
 
   const [editingPhoto, setEditingPhoto] = useState(null);
   const [newPhotoName, setNewPhotoName] = useState('');
@@ -47,9 +49,9 @@ const Dashboard = () => {
     setEditingPhoto(null); // Reset editing state if switching collections
   };
 
-  const handleDelete = async (photoId) => {
+  const handleDelete = async (photoId, collectionId) => {
     try {
-      await deletePhoto(photoId);
+      await deletePhotoFromCollection(photoId,collectionId);
     } catch (error) {
       console.error("Error deleting photo:", error);
     }
@@ -104,6 +106,39 @@ const Dashboard = () => {
     }
   };
 
+  const handleDeleteCategory = async (categoryId) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this category, all its collections, and all photos within them?"
+    );
+    if (!confirmed) return;
+
+    try {
+      // Fetch collections in the category on demand
+      const collectionsInCategory = await fetchCollectionsByCategory(categoryId);
+      console.log(collectionsInCategory)
+
+      // Loop through collections in the category
+      for (let collection of collectionsInCategory) {
+        if (collection.photos && collection.photos.length > 0) {
+
+          // Delete all photos in the collection
+          for (let photoId of collection.photos) {
+            console.log(photoId)
+            await deletePhoto(photoId);
+          }
+        }
+        // Delete the collection
+        await deleteCollection(collection.id);
+      }
+
+      // Finally, delete the category itself
+      await deleteCategory(categoryId);
+      setSelectedCategoryId(null); // Reset category selection if deleted
+    } catch (error) {
+      console.error("Error deleting category:", error);
+    }
+  };
+
   return (
     <Box p={4} >
     <VStack>
@@ -138,6 +173,51 @@ const Dashboard = () => {
               </Flex>
             ))}
           </Flex>
+            
+          {/* Display photos in selected collection */}
+          {selectedCollection && showPhotos && (
+            <Box>
+              <Text fontSize="2xl" mb={4}>
+                Photos in {selectedCollection.name}
+              </Text>
+
+              {photosLoading ? (
+                <Spinner />
+              ) : photosError ? (
+                <Text color="red.500">{photosError}</Text>
+              ) : photos.length === 0 ? (
+                <Text>No photos in this collection.</Text>
+              ) : (
+                <Grid templateColumns="repeat(auto-fill, minmax(150px, 1fr))" gap={4}>
+                  {photos.map((photo) => (
+                    <Box key={photo.id} borderWidth="1px" borderRadius="lg" overflow="hidden">
+                      <Image src={photo.url} alt={photo.name} objectFit="cover" boxSize="150px" />
+                      <Flex p={2} justifyContent={"space-between"} alignItems="center">
+                        {/* Edit photo name */}
+                        {editingPhoto === photo.id ? (
+                          <>
+                            <Input
+                              value={newPhotoName}
+                              onChange={(e) => setNewPhotoName(e.target.value)}
+                              placeholder="Enter new name"
+                            />
+                            <Button onClick={() => handleEditSubmit(photo.id)}>Save</Button>
+                            <Button onClick={() => setEditingPhoto(null)}>Cancel</Button>
+                          </>
+                        ) : (
+                          <>
+                            <Text>{photo.name}</Text>
+                            <Button onClick={() => handleEdit(photo)}>Edit</Button>
+                          </>
+                        )}
+                        <Button colorScheme="red" onClick={() => handleDelete(photo.id, selectedCollection.id)}>Delete</Button>
+                      </Flex>
+                    </Box>
+                  ))}
+                </Grid>
+              )}
+            </Box>
+          )}
 
         {/* Display categories */}
         <Text fontSize="24px" fontWeight={500}>Categories</Text>
@@ -148,14 +228,17 @@ const Dashboard = () => {
         ) : (
           <Flex justifyContent={"start"} flexDirection={"column"} border={"1px solid black"}>
             {categories.map(category => (
-              <Button
-                key={category.id}
-                onClick={() => handleCategoryClick(category.id)}
-                colorScheme={selectedCategoryId === category.id ? 'teal' : 'blue'}
-                mb={2}
-              >
-                {category.displayName}
-              </Button>
+              <Flex key={category.id} justifyContent="space-between" mb={2}>
+                <Button
+                  onClick={() => handleCategoryClick(category.id)}
+                  colorScheme={selectedCategoryId === category.id ? 'teal' : 'blue'}
+                >
+                  {category.displayName}
+                </Button>
+                <Button colorScheme="red" onClick={() => handleDeleteCategory(category.id)}>
+                  Delete
+                </Button>
+              </Flex>
             ))}
           </Flex>
         )}
@@ -183,55 +266,9 @@ const Dashboard = () => {
             )}
           </VStack>
         )}
-
         </VStack>
       )}
     </VStack>
-
-      {/* Display photos in selected collection */}
-      {selectedCollection && showPhotos && (
-        <Box>
-          <Text fontSize="2xl" mb={4}>
-            Photos in {selectedCollection.name}
-          </Text>
-
-          {photosLoading ? (
-            <Spinner />
-          ) : photosError ? (
-            <Text color="red.500">{photosError}</Text>
-          ) : photos.length === 0 ? (
-            <Text>No photos in this collection.</Text>
-          ) : (
-            <Grid templateColumns="repeat(auto-fill, minmax(150px, 1fr))" gap={4}>
-              {photos.map((photo) => (
-                <Box key={photo.id} borderWidth="1px" borderRadius="lg" overflow="hidden">
-                  <Image src={photo.url} alt={photo.name} objectFit="cover" boxSize="150px" />
-                  <Flex p={2} justifyContent={"space-between"} alignItems="center">
-                    {/* Edit photo name */}
-                    {editingPhoto === photo.id ? (
-                      <>
-                        <Input
-                          value={newPhotoName}
-                          onChange={(e) => setNewPhotoName(e.target.value)}
-                          placeholder="Enter new name"
-                        />
-                        <Button onClick={() => handleEditSubmit(photo.id)}>Save</Button>
-                        <Button onClick={() => setEditingPhoto(null)}>Cancel</Button>
-                      </>
-                    ) : (
-                      <>
-                        <Text>{photo.name}</Text>
-                        <Button onClick={() => handleEdit(photo)}>Edit</Button>
-                      </>
-                    )}
-                    <Button colorScheme="red" onClick={() => handleDelete(photo.id)}>Delete</Button>
-                  </Flex>
-                </Box>
-              ))}
-            </Grid>
-          )}
-        </Box>
-      )}
 
       {/* Edit collection */}
       {editingCollection && (

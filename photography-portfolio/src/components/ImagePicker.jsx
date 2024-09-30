@@ -32,6 +32,7 @@ const ImagePicker = () => {
 			width={"560px"}
 			flexDirection={"column"}
 			alignItems={"center"}
+			bg="white"
 		>
 			<Dashboard/>
 			{/* Add Category */}
