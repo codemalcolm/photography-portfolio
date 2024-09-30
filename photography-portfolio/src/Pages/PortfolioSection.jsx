@@ -1,17 +1,16 @@
 import { Box } from '@chakra-ui/react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Collections from './Collections';
 import useFetchCategories from '../hooks/Category/useFetchCategories';
 import Categories from '../components/Categories';
 
 const PortfolioSection = () => {
-  const navigate = useNavigate();
   const { categories, loading } = useFetchCategories();
 
   return (
     <Box
       style={{ height: '100vh' }}
-      bgGradient="linear(to-tr, black, gray.900)"
+      bg="#101118"
       overflowY="hidden"
       color="white"
       fontWeight={700}

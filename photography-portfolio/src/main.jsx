@@ -16,12 +16,12 @@ const colors = {
 }
 
 const breakpoints = {
-  base: '0em',
-  sm: '30em',
-  md: '48em',
-  lg: '1090px',
-  xl: '80em',
-  '2xl': '96em',
+  base: '0em', // 0px
+  sm: '30em', // 480px
+  md: '48em', // 768px
+  lg: '1090px', // 1090px
+  xl: '80em', // 1280px
+  "2xl": '96em', // 1536px
 }
 
 const theme = extendTheme({ colors, breakpoints })

@@ -10,6 +10,7 @@ const Categories = ({ categories }) => {
 			alignItems="center"
 			height="100%"
 			width="100%"
+			flexDirection={{base: "column", lg:"row"}}
 		>
 			{categories.map((category) => (
 				<RouterLink key={category.id} to={`${category.id}`}>

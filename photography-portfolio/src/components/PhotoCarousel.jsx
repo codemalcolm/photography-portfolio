@@ -76,97 +76,100 @@ const PhotoCarousel = (props) => {
 	  }
 
 	return (
-		<Flex width={"100%"} flexDirection={{base:"column" , lg:"row"}} justifyContent={"center"} alignItems={"center"} id={"lol"}>
-			<VStack>
-				<Text color={"white"} fontSize="28px" textAlign={"center"}>{collectionName}</Text>
-				<Flex
-					width={"40%"}
-					flexDirection={"row"}
-					justifyContent={"center"}
-					alignItems={"center"}
-				>
-					{activeSlide && (
-						<VStack
-							key={activeSlide.id}
-							width={"250px"}
-							align={"start"}
-							px={"16px"}
-						>
-							{/* <Text fontSize="lg" fontWeight="bold">
-								{activeSlide.name}
-							</Text> */}
-							{/* <Text fontSize="md">{activeSlide.description}</Text> */}
-						</VStack>
-					)}
-					<Flex justifyContent={"center"} alignItems={"center"} display={{base:"none", lg:"flex"}}>
-					<RouterLink to={`/photography/${categoryId}/gallery/${collectionId}`}>
-						<Box
-								p={4}
-								_hover={{background:"none" ,color:"gray"}}
-								variant={"ghost"}
-								color={"white"}
+		<>
+
+			<Flex width={"100%"} flexDirection={{base:"column" , lg:"row"}} justifyContent={"center"} alignItems={"center"} id={"lol"}>
+				<VStack>
+					<Text color={"white"} fontSize="28px" textAlign={"center"}>{collectionName}</Text>
+					<Flex
+						width={"40%"}
+						flexDirection={"row"}
+						justifyContent={"center"}
+						alignItems={"center"}
+					>
+						{activeSlide && (
+							<VStack
+								key={activeSlide.id}
+								width={"250px"}
+								align={"start"}
+								px={"16px"}
 							>
-								<GrGallery style={{ width: "35px", height: "35px" }} />
-						</Box>
-					</RouterLink>
-						
-						<Flex alignItems={"center"} justifyContent={"center"} width={"100%"}>
+								{/* <Text fontSize="lg" fontWeight="bold">
+									{activeSlide.name}
+								</Text> */}
+								{/* <Text fontSize="md">{activeSlide.description}</Text> */}
+							</VStack>
+						)}
+						<Flex justifyContent={"center"} alignItems={"center"} display={{base:"none", lg:"flex"}}>
+						<RouterLink to={`/photography/${categoryId}/gallery/${collectionId}`}>
+							<Box
+									p={4}
+									_hover={{background:"none" ,color:"gray"}}
+									variant={"ghost"}
+									color={"white"}
+								>
+									<GrGallery style={{ width: "35px", height: "35px" }} />
+							</Box>
+						</RouterLink>
+							
+							<Flex alignItems={"center"} justifyContent={"center"} width={"100%"}>
 
-							<PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
-							<NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
-						</Flex>
-					</Flex>
-
-					
-					<Flex>
-						<section className="embla">
-							<div className="embla__viewport" ref={emblaRef}>
-								<div className="embla__container">
-									{photos.map((slide, index) => (
-										<div className="embla__slide" key={slide.id}>
-											{/* Pass the next slide's imageUrl as nextSrc */}
-											<LazyImage
-												src={slide.url}
-												nextSrc={photos[index + 1]?.url}
-												alt={slide.name}
-											/>
-										</div>
-									))}
-								</div>
-								{/* <Flex position={"absolute"}>
-					<PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
-					<NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
-					</Flex> */}
-							</div>
-						<Flex width={"100%"} display={{base:"flex", lg:"none"}} alignItems="center" flexDirection={"column"}>
-							<Flex>
-
-								<Flex alignItems={"center"} justifyContent={"center"} width={"100%"}>
-									<PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
-									<NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
-								</Flex>
-
-								<Button
-										p={4}
-										backgroundColor={""}
-										onClick={() => galleryNavigation(show)}
-										_hover={{background:"none" ,color:"gray"}}
-										variant={"ghost"}
-										color={"white"}
-									>
-										<GrGallery style={{ width: "35px", height: "35px" }} />
-								</Button>
+								<PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
+								<NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
 							</Flex>
 						</Flex>
 
-						</section>
-					</Flex>
-				</Flex>
-			</VStack>
-			
+						
+						<Flex>
+							<section className="embla">
+								<div className="embla__viewport" ref={emblaRef}>
+									<div className="embla__container">
+										{photos.map((slide, index) => (
+											<div className="embla__slide" key={slide.id}>
+												{/* Pass the next slide's imageUrl as nextSrc */}
+												<LazyImage
+													src={slide.url}
+													nextSrc={photos[index + 1]?.url}
+													alt={slide.name}
+												/>
+											</div>
+										))}
+									</div>
+									{/* <Flex position={"absolute"}>
+						<PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
+						<NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
+						</Flex> */}
+								</div>
+							<Flex width={"100%"} display={{base:"flex", lg:"none"}} alignItems="center" flexDirection={"column"}>
+								<Flex>
 
-			
-		</Flex>
+									<Flex alignItems={"center"} justifyContent={"center"} width={"100%"}>
+										<PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
+										<NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
+									</Flex>
+
+									<Button
+											p={4}
+											backgroundColor={""}
+											onClick={() => galleryNavigation(show)}
+											_hover={{background:"none" ,color:"gray"}}
+											variant={"ghost"}
+											color={"white"}
+										>
+											<GrGallery style={{ width: "35px", height: "35px" }} />
+									</Button>
+								</Flex>
+							</Flex>
+
+							</section>
+						</Flex>
+					</Flex>
+				</VStack>
+				
+
+				
+			</Flex>
+		</>
 	);
 };
 

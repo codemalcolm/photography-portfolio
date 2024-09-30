@@ -7,6 +7,7 @@ import useFetchPhotoIdsByCollection from "../hooks/PhotoCollection/useFetchPhoto
 import useFetchPhotosByIds from "../hooks/useFetchPhotosByIds";
 import PhotoCarousel from "../components/PhotoCarousel";
 import PhotoGallery from "../components/PhotoGallery";
+import BackArrow from "../components/BackArrow";
 
 const Collections = () => {
   const {categoryId} = useParams()
@@ -14,11 +15,7 @@ const Collections = () => {
 	return (
     
 		<>
-			<Box mt={"36px"} ml={"16px"}>
-				<RouterLink>
-					<Image src={arrowBack} />
-				</RouterLink>
-			</Box>
+			<BackArrow/>
 			{/* Add a route to handle displaying a specific collection's photos */}
 			<Routes>
 				<Route
@@ -27,12 +24,14 @@ const Collections = () => {
 				/>
 				{/* Route to display details of a specific collection */}
 				<Route 
-          path="gallery/:collectionId/*" 
-          element={<PhotoGallery/>} />
+					path="gallery/:collectionId/*" 
+					element={<PhotoGallery categoryId={categoryId}/>} 
+				/>
 
-        <Route 
-          path="carousel/:collectionId/*" 
-          element={<PhotoCarousel categoryId={categoryId}/>} />
+				<Route 
+					path="carousel/:collectionId/*" 
+					element={<PhotoCarousel categoryId={categoryId}/>} 
+				/>
 			</Routes>
 		</>
 	);

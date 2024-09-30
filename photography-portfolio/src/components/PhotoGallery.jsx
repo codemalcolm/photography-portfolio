@@ -1,11 +1,14 @@
 import GalleryItem from './GalleryItem'
-import { Box,Spinner,Text } from '@chakra-ui/react'
+import { Box,Flex,Image,Spinner,Text, VStack } from '@chakra-ui/react'
 import useFetchPhotoIdsByCollection from '../hooks/PhotoCollection/useFetchPhotoIdsByCollection';
 import useFetchPhotosByIds from '../hooks/useFetchPhotosByIds';
-import { useParams } from 'react-router-dom';
+import { useParams, Link as RouterLink } from 'react-router-dom';
 import useGetCollectionName from '../hooks/PhotoCollection/useGetCollectionName';
+import BackArrow from './BackArrow';
+import CarouselIcon from "../assets/icons/carousel.svg"
 
-const PhotoGallery = () => {
+const PhotoGallery = (props) => {
+  const {categoryId} = props
   const { collectionId } = useParams(); // Get collectionId from URL params
   const { photoIds, isLoading, error } = useFetchPhotoIdsByCollection(collectionId); // Fetch the specific collection
   const {collectionName, loading: nameLoading, error : nameError } = useGetCollectionName(collectionId)
@@ -31,16 +34,21 @@ const PhotoGallery = () => {
     );
   }
   return (
-    <Box>
-      <Text fontSize="28px" mb={"32px"} textAlign={"center"}>{collectionName}</Text>
-        <div className="scrolling-wrapper">
-          <div className="grid-wrapper">
-            { photos.map((image) => (
-              <GalleryItem key={image.id} image={image} />
-              ))}
+    <>
+      <RouterLink to={`/photography/${categoryId}/carousel/${collectionId}`}>
+        <Image src={CarouselIcon} width={"64px"} height={"64px"} mx={"36px"}/>
+      </RouterLink>
+      <VStack>
+        <Text fontSize="28px" mb={"32px"} textAlign={"center"}>{collectionName}</Text>
+          <div className="scrolling-wrapper">
+            <div className="grid-wrapper">
+              { photos.map((image) => (
+                <GalleryItem key={image.id} image={image} />
+                ))}
+            </div>
           </div>
-        </div>
-    </Box>
+      </VStack>
+    </>
   )
 }
 
