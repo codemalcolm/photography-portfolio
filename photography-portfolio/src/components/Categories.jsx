@@ -8,9 +8,12 @@ const Categories = ({ categories }) => {
 			gap={18}
 			justifyContent="center"
 			alignItems="center"
-			height="100%"
-			width="100%"
-			flexDirection={{base: "column", lg:"row"}}
+			height={"100vh"}
+			overflowY={{"2xl": "hidden", base:"auto"}}
+			flexWrap="wrap"
+			flexDirection={"row"}
+			paddingY={"32px"}
+
 		>
 			{categories.map((category) => (
 				<RouterLink key={category.id} to={`${category.id}`}>
@@ -19,7 +22,7 @@ const Categories = ({ categories }) => {
 						position="relative"
 						_hover={{ opacity: "0.8", color: "white" }}
 					>
-						<Box maxWidth="750px" minWidth="285px" padding="16px">
+						<Box maxWidth="660px" maxHeight="440px" padding="16px" flex="1 1 300px">
 							<Image
 								src={category.imageUrl}
 								alt={category.displayName}
