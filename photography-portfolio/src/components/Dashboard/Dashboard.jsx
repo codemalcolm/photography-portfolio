@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Text, VStack, Spinner, Image, Grid, Flex, Input } from '@chakra-ui/react';
+import { Box, Button, Text, VStack, Spinner, Image, Grid, Flex, Input, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, useDisclosure } from '@chakra-ui/react';
 import useFetchCollections from '../../hooks/PhotoCollection/useFetchCollections';
 import useFetchPhotosByIds from '../../hooks/useFetchPhotosByIds';
 import useDeletePhoto from '../../hooks/Photos/useDeletePhoto';
@@ -9,8 +9,14 @@ import useEditCollection from '../../hooks/PhotoCollection/useEditCollection';
 import useFetchCategories from '../../hooks/Category/useFetchCategories';
 import useFetchCollectionsByCategory from '../../hooks/PhotoCollection/useFetchCollectionsByCategory';
 import useDeleteCategory from '../../hooks/Category/useDeleteCategory';
+import plusIcon from "../../assets/icons/plus-icon.svg"
+import deleteIcon from "../../assets/icons/delete-icon.svg"
+import editIcon from "../../assets/icons/pencil-icon.svg"
+import AddCategoryForm from '../Category/AddCategoryForm';
+import useAddCategory from '../../hooks/Category/useAddCategory';
 
 const Dashboard = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure(); // Controls the modal
   const { collections, loading: collectionsLoading, error: collectionsError } = useFetchCollections();
   const [selectedCollection, setSelectedCollection] = useState(null);
   const [showPhotos, setShowPhotos] = useState(false); // Track if photos should be shown
@@ -111,26 +117,29 @@ const Dashboard = () => {
       "Are you sure you want to delete this category, all its collections, and all photos within them?"
     );
     if (!confirmed) return;
+    const collectionsInCategory = await fetchCollectionsByCategory(categoryId);
 
     try {
       // Fetch collections in the category on demand
-      const collectionsInCategory = await fetchCollectionsByCategory(categoryId);
-      console.log(collectionsInCategory)
+      
+      console.log(categoryId)
 
-      // Loop through collections in the category
-      for (let collection of collectionsInCategory) {
-        if (collection.photos && collection.photos.length > 0) {
+      if(!(collectionsInCategory === undefined)){
+        // Loop through collections in the category
+        for (let collection of collectionsInCategory) {
+          if (collection.photos && collection.photos.length > 0) {
 
-          // Delete all photos in the collection
-          for (let photoId of collection.photos) {
-            console.log(photoId)
-            await deletePhoto(photoId);
+            // Delete all photos in the collection
+            for (let photoId of collection.photos) {
+              console.log(photoId)
+              await deletePhoto(photoId);
+            }
           }
+          // Delete the collection
+          await deleteCollection(collection.id);
         }
-        // Delete the collection
-        await deleteCollection(collection.id);
       }
-
+      
       // Finally, delete the category itself
       await deleteCategory(categoryId);
       setSelectedCategoryId(null); // Reset category selection if deleted
@@ -139,8 +148,39 @@ const Dashboard = () => {
     }
   };
 
+  const handleAddCategory = () => {
+    onOpen();
+  };
+
+  const { addCategory, loading, error, success } = useAddCategory();
+  const [categoryName, setCategoryName] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  // Handle image selection
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setSelectedImage(file);
+  };
+
+  // Handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    addCategory(
+      {
+        displayName: categoryName,
+        order: 0, // Default order
+        collections: [],
+      },
+      selectedImage
+    );
+    // Clear the input fields after submission
+    setCategoryName("");
+    setSelectedImage(null);
+    onClose(); // Close modal after submission
+  };
+
   return (
-    <Box p={4} >
+    <Box p={4} mt={"64px"}>
     <VStack>
       <Text fontSize="32px" mb={4}>DASHBOARD</Text>
 
@@ -151,11 +191,14 @@ const Dashboard = () => {
       ) : (
         <VStack align="stretch" mb={8} >
           {/* Display collections */}
-          <Text fontSize="24px" fontWeight={500}>Collections</Text>
+          <Flex justifyContent={"space-between"} alignItems={"end"}>
+            <Text fontSize="24px" fontWeight={500}>Collections</Text>
+            <Button borderRadius={"16px"} py={"16px"} px={"8px"}><Image alt="Add Icon" src={plusIcon}/></Button>
+          </Flex>
           <Flex border={"1px solid black"} justifyContent={"center"} flexDirection={"column"}>
             {collections.map((collection) => (
-              <Flex key={collection.id} align="center" mb={4} >
-                <Text flex="1">{collection.name}</Text>
+              <Flex key={collection.id} alignItems="center" mb={4} >
+                <Text flex="1" mr={"40px"}>{collection.name}</Text>
                 <Button
                   onClick={() => handleCollectionClick(collection)}
                   colorScheme={selectedCollection?.id === collection.id ? 'green' : 'gray'}
@@ -164,11 +207,12 @@ const Dashboard = () => {
                 >
                   {showPhotos && selectedCollection?.id === collection.id ? 'Hide Photos' : 'Show Photos'}
                 </Button>
-                <Button onClick={() => handleEditCollection(collection)} mr={2}>
-                  Edit Collection
+                <Button onClick={() => handleEditCollection(collection)} mr={2}
+                >
+                  <Image src={editIcon} alt="Edit icon" m={"0 auto"}/>
                 </Button>
                 <Button colorScheme="red" onClick={() => handleDeleteCollection(collection.id)}>
-                  Delete Collection
+                  <Image src={deleteIcon} alt="Delete icon" m={"0 auto"}/>
                 </Button>
               </Flex>
             ))}
@@ -210,7 +254,7 @@ const Dashboard = () => {
                             <Button onClick={() => handleEdit(photo)}>Edit</Button>
                           </>
                         )}
-                        <Button colorScheme="red" onClick={() => handleDelete(photo.id, selectedCollection.id)}>Delete</Button>
+                        <Button colorScheme="red" onClick={() => handleDelete(photo.id, selectedCollection.id)}><Image src={deleteIcon} alt="delete icon"/></Button>
                       </Flex>
                     </Box>
                   ))}
@@ -220,7 +264,10 @@ const Dashboard = () => {
           )}
 
         {/* Display categories */}
-        <Text fontSize="24px" fontWeight={500}>Categories</Text>
+        <Flex justifyContent={"space-between"} alignItems={"end"}>
+            <Text fontSize="24px" fontWeight={500}>Categories</Text>
+            <Button borderRadius={"16px"} py={"16px"} px={"8px"} onClick={handleAddCategory}><Image alt="Add Icon" src={plusIcon}/></Button>
+          </Flex>
         {categoriesLoading ? (
           <Spinner />
         ) : categoriesError ? (
@@ -236,35 +283,92 @@ const Dashboard = () => {
                   {category.displayName}
                 </Button>
                 <Button colorScheme="red" onClick={() => handleDeleteCategory(category.id)}>
-                  Delete
+                  <Image src={deleteIcon} alt="delete icon" m={"0 auto"}/>
                 </Button>
               </Flex>
             ))}
           </Flex>
         )}
 
-        {/* Display collections for the selected category */}
-        {selectedCategoryId && (
-          <VStack align="stretch" mt={8}>
-            <Text fontSize="24px" fontWeight={500}>Collections in Selected Category</Text>
+        {/* Add Category Modal  */}
+        <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Add New Category</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Box>
+              <form onSubmit={handleSubmit}>
+                <Box mb={4}>
+                  <Text mb={2}>Category Name:</Text>
+                  <Input
+                    type="text"
+                    value={categoryName}
+                    onChange={(e) => setCategoryName(e.target.value)}
+                    required
+                  />
+                </Box>
 
-            {collectionsLoading ? (
-              <Spinner />
-            ) : collectionsError ? (
-              <Text color="red.500">{collectionsError}</Text>
-            ) : collectionsFromCategory.length === 0 ? (
-              <Text color={"red"}>No collections found in this category.</Text>
-            ) : (
-              <Flex flexDirection={"column"}>
-                {collectionsFromCategory.map(collection => (
-                  <Flex key={collection.id} align="center" mb={4}>
-                    <Text flex="1">{collection.name}</Text>
-                    {/* Add more actions like show photos, edit, delete if needed */}
-                  </Flex>
-                ))}
-              </Flex>
+                <Box mb={4}>
+                  <Text mb={2}>Category Image:</Text>
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                  />
+                </Box>
+              </form>
+            </Box>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button
+              colorScheme="blue"
+              mr={3}
+              onClick={handleSubmit}
+              isLoading={loading}
+            >
+              Add Category
+            </Button>
+            <Button variant="ghost" onClick={onClose}>
+              Cancel
+            </Button>
+            {error && (
+              <Text color="red.500" mt={4}>
+              {error}
+              </Text>
             )}
-          </VStack>
+            {success && (
+              <Text color="green.500" mt={4}>
+              Category added successfully!
+              </Text>
+            )}
+                </ModalFooter>
+          </ModalContent>
+          </Modal>
+
+          {/* Display collections for the selected category */}
+          {selectedCategoryId && (
+            <VStack align="stretch" mt={8}>
+              <Text fontSize="24px" fontWeight={500}>Collections in Selected Category</Text>
+
+              {collectionsLoading ? (
+                <Spinner />
+              ) : collectionsError ? (
+                <Text color="red.500">{collectionsError}</Text>
+              ) : collectionsFromCategory.length === 0 ? (
+                <Text color={"red"}>No collections found in this category.</Text>
+              ) : (
+                <Flex flexDirection={"column"}>
+                  {collectionsFromCategory.map(collection => (
+                    <Flex key={collection.id} align="center" mb={4}>
+                      <Text flex="1">{collection.name}</Text>
+                      {/* Add more actions like show photos, edit, delete if needed */}
+                    </Flex>
+                  ))}
+                </Flex>
+              )}
+            </VStack>
         )}
         </VStack>
       )}

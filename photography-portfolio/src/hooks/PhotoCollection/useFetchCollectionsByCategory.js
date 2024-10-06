@@ -12,7 +12,9 @@ const useFetchCollectionsByCategory = (initialCategoryId) => {
     try {
       // Fetch the category document by categoryId
       const categoryRef = doc(firestore, 'categories', categoryId);
+
       const categorySnap = await getDoc(categoryRef);
+      console.log(categorySnap+ "Snap")
 
       if (!categorySnap.exists()) {
         throw new Error('Category not found');
@@ -22,7 +24,9 @@ const useFetchCollectionsByCategory = (initialCategoryId) => {
       const { collections: collectionIds } = categorySnap.data();
 
       if (!collectionIds || collectionIds.length === 0) {
+
         throw new Error('No collections found for this category');
+
       }
 
       // Fetch the collections from 'photoCollections' using the collection IDs
@@ -39,7 +43,7 @@ const useFetchCollectionsByCategory = (initialCategoryId) => {
       return collectionsData;  // Return collections data from the manual fetch
     } catch (error) {
       console.error("Error fetching collections:", error);
-      throw error;  // Re-throw the error to handle it outside
+      return;
     }
   };
 
