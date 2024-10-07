@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Text, VStack, Spinner, Image, Grid, Flex, Input, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, useDisclosure } from '@chakra-ui/react';
+import { Box, Button, Text, VStack, Spinner, Image, Grid, Flex, Input, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, useDisclosure, Textarea } from '@chakra-ui/react';
 import useFetchCollections from '../../hooks/PhotoCollection/useFetchCollections';
 import useFetchPhotosByIds from '../../hooks/useFetchPhotosByIds';
 import useDeletePhoto from '../../hooks/Photos/useDeletePhoto';
@@ -12,19 +12,26 @@ import useDeleteCategory from '../../hooks/Category/useDeleteCategory';
 import plusIcon from "../../assets/icons/plus-icon.svg"
 import deleteIcon from "../../assets/icons/delete-icon.svg"
 import editIcon from "../../assets/icons/pencil-icon.svg"
-import AddCategoryForm from '../Category/AddCategoryForm';
 import useAddCategory from '../../hooks/Category/useAddCategory';
+import useCategoryStore from '../../store/categoryStore';
+import useAddPhotoCollection from '../../hooks/PhotoCollection/useAddPhotoCollection';
+import useUploadPhotos from '../../hooks/Photos/useUploadPhotos';
 
 const Dashboard = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure(); // Controls the modal
+  
+  const { createCategory } = useCategoryStore(); // Local states 
+  const { isOpen: isAddCategoryOpen, onOpen: onAddCategoryOpen, onClose: onAddCategoryClose } = useDisclosure(); // Add Category Modal
+  const { isOpen: isAddCollectionOpen, onOpen: onAddCollectionOpen, onClose: onAddCollectionClose } = useDisclosure(); // Add Collection Modal
+  const { isOpen: isAddPhotosOpen, onOpen: onAddPhotosOpen, onClose: onAddPhotosClose } = useDisclosure(); // Add Photos Modal
   const { collections, loading: collectionsLoading, error: collectionsError } = useFetchCollections();
   const [selectedCollection, setSelectedCollection] = useState(null);
   const [showPhotos, setShowPhotos] = useState(false); // Track if photos should be shown
-  const { photos, loading: photosLoading, error: photosError } = useFetchPhotosByIds(
+  const { photos, loading: photosIdLoading, error: photosIdError } = useFetchPhotosByIds(
     selectedCollection ? selectedCollection.photos : []
   );
 
   const [selectedCategoryId, setSelectedCategoryId] = useState(null); // Track selected category
+  const [selectedFromModalCategoryId, setSelectedFromModalCategoryId] = useState(null); // Track selected category from modal
   const { categories, loading: categoriesLoading, error: categoriesError } = useFetchCategories()
   const { collections: collectionsFromCategory, isLoading: collectionsFromCategoryLoading, error: collectionsFromCategoryError,fetchCollectionsByCategory } = useFetchCollectionsByCategory(selectedCategoryId);
 
@@ -38,8 +45,13 @@ const Dashboard = () => {
   const [newPhotoName, setNewPhotoName] = useState('');
   const [editingCollection, setEditingCollection] = useState(null);
   const [newCollectionName, setNewCollectionName] = useState('');
+  const [selectedCollectionId, setSelectedCollectionId] = useState('')
 
   
+
+  const handleCategoryClickModal = (categoryId) => {
+    setSelectedFromModalCategoryId(categoryId);
+  };
 
   const handleCategoryClick = (categoryId) => {
     setSelectedCategoryId(categoryId);
@@ -149,8 +161,18 @@ const Dashboard = () => {
   };
 
   const handleAddCategory = () => {
-    onOpen();
+    onAddCategoryOpen();
   };
+
+  const handleAddColllection = () => {
+    onAddCollectionOpen();
+  };
+
+  const handleAddPhotos = (id) =>{
+    setSelectedCollectionId(id)
+    onAddPhotosOpen();
+
+  }
 
   const { addCategory, loading, error, success } = useAddCategory();
   const [categoryName, setCategoryName] = useState("");
@@ -163,9 +185,10 @@ const Dashboard = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    addCategory(
+
+    const addedCategory = await addCategory(
       {
         displayName: categoryName,
         order: 0, // Default order
@@ -173,11 +196,74 @@ const Dashboard = () => {
       },
       selectedImage
     );
-    // Clear the input fields after submission
-    setCategoryName("");
-    setSelectedImage(null);
-    onClose(); // Close modal after submission
+
+    if(addedCategory){
+      createCategory(addedCategory); // Update the Zustand store with the new category
+      setCategoryName("");  // Clear form
+      setSelectedImage(null); // Clear form
+      onAddCategoryOpen(); // Close modal after submission
+    }
+
   };
+
+  const { addPhotoCollection, loading: addingCollection, error: addError, success: addSuccess } = useAddPhotoCollection();
+  const { categories: categoriesFetched, loading: fetchingCategories, error: fetchError } = useFetchCategories();
+
+  const [collectionName, setCollectionName] = useState('');
+  const [collectionDescription, setCollectionDescription] = useState('');
+
+  const handleSubmitCollection = (e) => {
+    e.preventDefault();
+    addPhotoCollection(selectedFromModalCategoryId, {
+      name: collectionName,
+      description: collectionDescription,
+      photos: [] // Start with an empty photos array
+    });
+
+    // Clear the input fields after submission
+    setCollectionName('');
+    setCollectionDescription('');
+  };
+
+  const { uploadPhotos, loading: photosLoading, error : photosError, success: photosSuccess } = useUploadPhotos();
+  const [files, setFiles] = useState([]);
+  const [names, setNames] = useState([]);
+  const [currentNameIndex, setCurrentNameIndex] = useState(0);
+  
+  const handleFileChange = (e) => {
+    const selectedFiles = Array.from(e.target.files);
+    setFiles(selectedFiles);
+    setNames(new Array(selectedFiles.length).fill('')); // Initialize names array with empty strings
+    setCurrentNameIndex(0);
+  };
+
+  const handleNameChange = (e) => {
+    const updatedNames = [...names];
+    updatedNames[currentNameIndex] = e.target.value;
+    setNames(updatedNames);
+  };
+
+  const handleNextName = () => {
+    setCurrentNameIndex((prevIndex) => Math.min(prevIndex + 1, files.length - 1));
+  };
+
+  const handlePreviousName = () => {
+    setCurrentNameIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+  };
+
+  const handleSubmitPhotos = async(e) => {
+    e.preventDefault();
+    if (selectedCollectionId) {
+      const uploadedPhotos = await uploadPhotos(files, names, selectedCollectionId); // Pass the selected collection ID
+      if(uploadedPhotos){
+        onAddPhotosClose();       // Close modal after submission
+      }
+
+    } else {
+      alert("Please select a collection first!");
+    }
+  };
+
 
   return (
     <Box p={4} mt={"64px"}>
@@ -189,21 +275,20 @@ const Dashboard = () => {
       ) : collectionsError ? (
         <Text color="red.500">{collectionsError}</Text>
       ) : (
-        <VStack align="stretch" mb={8} >
+        <VStack align="stretch" marginBottom={8} >
           {/* Display collections */}
           <Flex justifyContent={"space-between"} alignItems={"end"}>
             <Text fontSize="24px" fontWeight={500}>Collections</Text>
-            <Button borderRadius={"16px"} py={"16px"} px={"8px"}><Image alt="Add Icon" src={plusIcon}/></Button>
+            <Button borderRadius={"16px"} py={"16px"} px={"8px"} onClick={handleAddColllection}><Image alt="Add Icon" src={plusIcon}/></Button>
           </Flex>
-          <Flex border={"1px solid black"} justifyContent={"center"} flexDirection={"column"}>
+          <Flex justifyContent={"center"} flexDirection={"column"} gap={"4px"}>
             {collections.map((collection) => (
-              <Flex key={collection.id} alignItems="center" mb={4} >
+              <Flex key={collection.id} alignItems="center" border={"gray 1px solid"} p={"4px"}>
                 <Text flex="1" mr={"40px"}>{collection.name}</Text>
                 <Button
                   onClick={() => handleCollectionClick(collection)}
-                  colorScheme={selectedCollection?.id === collection.id ? 'green' : 'gray'}
+                  colorScheme= {showPhotos && selectedCollection?.id === collection.id ? 'green' : 'gray'}
                   mr={2}
-                  isDisabled={collection.photos.length === 0} // Disable if no photos
                 >
                   {showPhotos && selectedCollection?.id === collection.id ? 'Hide Photos' : 'Show Photos'}
                 </Button>
@@ -217,26 +302,102 @@ const Dashboard = () => {
               </Flex>
             ))}
           </Flex>
+
+          {/* Add Collection Modal */}
+          <Modal isOpen={isAddCollectionOpen} onClose={onAddCollectionClose} size="lg">
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Add New Photo Collection</ModalHeader>
+              <ModalCloseButton />
+
+              <ModalBody>
+                {fetchingCategories ? (
+                  <Spinner size="lg" />
+                ) : fetchError ? (
+                  <Text color="red.500">Error fetching categories: {fetchError}</Text>
+                ) : (
+                  <Box mb={4}>
+                    <Text mb={2}>Select Category:</Text>
+                    <Box mb={4}>
+                      {categoriesFetched.map(category => (
+                        <Button
+                          key={category.id}
+                          onClick={() => handleCategoryClickModal(category.id)}
+                          colorScheme={selectedFromModalCategoryId === category.id ? 'teal' : 'blue'}
+                          mr={2}
+                        >
+                          {category.displayName}
+                        </Button>
+                      ))}
+                    </Box>
+                  </Box>
+                )}
+
+                <form onSubmit={handleSubmitCollection}>
+                  <Box mb={4}>
+                    <Text mb={2}>Collection Name:</Text>
+                    <Input
+                      type="text"
+                      value={collectionName}
+                      onChange={(e) => setCollectionName(e.target.value)}
+                      required
+                    />
+                  </Box>
+
+                  <Box mb={4}>
+                    <Text mb={2}>Collection Description (optional):</Text>
+                    <Textarea
+                      value={collectionDescription}
+                      onChange={(e) => setCollectionDescription(e.target.value)}
+                    />
+                  </Box>
+
+                  <Button type="submit" isLoading={addingCollection} loadingText="Adding...">
+                    Add Collection
+                  </Button>
+                </form>
+
+                {addError && (
+                  <Text color="red.500" mt={4}>
+                    {addError}
+                  </Text>
+                )}
+                {addSuccess && (
+                  <Text color="green.500" mt={4}>
+                    Collection added successfully!
+                  </Text>
+                )}
+              </ModalBody>
+
+              <ModalFooter>
+                <Button onClick={onAddCollectionClose} colorScheme="gray">Close</Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
             
           {/* Display photos in selected collection */}
           {selectedCollection && showPhotos && (
             <Box>
-              <Text fontSize="2xl" mb={4}>
-                Photos in {selectedCollection.name}
-              </Text>
+            <Flex justifyContent={"space-between"}>
+              <Flex fontSize="2xl" mb={4} gap={2}>
+                <Text>Photos in</Text> <Text fontWeight={"700"}>{selectedCollection.name}</Text>
+              </Flex>
+              <Button borderRadius={"16px"} py={"16px"} px={"8px"} onClick={() => {handleAddPhotos(selectedCollection.id)}}><Image alt="Add Icon" src={plusIcon}/></Button>
+            </Flex>
+              
 
-              {photosLoading ? (
+              {photosIdLoading ? (
                 <Spinner />
-              ) : photosError ? (
+              ) : photosIdError ? (
                 <Text color="red.500">{photosError}</Text>
               ) : photos.length === 0 ? (
-                <Text>No photos in this collection.</Text>
+                <Text color={"orange.400"}>No photos in this collection.</Text>
               ) : (
                 <Grid templateColumns="repeat(auto-fill, minmax(150px, 1fr))" gap={4}>
                   {photos.map((photo) => (
                     <Box key={photo.id} borderWidth="1px" borderRadius="lg" overflow="hidden">
                       <Image src={photo.url} alt={photo.name} objectFit="cover" boxSize="150px" />
-                      <Flex p={2} justifyContent={"space-between"} alignItems="center">
+                      <Flex p={2} justifyContent={"space-between"} alignItems="center" >
                         {/* Edit photo name */}
                         {editingPhoto === photo.id ? (
                           <>
@@ -262,6 +423,106 @@ const Dashboard = () => {
               )}
             </Box>
           )}
+          
+          {/* Modal for uploading photos */}
+          <Modal isOpen={isAddPhotosOpen} onClose={photosLoading ? undefined : onAddPhotosClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Upload Photos</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <form onSubmit={handleSubmitPhotos}>
+                {/* Collection Selection */}
+                <Box mb={4}>
+                  <Text fontSize="xl" mb={2}>Select a Collection:</Text>
+                  {collectionsLoading ? (
+                    <Spinner />
+                  ) : collectionsError ? (
+                    <Text color="red.500">{collectionsError}</Text>
+                  ) : (
+                    <Text>
+                      {collections.map((collection) => (
+                        <Button
+                          m={"2px"}
+                          key={collection.id}
+                          onClick={() => setSelectedCollectionId(collection.id)} // Set the selected collection ID
+                          colorScheme={selectedCollectionId === collection.id ? 'blue' : 'gray'} // Highlight selected collection
+                        >
+                          {collection.name}
+                        </Button>
+                      ))}
+                    </Text>
+                  )}
+                </Box>
+
+                {/* File Input */}
+                <Box mb={4} color="red">
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={handleFileChange}
+                  />
+                </Box>
+
+                {/* Name input for each photo */}
+                {files.length > 0 && (
+                  <VStack spacing={4} mb={4}>
+                    <Text>Enter names for the photos:</Text>
+
+                    <Box>
+                      <Text mb={2}>Current Photo:</Text>
+
+                      {/* Show the image preview */}
+                      <Image 
+                        src={URL.createObjectURL(files[currentNameIndex])} 
+                        alt={files[currentNameIndex]?.name}
+                        boxSize="200px" 
+                        objectFit="cover"
+                        mb={2}
+                      />
+
+                      {/* File name */}
+                      <Text>{files[currentNameIndex]?.name}</Text>
+
+                      {/* Name input */}
+                      <Input
+                        type="text"
+                        value={names[currentNameIndex] || ''}
+                        onChange={handleNameChange}
+                        placeholder="Enter photo name"
+                      />
+                    </Box>
+
+                    {/* Previous and Next buttons */}
+                    <Box>
+                      <Button onClick={handlePreviousName} isDisabled={currentNameIndex === 0} mr={2}>Previous</Button>
+                      <Button onClick={handleNextName} isDisabled={currentNameIndex === files.length - 1}>Next</Button>
+                    </Box>
+                  </VStack>
+                )}
+
+                <Button type="submit" isLoading={photosLoading} loadingText="Uploading...">
+                  Upload Photos
+                </Button>
+
+                {photosError && (
+                  <Text color="red.500" mt={4}>
+                    {error}
+                  </Text>
+                )}
+                {photosSuccess && (
+                  <Text color="green.500" mt={4}>
+                    Photos uploaded successfully!
+                  </Text>
+                )}
+              </form>
+            </ModalBody>
+            <ModalFooter>
+              <Button onClick={onAddPhotosClose} isDisabled={photosLoading}>Close</Button>
+            </ModalFooter>
+          </ModalContent>
+          </Modal>
 
         {/* Display categories */}
         <Flex justifyContent={"space-between"} alignItems={"end"}>
@@ -273,9 +534,9 @@ const Dashboard = () => {
         ) : categoriesError ? (
           <Text color="red.500">{categoriesError}</Text>
         ) : (
-          <Flex justifyContent={"start"} flexDirection={"column"} border={"1px solid black"}>
+          <Flex justifyContent={"start"} flexDirection={"column"} gap={"4px"}>
             {categories.map(category => (
-              <Flex key={category.id} justifyContent="space-between" mb={2}>
+              <Flex key={category.id} justifyContent="space-between" alignItems="center" border={"gray 1px solid"} p={"4px"}>
                 <Button
                   onClick={() => handleCategoryClick(category.id)}
                   colorScheme={selectedCategoryId === category.id ? 'teal' : 'blue'}
@@ -289,9 +550,9 @@ const Dashboard = () => {
             ))}
           </Flex>
         )}
-
+        
         {/* Add Category Modal  */}
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isAddCategoryOpen} onClose={onAddCategoryClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Add New Category</ModalHeader>
@@ -327,11 +588,12 @@ const Dashboard = () => {
               mr={3}
               onClick={handleSubmit}
               isLoading={loading}
+              isDisabled={ success ? true : false}
             >
               Add Category
             </Button>
-            <Button variant="ghost" onClick={onClose}>
-              Cancel
+            <Button variant="ghost" onClick={onAddCategoryClose}>
+            { success ? "Finish" : "Close"}
             </Button>
             {error && (
               <Text color="red.500" mt={4}>
@@ -347,16 +609,18 @@ const Dashboard = () => {
           </ModalContent>
           </Modal>
 
+          
+
           {/* Display collections for the selected category */}
           {selectedCategoryId && (
             <VStack align="stretch" mt={8}>
               <Text fontSize="24px" fontWeight={500}>Collections in Selected Category</Text>
 
-              {collectionsLoading ? (
+              {collectionsFromCategoryLoading ? (
                 <Spinner />
-              ) : collectionsError ? (
-                <Text color="red.500">{collectionsError}</Text>
-              ) : collectionsFromCategory.length === 0 ? (
+              ) : collectionsFromCategoryError ? (
+                <Text color="red.500">{collectionsFromCategoryError}</Text>
+              ) : collectionsFromCategory === undefined ? (
                 <Text color={"red"}>No collections found in this category.</Text>
               ) : (
                 <Flex flexDirection={"column"}>
