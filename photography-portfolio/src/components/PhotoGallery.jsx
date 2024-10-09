@@ -35,9 +35,6 @@ const PhotoGallery = (props) => {
   }
   return (
     <>
-      <RouterLink to={`/photography/${categoryId}/carousel/${collectionId}`}>
-        <Image src={CarouselIcon} width={"64px"} height={"64px"} mx={"36px"}/>
-      </RouterLink>
       <VStack>
         <Text fontSize="28px" mb={"32px"} textAlign={"center"}>{collectionName}</Text>
           <div className="scrolling-wrapper">
