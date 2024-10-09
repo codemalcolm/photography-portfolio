@@ -1,24 +1,27 @@
-import { Box, Flex, Image, Text } from '@chakra-ui/react'
-import { Link } from 'react-router-dom'
-import img1 from "../assets/images/wings.avif"
+import React from 'react'
+import useFetchPhotosByIds from '../hooks/useFetchPhotosByIds';
+import useGetCollectionName from '../hooks/PhotoCollection/useGetCollectionName';
+import useFetchPhotoIdsByCollection from '../hooks/PhotoCollection/useFetchPhotoIdsByCollection';
+import { Box } from '@chakra-ui/react';
+
 
 const Gallery = () => {
-
+    const collectionId= "1XpHp9mPSbghndA2zuEc"
+    const { photoIds, isLoading, error } = useFetchPhotoIdsByCollection(collectionId); // Fetch the specific collection
+    const {collectionName, loading: nameLoading, error : nameError } = useGetCollectionName(collectionId)
+    const { photos, loading: photosLoading, error: photosError} = useFetchPhotosByIds(photoIds);
   return (
-    <Flex gap={18} justifyContent={"center"} alignItems={"center"} height={"100%"} width={"100%"}>
-       
+    <Box width="100%" height="100%" minHeight="100vh" zIndex={999}>
 
-        <Link to={`art`} >
-            <Flex flexDirection={"column"} position={"relative"} _hover={{opacity:"0.8" ,color:"white"}}>
-                <Box maxWidth={"750px"} minWidth={"285px"} minHeight={"285px"} padding={"16px"}>
-                    <Image src={img1} objectFit={"cover"} loading="lazy"/>
-                </Box>
-                <Text fontSize={"22px"} fontWeight={500} color="white" position={"absolute"} left={"47%"} top={"45%"} textAlign={"center"}>
-                    Art
-                </Text>
-            </Flex>
-        </Link>
-    </Flex>
+        <div className="grid--main">
+            { photos.map((photo) => (
+                <div className="grid__item-container" key={photo.id}>
+                    <img className="grid__item-image" key={photo.id} src={photo.url} fetchpriority='high'/>
+                </div>
+            ))}
+
+        </div>
+    </Box>
   )
 }
 

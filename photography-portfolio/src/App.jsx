@@ -14,6 +14,7 @@ const HeroPage = React.lazy(() => import("./Pages/HeroPage"));
 const ImagePicker = React.lazy(() => import("./components/ImagePicker"));
 import PageLayout from "./Layouts/PageLayout";
 import { Box, Spinner } from "@chakra-ui/react";
+import Gallery from "./components/Gallery";
 
 function App() {
 	return (
@@ -40,6 +41,7 @@ function App() {
 					<Route path="/photography/*" element={<PortfolioSection />} />
 					<Route path="/about" element={<AboutSection />} />
 					<Route path="/image-picker" element={<ImagePicker />} />
+					<Route path="/gallery" element={<Gallery />} />
 				</Routes>
 			</Suspense>
 		</PageLayout>

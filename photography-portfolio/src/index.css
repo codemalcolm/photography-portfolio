@@ -219,7 +219,7 @@ img {
 }
 
 .grid-wrapper {
-  padding:32px;
+  padding:16px;
   display: grid;
   grid-gap: 16px;
   grid-template-columns: repeat(auto-fit,minmax(375px,1fr));
@@ -243,7 +243,33 @@ img {
 
 
 .scrolling-wrapper {
-  height: calc(100vh - 154px);
+  height: calc(100vh - 250px);
   width: 100%;
   overflow-y: auto;
+}
+
+.grid--main{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.js-grid-main{
+  
+}
+
+.grid-ready{
+
+}
+
+.grid__item-container{
+  box-sizing: content-box !important;
+  display: inline-block;
+}
+
+.grid__item-image {
+  height: 100%;
+  vertical-align: bottom;
+  width: 100%; 
+  overflow: clip;
 }
