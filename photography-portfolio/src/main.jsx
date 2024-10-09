@@ -21,7 +21,7 @@ const breakpoints = {
   md: '48em', // 768px
   lg: '1090px', // 1090px
   xl: '80em', // 1280px
-  "2xl": '96em', // 1536px
+  "2xl": '84em' // 1345px
 }
 
 const theme = extendTheme({ colors, breakpoints })
