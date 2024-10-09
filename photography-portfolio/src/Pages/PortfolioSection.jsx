@@ -1,8 +1,10 @@
+import React from 'react';
 import { Box } from '@chakra-ui/react';
 import { Route, Routes } from 'react-router-dom';
 import Collections from './Collections';
 import useFetchCategories from '../hooks/Category/useFetchCategories';
 import Categories from '../components/Categories';
+const LazyCollections = React.lazy(() => import("./Collections"))
 
 const PortfolioSection = () => {
   const { categories, loading } = useFetchCategories();
@@ -19,7 +21,7 @@ const PortfolioSection = () => {
       <Routes>
         <Route path="/" element={<Categories categories={categories} isLoading={loading} />} />
         {/* Route to display collections for a selected category */}
-        <Route path=":categoryId/*" element={<Collections />} />
+        <Route path=":categoryId/*" element={<LazyCollections />} />
       </Routes>
     </Box>
   );
