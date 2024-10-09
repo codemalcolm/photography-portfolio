@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import fbIcon from "../assets/icons/fb-icon.svg";
 import igIcon from "../assets/icons/ig-icon.svg";
@@ -13,10 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 
-
 const Navbar = () => {
-	// const { scrollContainerRef, scrollToSection } = useSmoothScroll();
-	// const { scrollToSection } = useSmoothScrollContext();
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	const handleNavLinkClick = () => {
@@ -32,9 +29,8 @@ const Navbar = () => {
 				px={6}
 				py={3}
 				flex={1}
-				w={{ base: "calc(100% - 70px)", md: "calc(100% - 540px)" }}
+				w={{ base: "calc(100%)" ,md: "calc(100% - 540px)" }}
 				mx={"auto"}
-				opacity={"85%"}
 				left={"50%"}
 				style={{
 					position: "absolute",
@@ -42,28 +38,22 @@ const Navbar = () => {
 					left: "50%",
 					transform: "translate(-50%, -5%)",
 				}}
-				// bgGradient="linear(to-r, green.100 0%, green.200 10%, green.400 50%)"
-				bgColor={"#090D0B"}
+				bgColor={"*"}
 			>
-				<Flex justifyContent={"space-between"} alignItems={"center"}
-				color={"white"}>
+				<Flex
+					mt="8px"
+					justifyContent={"space-between"}
+					alignItems={"center"}
+					color={"white"}
+				>
 					<Flex alignItems={"center"} justifyContent={"center"} gap={3}>
-						<Box
-							backgroundColor={"lightgray"}
-							rounded={"full"}
-							width={25}
-							height={25}
-							textAlign={"center"}
-						>
-							i
-						</Box>
 						<Link to={"/"}>
 							<Box
-							display={{base:"none", lg:"block"}} 
-							_hover={{ color: "#ADD4D9" }}
-							cursor={"pointer"}
+								display={{ xs: "none", lg: "block" }}
+								_hover={{ color: "#ADD4D9" }}
+								cursor={"pointer"}
 							>
-							Jiří Macháček
+								JIŘÍ MACHÁČEK
 							</Box>
 						</Link>
 					</Flex>
@@ -76,11 +66,10 @@ const Navbar = () => {
 						opacity={"100%"}
 						color={"white"}
 					>
-						<Flex gap={10} >
+						<Flex gap={10}>
 							<Box
 								_hover={{ color: "#ADD4D9" }}
 								onClick={() => handleNavLinkClick("#about")}
-	
 							>
 								<Link to="about">about</Link>
 							</Box>
@@ -91,27 +80,33 @@ const Navbar = () => {
 							>
 								<Link to="photography">photography</Link>
 							</Box>
-
 						</Flex>
 
 						<Flex gap={2}>
 							<Box _hover={{ color: "#ADD4D9" }}>
-								<a href="https://www.instagram.com/jirimachacek.raw?igsh=MWg1a2xwbmxqeGxwdw==" target={"_blank"}>
-									<img src={fbIcon} alt="Facebook Icon"/>
+								<a
+									href="https://www.instagram.com/jirimachacek.raw?igsh=MWg1a2xwbmxqeGxwdw=="
+									target={"_blank"}
+								>
+									<img src={fbIcon} alt="Facebook Icon" />
 								</a>
 							</Box>
 
 							<Box _hover={{ color: "#ADD4D9" }}>
-								<a href="https://www.instagram.com/jirimachacek.raw?igsh=MWg1a2xwbmxqeGxwdw==" target={"_blank"}>
-								<img src={igIcon} alt="Instagram Icon"/>
+								<a
+									href="https://www.instagram.com/jirimachacek.raw?igsh=MWg1a2xwbmxqeGxwdw=="
+									target={"_blank"}
+								>
+									<img src={igIcon} alt="Instagram Icon" />
 								</a>
 							</Box>
 						</Flex>
 					</Flex>
 
 					{/* Hamburger */}
-					<Flex display={{ base: "flex", lg: "none" }} opacity={ isOpen ? 0 : 1}>
-						<img src={hamburgerIcon}
+					<Flex display={{ base: "flex", lg: "none" }} opacity={isOpen ? 0 : 1}>
+						<img
+							src={hamburgerIcon}
 							style={{
 								cursor: "pointer",
 							}}
@@ -121,36 +116,34 @@ const Navbar = () => {
 
 					<Drawer onClose={onClose} isOpen={isOpen} size={"xs"} zIndex={2}>
 						<DrawerOverlay />
-						<DrawerContent
-							bgGradient="linear(to-tr, gray.900, black)"
-							opacity={"75%"}
-							backdropFilter={"blur(10px)"}
-						>
-							<DrawerCloseButton color={"white"}/>
+						<DrawerContent bgGradient="linear(to-tr, gray.900, black)">
+							<DrawerCloseButton color={"white"} size={"xs"} padding={5} />
 
 							<DrawerBody>
-								<Flex flexDirection={"column"} gap={2} color={"white"} mt={"32px"}>
-									<Box 
-										fontSize={22} pl={2} py={2} 
-										_hover={{ color: "white" }}
-										onClick={
-											onClose
-									// () => handleNavLinkClick("#about")
-									}
-									>
-										<Link to="about">about</Link>
-									</Box>
-
-									<Box
-										fontSize={22}
-										pl={2}
-										py={2}
+								<Flex
+									flexDirection={"column"}
+									gap={2}
+									color={"white"}
+									mt={"64px"}
+								>
+									<Link
+										to="photography"
 										_hover={{ color: "white" }}
 										onClick={onClose}
 									>
-										<Link to="photography">photography</Link>
-									</Box>
-
+										<Text fontSize={22} pl={2} py={2}>
+											photography
+										</Text>
+									</Link>
+									<Link
+										to="about"
+										_hover={{ color: "white" }}
+										onClick={onClose}
+									>
+										<Text fontSize={22} pl={2} py={2}>
+											about
+										</Text>
+									</Link>
 								</Flex>
 							</DrawerBody>
 						</DrawerContent>
