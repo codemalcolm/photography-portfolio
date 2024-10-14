@@ -1,10 +1,9 @@
-import { Text, Button, Flex, Input } from "@chakra-ui/react";
+import { Text, Button, Flex, Input, Box } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import usePreviewImg from "../hooks/usePreviewImg";
 import { color } from "framer-motion";
 import useUploadImages from "../hooks/useUploadImages";
 import AddPhotoCollectionForm from "./PhotoCollection/AddPhotoCollectionForm";
-import UploadPhotosForm from "./PhotoCollection/UploadPhotosForm";
 import Dashboard from "./Dashboard/Dashboard";
 import AddCategoryForm from "./Category/AddCategoryForm";
 
@@ -28,19 +27,15 @@ const ImagePicker = () => {
 
 	return (
 		<Flex
-			mt={64}
-			width={"560px"}
+			width={"100%"}
+			minHeight={"100vh"}
+			height={"100%"}
 			flexDirection={"column"}
 			alignItems={"center"}
 			bg="white"
 		>
 			<Dashboard/>
-			{/* Add Category */}
-			<AddCategoryForm />
-			{/* Add Photo collection */}
-			<AddPhotoCollectionForm />
 			{/* Add Photos to collection */}
-			<UploadPhotosForm />
 		</Flex>
 	);
 };
