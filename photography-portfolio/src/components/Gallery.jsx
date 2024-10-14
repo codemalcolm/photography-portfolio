@@ -13,10 +13,12 @@ const Gallery = () => {
   return (
     <Box width="100%" height="100%" minHeight="100vh" zIndex={999}>
 
-        <div className="grid--main">
+        {/* grid--main */}
+        <div className="gallery"> 
             { photos.map((photo) => (
-                <div className="grid__item-container" key={photo.id}>
-                    <img className="grid__item-image" key={photo.id} src={photo.url} fetchpriority='high'/>
+                // grid__item-container
+                <div className="pic" key={photo.id}>
+                    <img className="img-lol" key={photo.id} src={photo.url} fetchpriority='high'/>
                 </div>
             ))}
 
