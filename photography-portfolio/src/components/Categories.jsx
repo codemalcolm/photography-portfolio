@@ -9,7 +9,7 @@ const Categories = ({ categories }) => {
 			justifyContent="center"
 			alignItems="center"
 			height={"100vh"}
-			overflowY={{"2xl": "hidden", base:"auto"}}
+			overflowY={{"2xl": "auto", base:"auto"}}
 			flexWrap="wrap"
 			flexDirection={"row"}
 			paddingY={"32px"}
