@@ -1,16 +1,18 @@
-// components/UploadPhotosForm.js
 import React, { useState } from 'react';
 import useFetchCollections from '../../hooks/PhotoCollection/useFetchCollections';
-import { Box, Button, Input, Text, VStack, Image, Spinner } from '@chakra-ui/react';
+import { Box, Button, Input, Text, VStack, Image, Spinner, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, useDisclosure } from '@chakra-ui/react';
 import useUploadPhotos from '../../hooks/Photos/useUploadPhotos';
 
-const UploadPhotosForm = () => {
+const UploadPhotosForm = ({props}) => {
+  const { isAddPhotosOpen, onAddPhotosOpen, onAddPhotosClose } = useDisclosure();
   const { uploadPhotos, loading, error, success } = useUploadPhotos();
   const { collections, loading: collectionsLoading, error: collectionsError } = useFetchCollections();
   const [files, setFiles] = useState([]);
   const [names, setNames] = useState([]);
   const [currentNameIndex, setCurrentNameIndex] = useState(0);
   const [selectedCollectionId, setSelectedCollectionId] = useState(null);
+  
+  
 
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
@@ -37,6 +39,7 @@ const UploadPhotosForm = () => {
     e.preventDefault();
     if (selectedCollectionId) {
       uploadPhotos(files, names, selectedCollectionId); // Pass the selected collection ID
+      onAddPhotosClose(); // Close modal after submission
     } else {
       alert("Please select a collection first!");
     }
@@ -44,93 +47,106 @@ const UploadPhotosForm = () => {
 
   return (
     <Box>
-      <Text fontSize="4xl" mb={4}>Upload Photos</Text>
+      <Button onClick={onAddPhotosOpen} colorScheme="teal">Upload Photos</Button>
 
-      <form onSubmit={handleSubmit}>
-        {/* Collection Selection */}
-        <Box mb={4}>
-          <Text fontSize="xl" mb={2}>Select a Collection:</Text>
-          {collectionsLoading ? (
-            <Spinner />
-          ) : collectionsError ? (
-            <Text color="red.500">{collectionsError}</Text>
-          ) : (
-            <VStack>
-              {collections.map((collection) => (
-                <Button
-                  key={collection.id}
-                  onClick={() => setSelectedCollectionId(collection.id)} // Set the selected collection ID
-                  colorScheme={selectedCollectionId === collection.id ? 'blue' : 'gray'} // Highlight selected collection
-                >
-                  {collection.name}
-                </Button>
-              ))}
-            </VStack>
-          )}
-        </Box>
+      {/* Modal for uploading photos */}
+      <Modal isOpen={isAddPhotosOpen} onClose={onAddPhotosClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Upload Photos</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <form onSubmit={handleSubmit}>
+              {/* Collection Selection */}
+              <Box mb={4}>
+                <Text fontSize="xl" mb={2}>Select a Collection:</Text>
+                {collectionsLoading ? (
+                  <Spinner />
+                ) : collectionsError ? (
+                  <Text color="red.500">{collectionsError}</Text>
+                ) : (
+                  <VStack>
+                    {collections.map((collection) => (
+                      <Button
+                        key={collection.id}
+                        onClick={() => setSelectedCollectionId(collection.id)} // Set the selected collection ID
+                        colorScheme={selectedCollectionId === collection.id ? 'blue' : 'gray'} // Highlight selected collection
+                      >
+                        {collection.name}
+                      </Button>
+                    ))}
+                  </VStack>
+                )}
+              </Box>
 
-        {/* File Input */}
-        <Box mb={4} color="red">
-          <input
-            type="file"
-            multiple
-            accept="image/*"
-            onChange={handleFileChange}
-          />
-        </Box>
+              {/* File Input */}
+              <Box mb={4} color="red">
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  onChange={handleFileChange}
+                />
+              </Box>
 
-        {/* Name input for each photo */}
-        {files.length > 0 && (
-          <VStack spacing={4} mb={4}>
-            <Text>Enter names for the photos:</Text>
+              {/* Name input for each photo */}
+              {files.length > 0 && (
+                <VStack spacing={4} mb={4}>
+                  <Text>Enter names for the photos:</Text>
 
-            <Box>
-              <Text mb={2}>Current Photo:</Text>
+                  <Box>
+                    <Text mb={2}>Current Photo:</Text>
 
-              {/* Show the image preview */}
-              <Image 
-                src={URL.createObjectURL(files[currentNameIndex])} 
-                alt={files[currentNameIndex]?.name}
-                boxSize="200px" 
-                objectFit="cover"
-                mb={2}
-              />
+                    {/* Show the image preview */}
+                    <Image 
+                      src={URL.createObjectURL(files[currentNameIndex])} 
+                      alt={files[currentNameIndex]?.name}
+                      boxSize="200px" 
+                      objectFit="cover"
+                      mb={2}
+                    />
 
-              {/* File name */}
-              <Text>{files[currentNameIndex]?.name}</Text>
+                    {/* File name */}
+                    <Text>{files[currentNameIndex]?.name}</Text>
 
-              {/* Name input */}
-              <Input
-                type="text"
-                value={names[currentNameIndex] || ''}
-                onChange={handleNameChange}
-                placeholder="Enter photo name"
-              />
-            </Box>
+                    {/* Name input */}
+                    <Input
+                      type="text"
+                      value={names[currentNameIndex] || ''}
+                      onChange={handleNameChange}
+                      placeholder="Enter photo name"
+                    />
+                  </Box>
 
-            {/* Previous and Next buttons */}
-            <Box>
-              <Button onClick={handlePreviousName} isDisabled={currentNameIndex === 0} mr={2}>Previous</Button>
-              <Button onClick={handleNextName} isDisabled={currentNameIndex === files.length - 1}>Next</Button>
-            </Box>
-          </VStack>
-        )}
+                  {/* Previous and Next buttons */}
+                  <Box>
+                    <Button onClick={handlePreviousName} isDisabled={currentNameIndex === 0} mr={2}>Previous</Button>
+                    <Button onClick={handleNextName} isDisabled={currentNameIndex === files.length - 1}>Next</Button>
+                  </Box>
+                </VStack>
+              )}
 
-        <Button type="submit" isLoading={loading} loadingText="Uploading...">
-          Upload Photos
-        </Button>
-      </form>
+              <Button type="submit" isLoading={loading} loadingText="Uploading...">
+                Upload Photos
+              </Button>
 
-      {error && (
-        <Text color="red.500" mt={4}>
-          {error}
-        </Text>
-      )}
-      {success && (
-        <Text color="green.500" mt={4}>
-          Photos uploaded successfully!
-        </Text>
-      )}
+              {error && (
+                <Text color="red.500" mt={4}>
+                  {error}
+                </Text>
+              )}
+              {success && (
+                <Text color="green.500" mt={4}>
+                  Photos uploaded successfully!
+                </Text>
+              )}
+            </form>
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={onAddPhotosClose}>Close</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 };
