@@ -37,7 +37,7 @@ const PhotoGallery = (props) => {
     <>
       <VStack>
         <Text fontSize="28px" mb={"32px"} textAlign={"center"}>{collectionName}</Text>
-          <div className="scrolling-wrapper">
+          <div className="scrolling-wrapper2">
             <div className="grid-wrapper">
               { photos.map((image) => (
                 <GalleryItem key={image.id} image={image} />
