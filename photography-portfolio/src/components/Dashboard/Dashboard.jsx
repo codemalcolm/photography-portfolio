@@ -41,6 +41,7 @@ const Dashboard = () => {
   const { editCollection } = useEditCollection();
   const { deleteCategory } = useDeleteCategory();
 
+  const [bigFiles, setBigFiles] = useState([]); // Store big images
   const [editingPhoto, setEditingPhoto] = useState(null);
   const [newPhotoName, setNewPhotoName] = useState('');
   const [editingCollection, setEditingCollection] = useState(null);
@@ -225,9 +226,11 @@ const Dashboard = () => {
     setCollectionDescription('');
   };
 
+  // Photo uploading
   const { uploadPhotos, loading: photosLoading, error : photosError, success: photosSuccess } = useUploadPhotos();
   const [files, setFiles] = useState([]);
   const [names, setNames] = useState([]);
+
   const [currentNameIndex, setCurrentNameIndex] = useState(0);
   
   const handleFileChange = (e) => {
@@ -236,6 +239,12 @@ const Dashboard = () => {
     setNames(new Array(selectedFiles.length).fill('')); // Initialize names array with empty strings
     setCurrentNameIndex(0);
   };
+
+  const handleBigFileChange = (e) => {
+		const selectedBigFiles = Array.from(e.target.files);
+		setBigFiles(selectedBigFiles);
+	};
+
 
   const handleNameChange = (e) => {
     const updatedNames = [...names];
@@ -251,18 +260,22 @@ const Dashboard = () => {
     setCurrentNameIndex((prevIndex) => Math.max(prevIndex - 1, 0));
   };
 
-  const handleSubmitPhotos = async(e) => {
-    e.preventDefault();
-    if (selectedCollectionId) {
-      const uploadedPhotos = await uploadPhotos(files, names, selectedCollectionId); // Pass the selected collection ID
-      if(uploadedPhotos){
-        onAddPhotosClose();       // Close modal after submission
-      }
-
-    } else {
-      alert("Please select a collection first!");
-    }
-  };
+  const handleSubmitPhotos = async (e) => {
+		e.preventDefault();
+		if (selectedCollectionId && bigFiles.length === files.length) { // Ensure big images match small images
+			const uploadedPhotos = await uploadPhotos(
+				files,
+				bigFiles,
+				names,
+				selectedCollectionId
+			);
+			if (uploadedPhotos) {
+				onAddPhotosClose(); // Close modal after submission
+			}
+		} else {
+			alert("Please select a collection and ensure both small and big images match!");
+		}
+	};
 
 
   return (
@@ -396,7 +409,7 @@ const Dashboard = () => {
                 <Grid templateColumns="repeat(auto-fill, minmax(150px, 1fr))" gap={4}>
                   {photos.map((photo) => (
                     <Box key={photo.id} borderWidth="1px" borderRadius="lg" overflow="hidden">
-                      <Image src={photo.url} alt={photo.name} objectFit="cover" boxSize="150px" />
+                      <Image src={photo.url.small} alt={photo.name} objectFit="cover" boxSize="150px" />
                       <Flex p={2} justifyContent={"space-between"} alignItems="center" >
                         {/* Edit photo name */}
                         {editingPhoto === photo.id ? (
@@ -426,103 +439,97 @@ const Dashboard = () => {
           
           {/* Modal for uploading photos */}
           <Modal isOpen={isAddPhotosOpen} onClose={photosLoading ? undefined : onAddPhotosClose}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Upload Photos</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <form onSubmit={handleSubmitPhotos}>
-                {/* Collection Selection */}
-                <Box mb={4}>
-                  <Text fontSize="xl" mb={2}>Select a Collection:</Text>
-                  {collectionsLoading ? (
-                    <Spinner />
-                  ) : collectionsError ? (
-                    <Text color="red.500">{collectionsError}</Text>
-                  ) : (
-                    <Text>
-                      {collections.map((collection) => (
-                        <Button
-                          m={"2px"}
-                          key={collection.id}
-                          onClick={() => setSelectedCollectionId(collection.id)} // Set the selected collection ID
-                          colorScheme={selectedCollectionId === collection.id ? 'blue' : 'gray'} // Highlight selected collection
-                        >
-                          {collection.name}
-                        </Button>
-                      ))}
-                    </Text>
-                  )}
-                </Box>
+				<ModalOverlay />
+				<ModalContent>
+					<ModalHeader>Upload Photos</ModalHeader>
+					<ModalCloseButton />
+					<ModalBody>
+						<form onSubmit={handleSubmitPhotos}>
+							{/* Collection Selection */}
+							<Box mb={4}>
+								<Text fontSize="xl" mb={2}>Select a Collection:</Text>
+								{collectionsLoading ? (
+									<Spinner />
+								) : collectionsError ? (
+									<Text color="red.500">{collectionsError}</Text>
+								) : (
+									<Text>
+										{collections.map((collection) => (
+											<Button
+												m={"2px"}
+												key={collection.id}
+												onClick={() => setSelectedCollectionId(collection.id)}
+												colorScheme={selectedCollectionId === collection.id ? "blue" : "gray"}
+											>
+												{collection.name}
+											</Button>
+										))}
+									</Text>
+								)}
+							</Box>
 
-                {/* File Input */}
-                <Box mb={4} color="red">
-                  <input
-                    type="file"
-                    multiple
-                    accept="image/*"
-                    onChange={handleFileChange}
-                  />
-                </Box>
+							{/* Small File Input */}
+							<Box mb={4}>
+								<Text>Small images (mobile)</Text>
+								<Input type="file" multiple accept="image/*" onChange={handleFileChange} />
+							</Box>
 
-                {/* Name input for each photo */}
-                {files.length > 0 && (
-                  <VStack spacing={4} mb={4}>
-                    <Text>Enter names for the photos:</Text>
+							{/* Big File Input */}
+							<Box mb={4}>
+								<Text>Big images</Text>
+								<Input type="file" multiple accept="image/*" onChange={handleBigFileChange} />
+							</Box>
 
-                    <Box>
-                      <Text mb={2}>Current Photo:</Text>
+							{/* Name input for each photo */}
+							{files.length > 0 && (
+								<VStack spacing={4} mb={4}>
+									<Text>Enter names for the photos:</Text>
+									<Box>
+										<Text mb={2}>Current Photo:</Text>
 
-                      {/* Show the image preview */}
-                      <Image 
-                        src={URL.createObjectURL(files[currentNameIndex])} 
-                        alt={files[currentNameIndex]?.name}
-                        boxSize="200px" 
-                        objectFit="cover"
-                        mb={2}
-                      />
+										{/* Show the image preview */}
+										<Image
+											src={URL.createObjectURL(files[currentNameIndex])}
+											alt={files[currentNameIndex]?.name}
+											boxSize="200px"
+											objectFit="cover"
+											mb={2}
+										/>
 
-                      {/* File name */}
-                      <Text>{files[currentNameIndex]?.name}</Text>
+										{/* File name */}
+										<Text>{files[currentNameIndex]?.name}</Text>
 
-                      {/* Name input */}
-                      <Input
-                        type="text"
-                        value={names[currentNameIndex] || ''}
-                        onChange={handleNameChange}
-                        placeholder="Enter photo name"
-                      />
-                    </Box>
+										{/* Name input */}
+										<Input
+											type="text"
+											value={names[currentNameIndex] || ""}
+											onChange={handleNameChange}
+											placeholder="Enter photo name"
+										/>
+									</Box>
 
-                    {/* Previous and Next buttons */}
-                    <Box>
-                      <Button onClick={handlePreviousName} isDisabled={currentNameIndex === 0} mr={2}>Previous</Button>
-                      <Button onClick={handleNextName} isDisabled={currentNameIndex === files.length - 1}>Next</Button>
-                    </Box>
-                  </VStack>
-                )}
+									<Box>
+										<Button onClick={handlePreviousName} isDisabled={currentNameIndex === 0} mr={2}>Previous</Button>
+										<Button onClick={handleNextName} isDisabled={currentNameIndex === files.length - 1}>Next</Button>
+									</Box>
+								</VStack>
+							)}
 
-                <Button type="submit" isLoading={photosLoading} loadingText="Uploading...">
-                  Upload Photos
-                </Button>
+							<Button type="submit" isLoading={photosLoading} loadingText="Uploading...">Upload Photos</Button>
 
-                {photosError && (
-                  <Text color="red.500" mt={4}>
-                    {error}
-                  </Text>
-                )}
-                {photosSuccess && (
-                  <Text color="green.500" mt={4}>
-                    Photos uploaded successfully!
-                  </Text>
-                )}
-              </form>
-            </ModalBody>
-            <ModalFooter>
-              <Button onClick={onAddPhotosClose} isDisabled={photosLoading}>Close</Button>
-            </ModalFooter>
-          </ModalContent>
-          </Modal>
+							{photosError && (
+								<Text color="red.500" mt={4}>{photosError}</Text>
+							)}
+							{photosSuccess && (
+								<Text color="green.500" mt={4}>Photos uploaded successfully!</Text>
+							)}
+						</form>
+					</ModalBody>
+					<ModalFooter>
+						<Button onClick={onAddPhotosClose} isDisabled={photosLoading}>Close</Button>
+					</ModalFooter>
+				</ModalContent>
+			</Modal>
 
         {/* Display categories */}
         <Flex justifyContent={"space-between"} alignItems={"end"}>

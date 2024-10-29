@@ -1,57 +1,58 @@
 // hooks/useUploadPhotos.js
+
 import { useState } from 'react';
 import { storage, firestore } from "../../firebase/firebase"
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { collection, addDoc, updateDoc, doc, arrayUnion } from 'firebase/firestore';
 
-const useUploadPhotos = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(false);
+  const useUploadPhotos = () => {
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(false);
+    const uploadPhotos = async (files, bigFiles, names, collectionId) => {
 
-  const uploadPhotos = async (files, names, collectionId) => {
     setLoading(true);
     setError(null);
     setSuccess(false);
-
     try {
-      const photoIds = [];
-
-      // Upload each file and save its metadata in Firestore
-      for (let i = 0; i < files.length; i++) {
+        const photoIds = [];
+    
+        for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        const fileRef = ref(storage, `photos/${file.name}`);
+        const bigFile = bigFiles[i];
+    
+        const fileRef = ref(storage, `photos/small/${file.name}`);
+        const bigFileRef = ref(storage, `photos/big/${bigFile.name}`);
+    
         await uploadBytes(fileRef, file);
-
-        const downloadURL = await getDownloadURL(fileRef);
-
-        // Save photo metadata to 'photos' collection in Firestore
+        await uploadBytes(bigFileRef, bigFile);
+    
+        const smallURL = await getDownloadURL(fileRef);
+        const bigURL = await getDownloadURL(bigFileRef);
+    
         const photoDocRef = await addDoc(collection(firestore, 'photos'), {
-          name: names[i] || file.name, // Use provided name or file name
-          url: downloadURL, // Store the download URL
-          collectionId: collectionId, // Store the collection it belongs to
-          dateCreated: new Date(),
+            name: names[i] || file.name,
+            url: { small: smallURL, big: bigURL },
+            collectionId: collectionId,
+            dateCreated: new Date(),
         });
-
-        // Save the new photo's ID
+    
         photoIds.push(photoDocRef.id);
-      }
-
-      // Update the photoCollections document to include the new photo IDs
-      const collectionRef = doc(firestore, 'photoCollections', collectionId);
-      await updateDoc(collectionRef, {
-        photos: arrayUnion(...photoIds), // Add the new photo IDs to the array
-      });
-
-      setSuccess(true);
+        }
+    
+        const collectionRef = doc(firestore, 'photoCollections', collectionId);
+        await updateDoc(collectionRef, {
+        photos: arrayUnion(...photoIds),
+        });
+    
+        setSuccess(true);
     } catch (err) {
-      setError(err.message);
+        setError(err.message);
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
   };
-
   return { uploadPhotos, loading, error, success };
-};
+}
 
 export default useUploadPhotos;

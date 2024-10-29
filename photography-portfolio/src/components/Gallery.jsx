@@ -98,7 +98,7 @@ const Gallery = () => {
 									alignItems: "center",
 								}}
 							>
-								<img className="picture" src={photo.url} alt="" />
+								<img className="picture" src={photo.url.big} alt="" />
 							</div>
 						))}
 					</div>
@@ -109,7 +109,7 @@ const Gallery = () => {
 							{photos.map((photo, index) => (
 								<img
 									className="thumbnail"
-									src={photo.url}
+									src={photo.url.small}
 									alt={photo.name}
 									key={photo.id}
 									onClick={() => {showDivs(index + 1); slideShowToggle()}}

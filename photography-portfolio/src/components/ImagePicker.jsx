@@ -6,6 +6,7 @@ import useUploadImages from "../hooks/useUploadImages";
 import AddPhotoCollectionForm from "./PhotoCollection/AddPhotoCollectionForm";
 import Dashboard from "./Dashboard/Dashboard";
 import AddCategoryForm from "./Category/AddCategoryForm";
+import Test from "./TestImagePicker";
 
 const ImagePicker = () => {
 	const fileRef = useRef(null);
@@ -34,8 +35,9 @@ const ImagePicker = () => {
 			alignItems={"center"}
 			bg="white"
 		>
-			<Dashboard/>
+			<Dashboard />
 			{/* Add Photos to collection */}
+			<Test />
 		</Flex>
 	);
 };
