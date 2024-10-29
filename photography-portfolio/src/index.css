@@ -392,6 +392,23 @@ body{
   grid-area: b
 }
 
+.next-card, .prev-card {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  z-index: 998;
+  width: 40%;
+}
+
+.prev-card {
+  left: 20%;
+  cursor: w-resize;
+}
+
+.next-card {
+  right: 0;
+  cursor: e-resize;
+}
 
 .thumbnail {
   grid-column: span 1;
@@ -434,6 +451,11 @@ img {
   color:white;
 }
 
+.wrapper-focuser {
+  grid-area: b;
+  opacity: 1;
+}
+
 .scrolling-wrapper {
   padding: 32px;
   width: 100%;
@@ -474,11 +496,11 @@ img {
   }
 
   .prev-card {
-      left: 0
+      left: 0;
   }
 
   .next-card {
-      right: 0
+      right: 0;
   }
 
   .thumbnail {
@@ -519,6 +541,12 @@ img {
   }
 }
 
+.carousel {
+  height: 100%;
+  grid-area: b;
+  visibility: visible;
+}
+
 @media (max-width: 920px) {
   
   .container {
@@ -548,4 +576,13 @@ img {
   .display-left,.display-right {
       width: 20%
   }
+}
+
+
+.is-hidden {
+  display: none;
+}
+
+.is-visible {
+  display: block;
 }
