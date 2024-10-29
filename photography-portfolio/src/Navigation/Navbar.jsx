@@ -82,7 +82,7 @@ const Navbar = () => {
 							</Box>
 						</Flex>
 
-						<Flex gap={2}>
+						<Flex gap={2} alignItems="center">
 							<Box _hover={{ color: "#ADD4D9" }}>
 								<a
 									href="https://www.instagram.com/jirimachacek.raw?igsh=MWg1a2xwbmxqeGxwdw=="
