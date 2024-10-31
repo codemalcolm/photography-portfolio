@@ -4,6 +4,7 @@ import {
 	Routes,
 	Route,
 	BrowserRouter,
+	Navigate,
 } from "react-router-dom";
 import PreloadImage from "./components/PreloadImage";
 
@@ -15,8 +16,12 @@ const ImagePicker = React.lazy(() => import("./components/ImagePicker"));
 import PageLayout from "./Layouts/PageLayout";
 import { Box, Spinner } from "@chakra-ui/react";
 import Gallery from "./components/Gallery";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "./firebase/firebase.js"
+import AuthPage from "./components/AuthPage.jsx";
 
 function App() {
+	const [authUser] = useAuthState(auth)
 	return (
 		<PageLayout>
 			<Suspense fallback={
@@ -40,7 +45,8 @@ function App() {
 					<Route path="/" element={<HeroPage />} />
 					<Route path="/photography/*" element={<PortfolioSection />} />
 					<Route path="/about" element={<AboutSection />} />
-					<Route path="/image-picker" element={<ImagePicker />} />
+					<Route path="/image-picker" element={authUser ? <ImagePicker/> : <Navigate to="/auth"/>} />
+					<Route path="/auth" element={!authUser ? <AuthPage/> : <Navigate to="/image-picker"/>} />
 					<Route path="/gallery" element={<Gallery />} />
 				</Routes>
 			</Suspense>
