@@ -381,7 +381,6 @@ body{
   grid-template-rows: 50% 50%;
   height: calc(100% - 100px);
   grid-template-areas: "a b" "c b";
-  margin-top: 64px;
 }
 
 .container,body,html {
@@ -585,4 +584,8 @@ img {
 
 .is-visible {
   display: block;
+}
+
+.top, .bottom {
+  margin-left: 24px;
 }

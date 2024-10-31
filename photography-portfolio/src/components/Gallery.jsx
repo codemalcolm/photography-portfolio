@@ -3,11 +3,14 @@ import useFetchPhotosByIds from "../hooks/useFetchPhotosByIds";
 import useGetCollectionName from "../hooks/PhotoCollection/useGetCollectionName";
 import useFetchPhotoIdsByCollection from "../hooks/PhotoCollection/useFetchPhotoIdsByCollection";
 import { Box, Flex } from "@chakra-ui/react";
+import gridIcon from "../assets/icons/grid-icon.svg"
+import carouselIcon from "../assets/icons/carousel-icon.svg"
+import { useParams } from "react-router-dom";
 
-const Gallery = () => {
-
-	// !!! dynamic data fetching missing 
-	const collectionId = "1XpHp9mPSbghndA2zuEc";
+const Gallery = (props) => {
+	const {categoryId} = props
+	const { collectionId } = useParams(); // Get collectionId from URL params
+	// const collectionId = "1XpHp9mPSbghndA2zuEc";
 
 	const { photoIds, isLoading, error } =
 		useFetchPhotoIdsByCollection(collectionId); // Fetch the specific collection
@@ -19,6 +22,8 @@ const Gallery = () => {
 	} = useFetchPhotosByIds(photoIds);
 
 	const [slideIndex, setSlideIndex] = useState(1);
+
+	const [isGalleryShown, setIsGalleryShown] = useState(true);
 
 	useEffect(() => {
 		showDivs(slideIndex);
@@ -44,15 +49,17 @@ const Gallery = () => {
 		});
 	};
 
-	// toggling the display of gallery
+	// toggling the display of gallery¬
 	const galleryToggle = () =>{
 		let gallery = document.getElementById("gallery")
 		if(gallery.classList.contains("is-hidden")){
 			gallery.classList.remove("is-hidden")
 			gallery.classList.add("is-visible")
+			setIsGalleryShown(true)
 		}else {
 			gallery.classList.remove("is-visible")
 			gallery.classList.add("is-hidden")
+			setIsGalleryShown(false)
 		}
 	}
 
@@ -68,6 +75,7 @@ const Gallery = () => {
 			slideShow.classList.add("is-hidden")
 		}
 		galleryToggle()
+
 	}
 
 	const showDivs = (n) => {
@@ -80,7 +88,7 @@ const Gallery = () => {
 		<>
 			<div className="container">
 				<div className="top">TOP</div>
-				<div className="bottom"><p onClick={() => slideShowToggle()}>Bottom</p></div>
+				<div className="bottom"><img style={{color:"white", cursor:"pointer"}} src={isGalleryShown ? carouselIcon : gridIcon} onClick={() => slideShowToggle()}/></div>
 				<div className="wrapper-focuser is-hidden" id="slideshow">
 					<div className="prev-card" onClick={() => plusDivs(-1)}></div>
 					<div className="next-card" onClick={() => plusDivs(1)}></div>
@@ -98,7 +106,7 @@ const Gallery = () => {
 									alignItems: "center",
 								}}
 							>
-								<img className="picture" src={photo.url.big} alt="" />
+								<img className="picture" src={!photo.url.big ? photo.url.small : photo.url.big} alt="" />
 							</div>
 						))}
 					</div>
