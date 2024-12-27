@@ -104,6 +104,7 @@ const Gallery = (props) => {
 									height: "100%",
 									justifyContent: "center",
 									alignItems: "center",
+									padding:"8px"
 								}}
 							>
 								<img className="picture" src={!photo.url.big ? photo.url.small : photo.url.big} alt="" />
