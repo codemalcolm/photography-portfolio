@@ -1,5 +1,6 @@
 import { Box, Image } from "@chakra-ui/react";
 import img1 from "../assets/images/that-cheez.webp";
+import Carousel from "../components/Carousel";
 
 const HeroPage = () => {
 	return (
@@ -10,7 +11,8 @@ const HeroPage = () => {
 				overflowY={{ base: "hidden", lg: "hidden" }}
 				fontFamily={"Oswald"}
 			>
-				<Box id="landing-section" fontdisplay="swap">
+			<Carousel/>
+				{/* <Box id="landing-section" fontdisplay="swap">
 					<Box
 						height="100vh"
 						position="relative"
@@ -25,7 +27,7 @@ const HeroPage = () => {
 							h={{ base: "100%" }}
 						/>
 					</Box>
-				</Box>
+				</Box> */}
 			</Box>
 		</>
 	);
