@@ -29,7 +29,7 @@ const Navbar = () => {
 				px={6}
 				py={3}
 				flex={1}
-				w={{ base: "calc(100%)" ,md: "calc(100% - 540px)" }}
+				w={{ base: "calc(100%)", md: "calc(100% - 540px)" }}
 				mx={"auto"}
 				left={"50%"}
 				style={{
@@ -85,7 +85,7 @@ const Navbar = () => {
 						<Flex gap={2} alignItems="center">
 							<Box _hover={{ color: "#ADD4D9" }}>
 								<a
-									href="https://www.instagram.com/jirimachacek.raw?igsh=MWg1a2xwbmxqeGxwdw=="
+									href="https://www.facebook.com/jirka.machacek.56"
 									target={"_blank"}
 								>
 									<img src={fbIcon} alt="Facebook Icon" />
@@ -120,30 +120,47 @@ const Navbar = () => {
 							<DrawerCloseButton color={"white"} size={"xs"} padding={5} />
 
 							<DrawerBody>
-								<Flex
-									flexDirection={"column"}
-									gap={2}
-									color={"white"}
-									mt={"64px"}
-								>
-									<Link
-										to="photography"
-										_hover={{ color: "white" }}
-										onClick={onClose}
-									>
-										<Text fontSize={22} pl={2} py={2}>
-											photography
-										</Text>
-									</Link>
-									<Link
-										to="about"
-										_hover={{ color: "white" }}
-										onClick={onClose}
-									>
-										<Text fontSize={22} pl={2} py={2}>
-											about
-										</Text>
-									</Link>
+								<Flex mt={"64px"} flexDirection={"column"} alignItems={"space-between"} >
+									<Flex flexDirection={"column"} gap={2} color={"white"}>
+										<Link
+											to="photography"
+											_hover={{ color: "white" }}
+											onClick={onClose}
+										>
+											<Text fontSize={22} pl={2} py={2}>
+												photography
+											</Text>
+										</Link>
+										<Link
+											to="about"
+											_hover={{ color: "white" }}
+											onClick={onClose}
+										>
+											<Text fontSize={22} pl={2} py={2}>
+												about
+											</Text>
+										</Link>
+									</Flex>
+									{/* Socials */}
+									<Flex alignItems={"center"} width={"100%"} height={"36px"} justifyContent={"end"} gap="6px">
+										<Box _hover={{ color: "#ADD4D9" }}>
+											<a
+												href="https://www.facebook.com/jirka.machacek.56"
+												target={"_blank"}
+											>
+												<img src={fbIcon} alt="Facebook Icon" />
+											</a>
+										</Box>
+
+										<Box _hover={{ color: "#ADD4D9" }}>
+											<a
+												href="https://www.instagram.com/jirimachacek.raw?igsh=MWg1a2xwbmxqeGxwdw=="
+												target={"_blank"}
+											>
+												<img src={igIcon} alt="Instagram Icon"/>
+											</a>
+										</Box>
+									</Flex>
 								</Flex>
 							</DrawerBody>
 						</DrawerContent>
