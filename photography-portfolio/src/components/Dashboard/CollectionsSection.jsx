@@ -44,6 +44,9 @@ const CollectionsSection = () => {
 	const [collectionDescription, setCollectionDescription] = useState(""); // State for collection description
 	const [selectedCollectionId, setSelectedCollectionId] = useState(""); // Storing id of last clicked collection
 	const [newPhotoName, setNewPhotoName] = useState(""); // New photo name
+	// State for editing photo order and new order value
+	const [editingOrder, setEditingOrder] = useState(null); // photo ID being edited
+	const [newOrder, setNewOrder] = useState(""); // new order value being input
 
 	const {
 		photos,
@@ -170,7 +173,7 @@ const CollectionsSection = () => {
 	// handling editting submit
 	const handleEditSubmit = async (photoId) => {
 		try {
-			await editPhoto(photoId, { name: newPhotoName });
+			await editPhoto(photoId, { name: newPhotoName, order: newOrder });
 			setEditingPhoto(null); // Exit editing mode after saving
 		} catch (error) {
 			console.error("Error editing photo:", error);
@@ -200,9 +203,30 @@ const CollectionsSection = () => {
 			console.error("Error editing collection:", error);
 		}
 	};
-	
+
 	const handleCancelEdit = () => {
 		setEditingCollection(null); // Reset editingCollection state
+	};
+
+	const sortedPhotos = photos.sort((a, b) => a.order - b.order);
+
+	const [orderValues, setOrderValues] = useState({}); // Store each photo's order
+
+	const handleEditOrder = (photoId, currentOrder) => {
+		setEditingOrder(photoId);
+		setNewOrder(currentOrder);
+	};
+
+	const handleOrderSave = (photoId) => {
+		const updatedPhotos = photos.map((photo) => {
+			if (photo.id === photoId) {
+				return { ...photo, order: newOrder }; // Update order value
+			}
+			return photo;
+		});
+
+		setEditingOrder(null); // Reset editing state
+		setNewOrder(""); // Clear the order input field
 	};
 
 	return (
@@ -404,9 +428,7 @@ const CollectionsSection = () => {
 									borderRadius={"16px"}
 									py={"16px"}
 									px={"8px"}
-									onClick={() => {
-										handleAddPhotos(selectedCollection.id);
-									}}
+									onClick={() => handleAddPhotos(selectedCollection.id)}
 								>
 									<Image alt="Add Icon" src={plusIcon} />
 								</Button>
@@ -423,7 +445,7 @@ const CollectionsSection = () => {
 									templateColumns="repeat(auto-fill, minmax(250px, 1fr))"
 									gap={4}
 								>
-									{photos.map((photo) => (
+									{sortedPhotos.map((photo) => (
 										<Flex
 											key={photo.id}
 											borderWidth="1px"
@@ -432,6 +454,33 @@ const CollectionsSection = () => {
 											flexDirection={"column"}
 											alignItems={"center"}
 										>
+											<Flex width={"100%"} justifyContent={"start"}>
+												{/* Edit order */}
+												{editingPhoto === photo.id ? (
+													<Input
+														type="number"
+														value={
+															newOrder === "" || newOrder === undefined
+																? photo.order
+																: newOrder
+														}
+														onChange={(e) => {
+															// Allow empty input by updating the state to an empty string when the user clears the field
+															setNewOrder(
+																e.target.value === "" ? "" : e.target.value
+															);
+														}}
+														size="sm"
+														w={"48px"}
+														height={"48px"}
+														borderRadius={"full"}
+														m={"2px"}
+														textAlign={"center"}
+													/>
+												) : (
+													<Text m={"2px"}>{photo.order}</Text>
+												)}
+											</Flex>
 											<Image
 												src={photo.url.small}
 												alt={photo.name}
@@ -485,6 +534,7 @@ const CollectionsSection = () => {
 							)}
 						</Box>
 					)}
+
 					{/* Photo Uploading */}
 					<UploadPhotos
 						isOpen={isAddPhotosOpen}
