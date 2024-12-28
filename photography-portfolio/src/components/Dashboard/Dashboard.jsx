@@ -37,7 +37,7 @@ import useAddPhotoCollection from "../../hooks/PhotoCollection/useAddPhotoCollec
 import useUploadPhotos from "../../hooks/Photos/useUploadPhotos";
 
 const Dashboard = () => {
-	const { createCategory } = useCategoryStore(); // Local states
+	const { createCategory } = useCategoryStore(); // TODO Local states
 	const {
 		isOpen: isAddCategoryOpen,
 		onOpen: onAddCategoryOpen,
@@ -58,7 +58,7 @@ const Dashboard = () => {
 		loading: collectionsLoading,
 		error: collectionsError,
 	} = useFetchCollections();
-	const [selectedCollection, setSelectedCollection] = useState(null);
+	const [selectedCollection, setSelectedCollection] = useState(null); // Track selected collection
 	const [showPhotos, setShowPhotos] = useState(false); // Track if photos should be shown
 	const {
 		photos,
@@ -73,35 +73,38 @@ const Dashboard = () => {
 		categories,
 		loading: categoriesLoading,
 		error: categoriesError,
-	} = useFetchCategories();
+	} = useFetchCategories(); // Fetching all categories
 	const {
 		collections: collectionsFromCategory,
 		isLoading: collectionsFromCategoryLoading,
 		error: collectionsFromCategoryError,
 		fetchCollectionsByCategory,
-	} = useFetchCollectionsByCategory(selectedCategoryId);
+	} = useFetchCollectionsByCategory(selectedCategoryId); // Fetching collections by category id
 
-	const { deletePhoto, deletePhotoFromCollection } = useDeletePhoto();
-	const { editPhoto } = useEditPhoto();
-	const { deleteCollection } = useDeleteCollection();
-	const { editCollection } = useEditCollection();
-	const { deleteCategory } = useDeleteCategory();
+	const { deletePhoto, deletePhotoFromCollection } = useDeletePhoto(); // Deleting photo
+	const { editPhoto } = useEditPhoto(); // Editting photo name
+	const { deleteCollection } = useDeleteCollection(); // Deleting collection
+	const { editCollection } = useEditCollection(); // Editting collection name
+	const { deleteCategory } = useDeleteCategory(); // Delteting Category
 
 	const [bigFiles, setBigFiles] = useState([]); // Store big images
-	const [editingPhoto, setEditingPhoto] = useState(null);
-	const [newPhotoName, setNewPhotoName] = useState("");
-	const [editingCollection, setEditingCollection] = useState(null);
-	const [newCollectionName, setNewCollectionName] = useState("");
-	const [selectedCollectionId, setSelectedCollectionId] = useState("");
+	const [editingPhoto, setEditingPhoto] = useState(null); // State for editting photo names
+	const [newPhotoName, setNewPhotoName] = useState(""); // New photo name
+	const [editingCollection, setEditingCollection] = useState(null);// State for editting collections names
+	const [newCollectionName, setNewCollectionName] = useState(""); // New collection name
+	const [selectedCollectionId, setSelectedCollectionId] = useState(""); // Storing id of last clicked collection
 
+	// Function for setting which category is clicked in modal
 	const handleCategoryClickModal = (categoryId) => {
 		setSelectedFromModalCategoryId(categoryId);
 	};
 
+	// Function for setting which category is clicked in dashboard
 	const handleCategoryClick = (categoryId) => {
 		setSelectedCategoryId(categoryId);
 	};
 
+	// Function for setting which collection is clicked in dashboard
 	const handleCollectionClick = (collection) => {
 		if (selectedCollection?.id === collection.id) {
 			setShowPhotos(!showPhotos); // Toggle photos display if the same collection is clicked
@@ -112,6 +115,7 @@ const Dashboard = () => {
 		setEditingPhoto(null); // Reset editing state if switching collections
 	};
 
+	// handling deleting photo from collection
 	const handleDelete = async (photoId, collectionId) => {
 		try {
 			await deletePhotoFromCollection(photoId, collectionId);
@@ -120,11 +124,13 @@ const Dashboard = () => {
 		}
 	};
 
+	// handling editing photo name
 	const handleEdit = (photo) => {
 		setEditingPhoto(photo.id);
 		setNewPhotoName(photo.name); // Set current name as initial value
 	};
 
+	// handling editting submit
 	const handleEditSubmit = async (photoId) => {
 		try {
 			await editPhoto(photoId, { name: newPhotoName });
@@ -134,6 +140,7 @@ const Dashboard = () => {
 		}
 	};
 
+	// handling deleting collection and all it's photos
 	const handleDeleteCollection = async (collectionId) => {
 		const confirmed = window.confirm(
 			"Are you sure you want to delete this collection and all its photos?"
@@ -155,11 +162,13 @@ const Dashboard = () => {
 		}
 	};
 
+	// handling editing collection name
 	const handleEditCollection = (collection) => {
 		setEditingCollection(collection.id);
 		setNewCollectionName(collection.name);
 	};
 
+	// handling editing collection submit
 	const handleEditCollectionSubmit = async (collectionId) => {
 		try {
 			await editCollection(collectionId, { name: newCollectionName });
@@ -169,6 +178,7 @@ const Dashboard = () => {
 		}
 	};
 
+	// handling deleting category with all the collections and all the photos
 	const handleDeleteCategory = async (categoryId) => {
 		const confirmed = window.confirm(
 			"Are you sure you want to delete this category, all its collections, and all photos within them?"
@@ -204,30 +214,33 @@ const Dashboard = () => {
 		}
 	};
 
+	// Opening MODAL for creating category
 	const handleAddCategory = () => {
 		onAddCategoryOpen();
 	};
 
+	// Opening MODAL for creating collection
 	const handleAddColllection = () => {
 		onAddCollectionOpen();
 	};
 
+	// Opening MODAL for adding photos
 	const handleAddPhotos = (id) => {
 		setSelectedCollectionId(id);
 		onAddPhotosOpen();
 	};
 
-	const { addCategory, loading, error, success } = useAddCategory();
-	const [categoryName, setCategoryName] = useState("");
-	const [selectedImage, setSelectedImage] = useState(null);
+	const { addCategory, loading, error, success } = useAddCategory(); // Adding category 
+	const [categoryName, setCategoryName] = useState(""); // Category name state for creating
+	const [selectedImage, setSelectedImage] = useState(null); // Category image state for creating
 
-	// Handle image selection
+	// Handle image selection for category
 	const handleImageChange = (e) => {
 		const file = e.target.files[0];
 		setSelectedImage(file);
 	};
 
-	// Handle form submission
+	// Handle create category form submission
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -253,16 +266,17 @@ const Dashboard = () => {
 		loading: addingCollection,
 		error: addError,
 		success: addSuccess,
-	} = useAddPhotoCollection();
+	} = useAddPhotoCollection(); // Adding a new collection 
 	const {
 		categories: categoriesFetched,
 		loading: fetchingCategories,
 		error: fetchError,
-	} = useFetchCategories();
+	} = useFetchCategories(); // Fetching all existing categories 
 
-	const [collectionName, setCollectionName] = useState("");
-	const [collectionDescription, setCollectionDescription] = useState("");
+	const [collectionName, setCollectionName] = useState(""); // State for collection name
+	const [collectionDescription, setCollectionDescription] = useState(""); // State for collection description
 
+	// Handling submitting create collection form
 	const handleSubmitCollection = (e) => {
 		e.preventDefault();
 		addPhotoCollection(selectedFromModalCategoryId, {
@@ -283,11 +297,12 @@ const Dashboard = () => {
 		error: photosError,
 		success: photosSuccess,
 	} = useUploadPhotos();
-	const [files, setFiles] = useState([]);
-	const [names, setNames] = useState([]);
+	const [files, setFiles] = useState([]); // State for files uploaded
+	const [names, setNames] = useState([]); // State for name of files uploaded
 
-	const [currentNameIndex, setCurrentNameIndex] = useState(0);
+	const [currentNameIndex, setCurrentNameIndex] = useState(0); // Index of current fileName - used in mass uploading to destinguish files
 
+	// handling the change (selection) of files (small size)
 	const handleFileChange = (e) => {
 		const selectedFiles = Array.from(e.target.files);
 		setFiles(selectedFiles);
@@ -295,27 +310,32 @@ const Dashboard = () => {
 		setCurrentNameIndex(0);
 	};
 
+	// handling the change (selection) of files (big size)
 	const handleBigFileChange = (e) => {
 		const selectedBigFiles = Array.from(e.target.files);
 		setBigFiles(selectedBigFiles);
 	};
 
+	// handling the name changing of file names in the upload photos modal
 	const handleNameChange = (e) => {
 		const updatedNames = [...names];
 		updatedNames[currentNameIndex] = e.target.value;
 		setNames(updatedNames);
 	};
 
+	// changing the name visible to the next name in the array
 	const handleNextName = () => {
 		setCurrentNameIndex((prevIndex) =>
 			Math.min(prevIndex + 1, files.length - 1)
 		);
 	};
 
+	// changing the name visible to the previos name in the array
 	const handlePreviousName = () => {
 		setCurrentNameIndex((prevIndex) => Math.max(prevIndex - 1, 0));
 	};
 
+	// handling the submitting of all photos uploaded (small & big)
 	const handleSubmitPhotos = async (e) => {
 		e.preventDefault();
 		if (selectedCollectionId && bigFiles.length === files.length) {
@@ -551,7 +571,7 @@ const Dashboard = () => {
 													alt={photo.name}
 													objectFit="cover"
 													boxSize="250px"
-                          pt="28px"
+													pt="28px"
 												/>
 												<Flex
 													p={2}
