@@ -3,22 +3,28 @@ import useFetchPhotosByIds from "../hooks/useFetchPhotosByIds";
 import useGetCollectionName from "../hooks/PhotoCollection/useGetCollectionName";
 import useFetchPhotoIdsByCollection from "../hooks/PhotoCollection/useFetchPhotoIdsByCollection";
 import { Box, Flex } from "@chakra-ui/react";
-import gridIcon from "../assets/icons/grid-icon.svg"
-import carouselIcon from "../assets/icons/carousel-icon.svg"
+import gridIcon from "../assets/icons/grid-icon.svg";
+import carouselIcon from "../assets/icons/carousel-icon.svg";
 import { useParams } from "react-router-dom";
 
 const Gallery = (props) => {
-	const {categoryId} = props
+	const { categoryId } = props;
 	const { collectionId } = useParams(); // Get collectionId from URL params
 	// const collectionId = "1XpHp9mPSbghndA2zuEc";
 
 	const { photoIds, isLoading, error } =
 		useFetchPhotoIdsByCollection(collectionId); // Fetch the specific collection
 
-	const { collectionName, loading: nameLoading, error: nameError,
+	const {
+		collectionName,
+		loading: nameLoading,
+		error: nameError,
 	} = useGetCollectionName(collectionId);
 
-	const { photos, loading: photosLoading, error: photosError,
+	const {
+		photos,
+		loading: photosLoading,
+		error: photosError,
 	} = useFetchPhotosByIds(photoIds);
 
 	const [slideIndex, setSlideIndex] = useState(1);
@@ -50,52 +56,57 @@ const Gallery = (props) => {
 	};
 
 	// toggling the display of gallery¬
-	const galleryToggle = () =>{
-		let gallery = document.getElementById("gallery")
-		if(gallery.classList.contains("is-hidden")){
-			gallery.classList.remove("is-hidden")
-			gallery.classList.add("is-visible")
-			setIsGalleryShown(true)
-		}else {
-			gallery.classList.remove("is-visible")
-			gallery.classList.add("is-hidden")
-			setIsGalleryShown(false)
+	const galleryToggle = () => {
+		let gallery = document.getElementById("gallery");
+		if (gallery.classList.contains("is-hidden")) {
+			gallery.classList.remove("is-hidden");
+			gallery.classList.add("is-visible");
+			setIsGalleryShown(true);
+		} else {
+			gallery.classList.remove("is-visible");
+			gallery.classList.add("is-hidden");
+			setIsGalleryShown(false);
 		}
-	}
+	};
 
 	// toggling the display of slideshow
 	const slideShowToggle = () => {
-
-		let slideShow = document.getElementById("slideshow")
-		if(slideShow.classList.contains("is-hidden")){
-			slideShow.classList.remove("is-hidden")
-			slideShow.classList.add("is-visible")
-		}else {
-			slideShow.classList.remove("is-visible")
-			slideShow.classList.add("is-hidden")
+		let slideShow = document.getElementById("slideshow");
+		if (slideShow.classList.contains("is-hidden")) {
+			slideShow.classList.remove("is-hidden");
+			slideShow.classList.add("is-visible");
+		} else {
+			slideShow.classList.remove("is-visible");
+			slideShow.classList.add("is-hidden");
 		}
-		galleryToggle()
-
-	}
+		galleryToggle();
+	};
 
 	const showDivs = (n) => {
 		setSlideIndex(n); // Update slide index when a thumbnail is clicked
 	};
 
-
+	// Sorting photos based on the 'order' field
+	const sortedPhotos = photos?.sort((a, b) => a.order - b.order);
 
 	return (
 		<>
 			<div className="container">
 				<div className="top">TOP</div>
-				<div className="bottom"><img style={{color:"white", cursor:"pointer"}} src={isGalleryShown ? carouselIcon : gridIcon} onClick={() => slideShowToggle()}/></div>
+				<div className="bottom">
+					<img
+						style={{ color: "white", cursor: "pointer" }}
+						src={isGalleryShown ? carouselIcon : gridIcon}
+						onClick={() => slideShowToggle()}
+					/>
+				</div>
 				<div className="wrapper-focuser is-hidden" id="slideshow">
 					<div className="prev-card" onClick={() => plusDivs(-1)}></div>
 					<div className="next-card" onClick={() => plusDivs(1)}></div>
 
 					{/* Image Carousel */}
 					<div id="images" className="carousel fade">
-						{photos.map((photo, index) => (
+						{sortedPhotos.map((photo, index) => (
 							<div
 								className="card slide fade"
 								key={photo.id}
@@ -104,24 +115,31 @@ const Gallery = (props) => {
 									height: "100%",
 									justifyContent: "center",
 									alignItems: "center",
-									padding:"8px"
+									padding: "8px",
 								}}
 							>
-								<img className="picture" src={!photo.url.big ? photo.url.small : photo.url.big} alt="" />
+								<img
+									className="picture"
+									src={!photo.url.big ? photo.url.small : photo.url.big}
+									alt=""
+								/>
 							</div>
 						))}
 					</div>
 				</div>
-				<div className="thumbnails is-visible" id="gallery" >
+				<div className="thumbnails is-visible" id="gallery">
 					<span className="scrolling-wrapper">
 						<div className="gallery-index">
-							{photos.map((photo, index) => (
+							{sortedPhotos.map((photo, index) => (
 								<img
 									className="thumbnail"
 									src={photo.url.small}
 									alt={photo.name}
 									key={photo.id}
-									onClick={() => {showDivs(index + 1); slideShowToggle()}}
+									onClick={() => {
+										showDivs(index + 1);
+										slideShowToggle();
+									}}
 								/>
 							))}
 						</div>
