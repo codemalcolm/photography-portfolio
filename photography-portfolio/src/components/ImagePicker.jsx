@@ -27,18 +27,16 @@ const ImagePicker = () => {
 	};
 
 	return (
-		<Flex
+		<Box
 			width={"100%"}
-			minHeight={"100vh"}
+			minHeight={"calc(100vh - 64px)"}
 			height={"100%"}
-			flexDirection={"column"}
-			alignItems={"center"}
 			bg="white"
+
 		>
 			<Dashboard />
-			{/* Add Photos to collection */}
-			<Test />
-		</Flex>
+			{/* <Test /> */}
+		</Box>
 	);
 };
 
