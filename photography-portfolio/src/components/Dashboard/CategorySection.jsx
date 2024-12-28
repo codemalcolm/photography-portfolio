@@ -26,6 +26,7 @@ import useDeleteCollection from "../../hooks/PhotoCollection/useDeleteCollection
 import useDeletePhoto from "../../hooks/Photos/useDeletePhoto";
 import useCategoryStore from "../../store/categoryStore";
 import useAddCategory from "../../hooks/Category/useAddCategory";
+import useDeleteCategory from "../../hooks/Category/useDeleteCategory";
 
 const CategorySection = () => {
 	const [selectedCategoryId, setSelectedCategoryId] = useState(null); // Track selected category
@@ -34,8 +35,8 @@ const CategorySection = () => {
 	const { deleteCollection } = useDeleteCollection(); // Deleting
 	const [selectedImage, setSelectedImage] = useState(null); // Category image state for creating
 	const { createCategory } = useCategoryStore(); // TODO Local states
-        const [editingCollection, setEditingCollection] = useState(null);// State for editting collections names
-    
+	const { deleteCategory } = useDeleteCategory(); // Delteting Category
+	const [editingCollection, setEditingCollection] = useState(null); // State for editting collections names
 
 	const { addCategory, loading, error, success } = useAddCategory(); // Adding category
 
@@ -131,7 +132,12 @@ const CategorySection = () => {
 	return (
 		<>
 			{/* Display categories */}
-			<Flex justifyContent={"space-between"} alignItems={"end"} align={"stretch"} width={"100%"}>
+			<Flex
+				justifyContent={"space-between"}
+				alignItems={"end"}
+				align={"stretch"}
+				width={"100%"}
+			>
 				<Text fontSize="24px" fontWeight={500}>
 					Categories
 				</Text>
@@ -149,7 +155,13 @@ const CategorySection = () => {
 			) : categoriesError ? (
 				<Text color="red.500">{categoriesError}</Text>
 			) : (
-				<Flex justifyContent={"start"} flexDirection={"column"} gap={"4px"} align={"stretch"} width={"100%"}>
+				<Flex
+					justifyContent={"start"}
+					flexDirection={"column"}
+					gap={"4px"}
+					align={"stretch"}
+					width={"100%"}
+				>
 					{categories.map((category) => (
 						<Flex
 							key={category.id}
@@ -260,7 +272,7 @@ const CategorySection = () => {
 					)}
 				</VStack>
 			)}
-            {/* Edit collection */}
+			{/* Edit collection */}
 			{editingCollection && (
 				<Box mt={4}>
 					<Text fontSize="xl" mb={2}>
