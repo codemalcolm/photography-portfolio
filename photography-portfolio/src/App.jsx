@@ -19,6 +19,7 @@ import Gallery from "./components/Gallery";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./firebase/firebase.js"
 import AuthPage from "./components/AuthPage.jsx";
+import ContactSection from "./Pages/ContactSection.jsx";
 
 function App() {
 	const [authUser] = useAuthState(auth)
@@ -45,6 +46,7 @@ function App() {
 					<Route path="/" element={<HeroPage />} />
 					<Route path="/photography/*" element={<PortfolioSection />} />
 					<Route path="/about" element={<AboutSection />} />
+					<Route path="/contact" element={<ContactSection/>}/>
 					<Route path="/image-picker" element={authUser ? <ImagePicker/> : <Navigate to="/auth"/>} />
 					<Route path="/auth" element={!authUser ? <AuthPage/> : <Navigate to="/image-picker"/>} />
 					<Route path="/gallery" element={<Gallery />} />
