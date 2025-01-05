@@ -1,5 +1,5 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
 import fbIcon from "../assets/icons/fb-icon.svg";
 import igIcon from "../assets/icons/ig-icon.svg";
 import hamburgerIcon from "../assets/icons/hamburger-icon.svg";
@@ -10,6 +10,7 @@ import {
 	DrawerOverlay,
 	DrawerContent,
 	DrawerCloseButton,
+	Link
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 
@@ -69,43 +70,49 @@ const Navbar = () => {
 						<Flex gap={10}>
 							<Box
 								_hover={{ color: "#ADD4D9" }}
-								onClick={() => handleNavLinkClick("#about")}
-							>
-								<Link to="about">about</Link>
-							</Box>
-
-							<Box
-								_hover={{ color: "#ADD4D9" }}
 								onClick={() => handleNavLinkClick("#photography")}
 							>
-								<Link to="photography">photography</Link>
+								<RouterLink to="photography">photography</RouterLink>
 							</Box>
+							<Box
+								_hover={{ color: "#ADD4D9" }}
+								onClick={() => handleNavLinkClick("#about")}
+							>
+								<RouterLink to="about">about</RouterLink>
+							</Box>
+							<Box
+								_hover={{ color: "#ADD4D9" }}
+								onClick={() => handleNavLinkClick("#contact")}
+							>
+								<RouterLink to="/contact">contact</RouterLink>
+							</Box>
+
 						</Flex>
 
 						<Flex gap={2} alignItems="center">
 							<Box _hover={{ color: "#ADD4D9" }}>
-								<a
+								<Link
 									href="https://www.facebook.com/jirka.machacek.56"
 									target={"_blank"}
 								>
-									<img src={fbIcon} alt="Facebook Icon" />
-								</a>
+									<Image src={fbIcon} alt="Facebook Icon" w={"18px"} h={"18px"}/>
+								</Link>
 							</Box>
 
-							<Box _hover={{ color: "#ADD4D9" }}>
-								<a
+							<Box _hover={{ currentColor: "#ADD4D9" }}>
+								<Link
 									href="https://www.instagram.com/jirimachacek.raw?igsh=MWg1a2xwbmxqeGxwdw=="
 									target={"_blank"}
 								>
-									<img src={igIcon} alt="Instagram Icon" />
-								</a>
+									<Image src={igIcon} alt="Instagram Icon" w={"18px"} h={"18px"}/>
+								</Link>
 							</Box>
 						</Flex>
 					</Flex>
 
 					{/* Hamburger */}
 					<Flex display={{ base: "flex", lg: "none" }} opacity={isOpen ? 0 : 1}>
-						<img
+						<Image
 							src={hamburgerIcon}
 							style={{
 								cursor: "pointer",
@@ -114,15 +121,15 @@ const Navbar = () => {
 						/>
 					</Flex>
 
-					<Drawer onClose={onClose} isOpen={isOpen} size={"xs"} zIndex={2}>
-						<DrawerOverlay />
+					<Drawer onClose={onClose} isOpen={isOpen} size={"xs"} zIndex={2} >
+						<DrawerOverlay/>
 						<DrawerContent bgGradient="linear(to-tr, gray.900, black)">
 							<DrawerCloseButton color={"white"} size={"xs"} padding={5} />
 
-							<DrawerBody>
-								<Flex mt={"64px"} flexDirection={"column"} alignItems={"space-between"} >
+							<DrawerBody border="none">
+								<Flex mt={"64px"} flexDirection={"column"} alignItems={"space-between"}>
 									<Flex flexDirection={"column"} gap={2} color={"white"}>
-										<Link
+										<RouterLink
 											to="photography"
 											_hover={{ color: "white" }}
 											onClick={onClose}
@@ -130,8 +137,8 @@ const Navbar = () => {
 											<Text fontSize={22} pl={2} py={2}>
 												photography
 											</Text>
-										</Link>
-										<Link
+										</RouterLink>
+										<RouterLink
 											to="about"
 											_hover={{ color: "white" }}
 											onClick={onClose}
@@ -139,7 +146,16 @@ const Navbar = () => {
 											<Text fontSize={22} pl={2} py={2}>
 												about
 											</Text>
-										</Link>
+										</RouterLink>
+										<RouterLink
+											to="contact"
+											_hover={{ color: "white" }}
+											onClick={onClose}
+										>
+											<Text fontSize={22} pl={2} py={2}>
+												contact
+											</Text>
+										</RouterLink>
 									</Flex>
 									{/* Socials */}
 									<Flex alignItems={"center"} width={"100%"} height={"36px"} justifyContent={"end"} gap="6px">
