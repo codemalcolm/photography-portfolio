@@ -7,7 +7,6 @@ import Categories from '../components/Categories';
 const LazyCollections = React.lazy(() => import("./Collections"))
 
 const PortfolioSection = () => {
-  const { categories, loading } = useFetchCategories();
 
   return (
     <Box
@@ -19,7 +18,7 @@ const PortfolioSection = () => {
       fontFamily="Oswald"
     >
       <Routes>
-        <Route path="/" element={<Categories categories={categories} isLoading={loading} />} />
+        <Route path="/" element={<Categories/>} />
         {/* Route to display collections for a selected category */}
         <Route path=":categoryId/*" element={<LazyCollections />} />
       </Routes>
