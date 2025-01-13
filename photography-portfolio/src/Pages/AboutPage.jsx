@@ -11,7 +11,7 @@ import {
 	UnorderedList,
 } from "@chakra-ui/react";
 import React from "react";
-import jiriImg from "../assets/images/jiri-beer.jpg";
+import jiriImg from "../assets/images/jiri.jpg";
 import { useNavigate } from "react-router-dom";
 
 const AboutSection = () => {
