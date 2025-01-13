@@ -1,109 +1,8 @@
-@import"https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap";
-/* .embla {
-  max-width: 48rem;
-  margin: auto;
-  --slide-height: 19rem;
-  --slide-spacing: 0rem;
-  --slide-size: 90%
+body {
+  background-color: #101118;
+  font-family: 'Oswald', sans-serif;
 }
 
-.embla__viewport {
-  overflow: hidden
-}
-
-.embla__container {
-  backface-visibility: hidden;
-  display: flex;
-  touch-action: pan-y pinch-zoom;
-  margin-left: calc(var(--slide-spacing) * -1)
-}
-
-.embla__slide {
-  max-height: 750px;
-  min-width: 0;
-  padding-left: var(--slide-spacing);
-  display: flex;
-  align-items: start;
-  justify-content: center;
-  flex-direction: column
-}
-
-.embla__slide__number {
-  box-shadow: inset 0 0 0 .2rem var(--detail-medium-contrast);
-  border: 1px solid black;
-  border-radius: 1.8rem;
-  font-size: 4rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: var(--slide-height)
-}
-
-.embla__button {
-  -webkit-tap-highlight-color: rgba(var(--text-high-contrast-rgb-value),.5);
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: transparent;
-  touch-action: manipulation;
-  display: inline-flex;
-  text-decoration: none;
-  cursor: pointer;
-  border: 0;
-  padding: 0;
-  margin: 0;
-  box-shadow: inset 0 0 0 .2rem var(--detail-medium-contrast);
-  width: 3.6rem;
-  height: 3.6rem;
-  z-index: 1;
-  border-radius: 50%;
-  color: var(--text-body);
-  display: flex;
-  align-items: center;
-  justify-content: center
-}
-
-.embla__button:disabled {
-  color: var(--detail-high-contrast)
-}
-
-.embla__button__svg {
-  width: 35%;
-  height: 35%
-}
-
-@media all and (min-width: 380px) and (max-width: 750px) {
-  .embla__slide {
-      max-height:650px
-  }
-
-  .embla {
-      max-width: 40rem
-  }
-}
-
-html {
-  -webkit-text-size-adjust: 100%;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  box-sizing: border-box;
-  line-height: 1.15;
-  background-color: var(--background-site);
-  font-size: 62.5%;
-  font-family: Inter,"system-ui",-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol
-}
-
-*,*:before,*:after {
-  box-sizing: inherit
-} */
-
-/* body {
-  background-color: var(--background-site);
-  color: var(--text-high-contrast);
-  font-size: 1.6rem;
-  line-height: 1.65
-} */
 .scrolling-wrapper2 {
   height: calc(100vh - 250px);
   width: 100%;
@@ -432,6 +331,7 @@ body{
 }
 
 img {
+  height: auto;
   object-fit: contain;
   max-height: 100%;
 }
