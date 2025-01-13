@@ -3,18 +3,16 @@ import {
 	Flex,
 	Image,
 	keyframes,
-	ListItem,
 	Text,
-	UnorderedList,
     Link
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { useState } from "react";
 import emailIcon from "../assets/icons/email.svg";
 import facebookIcon from "../assets/icons/fb-icon.svg";
 import instagramIcon from "../assets/icons/ig-icon.svg";
 
 
-const ContactSection = () => {
+const ContactPage = () => {
 	const [copied, setCopied] = useState(false);
 	const copyToClipboard = (textToCopy) => {
 		navigator.clipboard.writeText(textToCopy).then(
@@ -101,4 +99,4 @@ const ContactSection = () => {
 	);
 };
 
-export default ContactSection;
+export default ContactPage;

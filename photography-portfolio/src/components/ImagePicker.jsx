@@ -1,12 +1,8 @@
-import { Text, Button, Flex, Input, Box } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import usePreviewImg from "../hooks/usePreviewImg";
-import { color } from "framer-motion";
 import useUploadImages from "../hooks/useUploadImages";
-import AddPhotoCollectionForm from "./PhotoCollection/AddPhotoCollectionForm";
 import Dashboard from "./Dashboard/Dashboard";
-import AddCategoryForm from "./Category/AddCategoryForm";
-import Test from "./TestImagePicker";
 
 const ImagePicker = () => {
 	const fileRef = useRef(null);
@@ -32,7 +28,6 @@ const ImagePicker = () => {
 			minHeight={"calc(100vh - 64px)"}
 			height={"100%"}
 			bg="white"
-
 		>
 			<Dashboard />
 			{/* <Test /> */}

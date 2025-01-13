@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import useAddPhotoCollection from '../../hooks/PhotoCollection/useAddPhotoCollection';
 import useFetchCategories from '../../hooks/Category/useFetchCategories';
 import { Box, Button, Input, Text, Textarea, Spinner } from '@chakra-ui/react';

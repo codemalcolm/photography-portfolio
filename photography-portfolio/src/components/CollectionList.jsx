@@ -1,4 +1,4 @@
-import { Box, Flex, Spinner, Text } from '@chakra-ui/react'
+import { Flex, Text } from '@chakra-ui/react'
 import {Link as RouterLink, useParams} from "react-router-dom"
 import useFetchCollectionsByCategory from '../hooks/PhotoCollection/useFetchCollectionsByCategory';
 

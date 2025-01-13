@@ -1,5 +1,5 @@
-import { Box, Button, Input, InputGroup, InputRightElement } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import { Box, Button, Input } from '@chakra-ui/react'
+import { useState } from 'react'
 import useLogin from '../hooks/Auth/useLogin';
 
 const AuthPage = () => {

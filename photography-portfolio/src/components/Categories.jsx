@@ -1,4 +1,4 @@
-import { Flex, Image, Text, Box, Spinner } from "@chakra-ui/react";
+import { Flex, Image, Text, Box } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import useFetchCategories from "../hooks/Category/useFetchCategories";
 import { useEffect, useState } from "react";

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import useFetchCollections from '../../hooks/PhotoCollection/useFetchCollections';
 import { Box, Button, Input, Text, VStack, Image, Spinner, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, useDisclosure } from '@chakra-ui/react';
 import useUploadPhotos from '../../hooks/Photos/useUploadPhotos';
