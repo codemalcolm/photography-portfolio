@@ -12,41 +12,48 @@
 		<link
 			rel="preload"
 			href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap"
-			as="style" onload="this.onload=null;this.rel='stylesheet'"
+			as="style"
+			onload="this.onload=null;this.rel='stylesheet'"
+		/>
+		<noscript>
+			<link
+				href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap"
+				rel="stylesheet"
+			/>
+		</noscript>
+
+		<!-- Preload svg icons -->
+		<link
+			rel="preload"
+			href="./src/assets/icons/fb-icon.svg"
+			as="image"
+			type="image/svg+xml"
+		/>
+		<link
+			rel="preload"
+			href="./src/assets/icons/hamburger-icon.svg"
+			as="image"
+			type="image/svg+xml"
+		/>
+		<link
+			rel="preload"
+			href="./src/assets/icons/ig-icon.svg"
+			as="image"
+			type="image/svg+xml"
+		/>
+		<link
+			rel="preload"
+			href="./src/assets/icons/arrow-back-svgrepo-com.svg"
+			as="image"
+			type="image/svg+xml"
 		/>
 
-		<!-- Preload the LP image as an image -->
-		<!-- <link rel="preload" href="/src/assets/images/that-cheez.webp" as="image"> -->
-
-    <link href="./src/index.css" rel="stylesheet">
-    
-		<!-- Preload svg icons -->
-	<link
-		rel="preload"
-		href="./src/assets/icons/fb-icon.svg"
-		as="image"
-		type="image/svg+xml"
-	/>
-	
-    <link
-      rel="preload"
-      href="./src/assets/icons/hamburger-icon.svg"
-      as="image"
-      type="image/svg+xml"
-    />
-    <link
-      rel="preload"
-      href="./src/assets/icons/ig-icon.svg"
-      as="image"
-      type="image/svg+xml"
-    />
-
-		<!-- Apply the stylesheet to actually load the fonts -->
-
+		<!-- Main CSS -->
+		<link href="./src/index.css" rel="stylesheet" />
 
 		<title>Jiří Macháček</title>
 	</head>
-	<body style="background-color:#101118">
+	<body style="background-color: #101118">
 		<div id="root"></div>
 		<script type="module" src="/src/main.jsx" async></script>
 		<script type="module" src="/src/perf.js" async></script>
