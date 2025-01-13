@@ -1,9 +1,9 @@
 // hooks/useUploadPhotos.js
 
 import { useState } from 'react';
-import { storage, firestore } from "../../firebase/firebase"
+import { storage, firestore } from "../../firebase/firebase";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { collection, addDoc, updateDoc, doc, arrayUnion, query, orderBy, getDocs } from 'firebase/firestore';
+import { collection, addDoc, updateDoc, doc, arrayUnion } from 'firebase/firestore';
 
 const useUploadPhotos = () => {
   const [loading, setLoading] = useState(false);
@@ -14,15 +14,9 @@ const useUploadPhotos = () => {
     setLoading(true);
     setError(null);
     setSuccess(false);
-    
+
     try {
       const photoIds = [];
-
-      // Get the current photo count in the collection to generate the order number
-      const photoCollectionRef = collection(firestore, 'photos');
-      const q = query(photoCollectionRef, orderBy('order', 'desc'));  // Order by 'order' in descending order
-      const querySnapshot = await getDocs(q);
-      const existingPhotosCount = querySnapshot.empty ? 0 : querySnapshot.docs[0].data().order;
 
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
@@ -37,15 +31,15 @@ const useUploadPhotos = () => {
         const smallURL = await getDownloadURL(fileRef);
         const bigURL = await getDownloadURL(bigFileRef);
 
-        // Assign the order based on the current count
-        const order = existingPhotosCount + i + 1;  // This will start from the next number after the last existing order
+        // Assign the order based on the file's index (1-based)
+        const order = i + 1;
 
         const photoDocRef = await addDoc(collection(firestore, 'photos'), {
           name: names[i] || file.name,
           url: { small: smallURL, big: bigURL },
           collectionId: collectionId,
           dateCreated: new Date(),
-          order: order,  // Add the order field
+          order: order, // Add the order field
         });
 
         photoIds.push(photoDocRef.id);
