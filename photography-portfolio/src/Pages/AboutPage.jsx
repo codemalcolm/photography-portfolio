@@ -14,7 +14,7 @@ import React from "react";
 import jiriImg from "../assets/images/jiri.jpg";
 import { useNavigate } from "react-router-dom";
 
-const AboutSection = () => {
+const AboutPage = () => {
 	const navigate = useNavigate();
 	const handleBtnClick = () => {
 		navigate("/contact");
@@ -123,4 +123,4 @@ const AboutSection = () => {
 	);
 };
 
-export default AboutSection;
+export default AboutPage;

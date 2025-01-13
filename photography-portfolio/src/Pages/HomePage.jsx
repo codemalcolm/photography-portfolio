@@ -1,7 +1,7 @@
-import { Box, Image } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import Carousel from "../components/Carousel";
 
-const HeroPage = () => {
+const HomePage = () => {
 	return (
 		<>
 			<Box
@@ -16,4 +16,4 @@ const HeroPage = () => {
 	);
 };
 
-export default HeroPage;
+export default HomePage;
