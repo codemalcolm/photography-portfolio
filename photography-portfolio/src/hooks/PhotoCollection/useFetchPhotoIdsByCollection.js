@@ -1,41 +1,43 @@
-import { useState, useEffect } from 'react';
-import { firestore } from '../../firebase/firebase';
-import { doc, getDoc } from 'firebase/firestore'; // Import necessary Firestore methods
+import { useState, useEffect } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import { firestore } from "../../firebase/firebase";
 
 const useFetchPhotoIdsByCollection = (collectionId) => {
-  const [photoIds, setPhotoIds] = useState(null); // For storing the array of photo IDs
+  const [photoIds, setPhotoIds] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    let isMounted = true; // Flag to prevent state updates after unmount
+
     const fetchCollection = async () => {
+      if (!collectionId) return;
+
       setIsLoading(true);
       setError(null);
-      try {
-        // Reference to the specific document in the 'photoCollections' collection
-        const collectionDocRef = doc(firestore, "photoCollections", collectionId);
 
-        // Fetch the document snapshot
+      try {
+        const collectionDocRef = doc(firestore, "photoCollections", collectionId);
         const collectionSnap = await getDoc(collectionDocRef);
 
-        if (collectionSnap.exists()) {
+        if (collectionSnap.exists() && isMounted) {
           const collectionData = collectionSnap.data();
-
-          // Extract the photos array (array of photo IDs)
-          setPhotoIds(collectionData.photos);
-        } else {
+          setPhotoIds(collectionData.photos || []); // Set photoIds or an empty array
+        } else if (isMounted) {
           setError("Collection not found");
         }
       } catch (err) {
-        setError(err.message);
+        if (isMounted) setError(err.message);
       } finally {
-        setIsLoading(false);
+        if (isMounted) setIsLoading(false);
       }
     };
 
-    if (collectionId) {
-      fetchCollection();
-    }
+    fetchCollection();
+
+    return () => {
+      isMounted = false; // Cleanup function to prevent updates after unmount
+    };
   }, [collectionId]);
 
   return { photoIds, isLoading, error };
