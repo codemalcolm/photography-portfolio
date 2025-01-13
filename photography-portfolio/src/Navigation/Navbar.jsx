@@ -48,7 +48,7 @@ const Navbar = () => {
 					color={"white"}
 				>
 					<Flex alignItems={"center"} justifyContent={"center"} gap={3}>
-						<Link to={"/"}>
+						<RouterLink to={"/"}>
 							<Box
 								display={{ xs: "none", lg: "block" }}
 								_hover={{ color: "#ADD4D9" }}
@@ -56,7 +56,7 @@ const Navbar = () => {
 							>
 								JIŘÍ MACHÁČEK
 							</Box>
-						</Link>
+						</RouterLink>
 					</Flex>
 
 					{/* Navbar links */}
