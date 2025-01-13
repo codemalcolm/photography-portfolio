@@ -1,12 +1,10 @@
 import React from 'react';
 import { Box } from '@chakra-ui/react';
 import { Route, Routes } from 'react-router-dom';
-import Collections from './CollectionPage';
-import useFetchCategories from '../hooks/Category/useFetchCategories';
-import Categories from '../components/Categories';
-const LazyCollections = React.lazy(() => import("./CollectionPage"))
+const Categories = React.lazy(() => import('../components/Categories'));
+const CollectionPage = React.lazy(() => import("./CollectionPage"))
 
-const PortfolioSection = () => {
+const PhotographyPage = () => {
 
   return (
     <Box
@@ -20,10 +18,10 @@ const PortfolioSection = () => {
       <Routes>
         <Route path="/" element={<Categories/>} />
         {/* Route to display collections for a selected category */}
-        <Route path=":categoryId/*" element={<LazyCollections />} />
+        <Route path=":categoryId/*" element={<CollectionPage />} />
       </Routes>
     </Box>
   );
 };
 
-export default PortfolioSection;
+export default PhotographyPage;
