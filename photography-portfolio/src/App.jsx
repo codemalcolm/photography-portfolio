@@ -38,7 +38,7 @@ function App() {
 					zIndex="1000" // Ensure the spinner stays above other content
 					transition="opacity 1s ease-in-out"
 				>
-					<Spinner size="xl" color="white"/>
+					<Spinner size="md" color="white"/>
 				</Box>
 			}>
 			<PreloadImage />
