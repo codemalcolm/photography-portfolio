@@ -1,16 +1,9 @@
-import {
-	Box,
-	Flex,
-	Image,
-	keyframes,
-	Text,
-    Link
-} from "@chakra-ui/react";
+import { Box, Flex, Image, keyframes, Text, Link } from "@chakra-ui/react";
 import { useState } from "react";
 import emailIcon from "../assets/icons/email.svg";
 import facebookIcon from "../assets/icons/fb-icon.svg";
 import instagramIcon from "../assets/icons/ig-icon.svg";
-
+import profileImage from "../assets/images/profilovka.webp";
 
 const ContactPage = () => {
 	const [copied, setCopied] = useState(false);
@@ -36,64 +29,25 @@ const ContactPage = () => {
 
 	return (
 		<Flex
-			style={{ height: "100vh" }}
+			// style={{ height: "100vh" }}
 			width={"100%"}
+			justifyContent={"start"}
 			alignItems={"center"}
 			margin={"0 auto"}
 			flexDir={"column"}
+			mt={"64px"}
+			overflow={"auto"}
+			color={"#ffffff"}
 		>
+			<Text mb={"16px"} fontSize={"18px"}>machacek_foto@proton.me</Text>
 			<Flex
-				flexDir={{ sm: "row", base: "column" }}
-				gap={{ sm: 16, base: 8 }}
-				mt={"96px"}
+				maxW={{ sm: "850px", base: "850px" }}
+				minW={{ sm: "450px", base: "350px" }}
+				justifyContent={"center"}
+				flexDir="column"
 			>
-				<Flex
-					flexDir="column"
-					color={"#ffffff"}
-					listStyleType={"none"}
-					gap={"4px"}
-				>
-					<Link href="https://www.instagram.com/jirimachacek.raw?igsh=MWg1a2xwbmxqeGxwdw==" target="_blank">
-						<Flex my="8px" gap={4} alignItems={"center"}>
-							<Image src={instagramIcon} alt="instagram-icon" />
-							<Text>@jirimachacek.raw</Text>
-						</Flex>
-					</Link>
-					<Link href="https://www.facebook.com/jirka.machacek.56" target="_blank">
-						<Flex my="8px" gap={4} alignItems={"center"}>
-							<Image src={facebookIcon} alt="facebook-icon" />
-							<Text>Jiří Macháček</Text>
-						</Flex>
-					</Link>
-
-					<Flex
-						my="8px"
-						gap={4}
-						onClick={() => copyToClipboard("machy1106@gmail.com")}
-						cursor={"pointer"}
-						position={"relative"}
-						alignItems={"center"}
-					>
-						<Image src={emailIcon} alt="email-icon" />
-						<Text>machy1106@gmail.com</Text>
-						{copied && (
-							<Box
-								position="absolute"
-								right="-65px"
-								backgroundColor="green"
-								color="white"
-								borderRadius="5px"
-								zIndex={1000}
-								fontSize="14px"
-								padding="4px"
-								animation={`${fadeInOut} 4s ease-in-out`}
-								pointerEvents="none" // Prevent interaction
-							>
-								Copied!
-							</Box>
-						)}
-					</Flex>
-				</Flex>
+				<Image src={profileImage} alt="profile-photo" objectFit={"cover"} />
+				
 			</Flex>
 		</Flex>
 	);
