@@ -8,7 +8,8 @@ const HomePage = () => {
 				style={{ height: "100vh" }}
 				overflowX={{ base: "hidden", lg: "visible" }}
 				overflowY={{ base: "hidden", lg: "hidden" }}
-				fontFamily={"Oswald"}
+				fontFamily={"Teko"}
+				overflow={"hidden"}
 			>
 				<Carousel />
 			</Box>
