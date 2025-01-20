@@ -1,19 +1,32 @@
 import { Flex, Image, Text, Box } from "@chakra-ui/react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import useFetchCategories from "../hooks/Category/useFetchCategories";
 import { useEffect, useState } from "react";
 
 const Categories = () => {
 	const { categories, loading, error } = useFetchCategories();
 	const [loadedImages, setLoadedImages] = useState(new Set());
+	const navigate = useNavigate();
 
 	// Handle when an image finishes loading
 	const handleImageLoad = (id) => {
 		setLoadedImages((prev) => new Set([...prev, id]));
 	};
 
-	console.log(categories.length)
 	useEffect(() => {}, []);
+
+	const handleCategoryClick = async (category) => {
+		if (category.hybrid) {
+			// Redirect to the first collection's gallery for hybrid categories
+			const firstCollectionId = category.collections[0];
+			if (firstCollectionId) {
+				navigate(`${category.id}/gallery/${firstCollectionId}`);
+			}
+		} else {
+			// Redirect to the collections page for normal categories
+			navigate(`${category.id}`);
+		}
+	};
 
 	return (
 		<Flex
@@ -26,7 +39,11 @@ const Categories = () => {
 			paddingY="32px"
 		>
 			{categories.map((category) => (
-				<RouterLink key={category.id} to={`${category.id}`}>
+				<Box
+					key={category.id}
+					onClick={() => handleCategoryClick(category)}
+					cursor="pointer"
+				>
 					<Flex flexDirection="column" position="relative" role="group">
 						<Box
 							maxWidth="660px"
@@ -45,7 +62,6 @@ const Categories = () => {
 								onLoad={() => handleImageLoad(category.id)}
 							/>
 						</Box>
-						{/* Show the text only when the image is fully loaded */}
 						{loadedImages.has(category.id) && (
 							<Text
 								fontSize="28px"
@@ -65,7 +81,7 @@ const Categories = () => {
 							</Text>
 						)}
 					</Flex>
-				</RouterLink>
+				</Box>
 			))}
 		</Flex>
 	);
