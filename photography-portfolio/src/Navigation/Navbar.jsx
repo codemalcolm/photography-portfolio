@@ -42,7 +42,7 @@ const Navbar = () => {
 				bgColor={"*"}
 			>
 				<Flex
-					mt="8px"
+					mb="4px"
 					justifyContent={"space-between"}
 					alignItems={"center"}
 					color={"white"}
