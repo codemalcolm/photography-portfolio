@@ -19,7 +19,7 @@ const breakpoints = {
   base: '0em', // 0px
   sm: '30em', // 480px
   md: '48em', // 768px
-  lg: '1090px', // 1090px
+  lg: '1020px', // 1090px
   xl: '80em', // 1280px
   "2xl": '84em' // 1345px
 }
