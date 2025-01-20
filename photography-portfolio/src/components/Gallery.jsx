@@ -13,7 +13,7 @@ const Gallery = (props) => {
   const { photoIds, isLoading, error } = useFetchPhotoIdsByCollection(collectionId);
 
   // Fetch collection name with caching
-  const { name: collectionName, isLoading: nameLoading, error: nameError } =
+  const { collectionName, isLoading: nameLoading, error: nameError } =
     useGetCollectionName(collectionId);
 
   // Fetch photo details by IDs
