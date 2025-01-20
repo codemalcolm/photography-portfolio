@@ -27,8 +27,8 @@ const Navbar = () => {
 		<Box zIndex={2} position={"relative"}>
 			<Box
 				position={"absolute"}
-				px={6}
-				py={3}
+				px={3}
+				py={2}
 				flex={1}
 				w={{ base: "calc(100%)", md: "calc(100% - 540px)" }}
 				mx={"auto"}
@@ -49,13 +49,14 @@ const Navbar = () => {
 				>
 					<Flex alignItems={"center"} justifyContent={"center"} gap={3}>
 						<RouterLink to={"/"}>
-							<Box
+							<Text
 								display={{ xs: "none", lg: "block" }}
 								_hover={{ color: "#ADD4D9" }}
 								cursor={"pointer"}
+								lineHeight={"18px"}
 							>
 								JIŘÍ MACHÁČEK
-							</Box>
+							</Text>
 						</RouterLink>
 					</Flex>
 
