@@ -13,7 +13,7 @@ const PhotographyPage = () => {
       overflowY="hidden"
       color="white"
       fontWeight={700}
-      fontFamily="Oswald"
+      fontFamily="Teko"
     >
       <Routes>
         <Route path="/" element={<Categories/>} />
