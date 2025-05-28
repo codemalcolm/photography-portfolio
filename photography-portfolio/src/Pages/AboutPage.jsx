@@ -45,8 +45,8 @@ const AboutPage = () => {
         >
           <Flex flexDir="column">
             <Text>Born in Czech Republic</Text>
-            <Text>Based in Prague 2022-2025</Text>
-            <Text>- study of photography at Akademie Michael</Text>
+            <Text>Based in Prague</Text>
+            <Text>2022-2025 - study of photography at Akademie Michael</Text>
           </Flex>
           <Text fontSize={"22px"}>Exhibitions</Text>
           <Flex flexDir={"column"} gap={"4px"}>
