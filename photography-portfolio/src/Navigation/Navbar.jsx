@@ -15,7 +15,11 @@ import {
 import { useDisclosure } from "@chakra-ui/react";
 
 const Navbar = () => {
-  const { isDrawerOpen, onDrawerOpen, onDrawerClose } = useDisclosure();
+  const {
+    isOpen: isDrawerOpen,
+    onOpen: onDrawerOpen,
+    onClose: onDrawerClose,
+  } = useDisclosure();
 
   const handleNavLinkClick = () => {
     // if (!scrollToSection(sectionId, { duration: 5 })) return;
@@ -121,7 +125,10 @@ const Navbar = () => {
           </Flex>
 
           {/* Hamburger */}
-          <Flex display={{ base: "flex", lg: "none" }} opacity={isDrawerOpen ? 0 : 1}>
+          <Flex
+            display={{ base: "flex", lg: "none" }}
+            opacity={isDrawerOpen ? 0 : 1}
+          >
             <Image
               src={hamburgerIcon}
               style={{
@@ -132,9 +139,7 @@ const Navbar = () => {
           </Flex>
 
           <Drawer
-            onClose={
-              onDrawerClose
-            }
+            onClose={onDrawerClose}
             isOpen={isDrawerOpen}
             size={"xs"}
             zIndex={2}
