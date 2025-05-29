@@ -144,7 +144,7 @@ const Navbar = () => {
             size={"xs"}
             zIndex={2}
           >
-            <DrawerOverlay />
+            {/* <DrawerOverlay /> */}
             <DrawerContent bgGradient="linear(to-tr, gray.900, black)">
               <DrawerCloseButton color={"white"} size={"xs"} padding={5} />
 
