@@ -5,8 +5,9 @@ import useFetchPhotoIdsByCollection from "../hooks/PhotoCollection/useFetchPhoto
 import gridIcon from "../assets/icons/grid-icon.svg";
 import carouselIcon from "../assets/icons/carousel-icon.svg";
 import { useParams } from "react-router-dom";
+import { Text } from "@chakra-ui/react";
 
-const Gallery = (props) => {
+const Gallery = () => {
   const { collectionId } = useParams(); // Get collectionId from URL params
 
   // Fetch photo IDs with caching
@@ -76,7 +77,7 @@ const Gallery = (props) => {
   return (
     <div className="container">
       <div className="top">
-        <h1>{collectionName || "Gallery"}</h1>
+        <Text fontSize={32}>{collectionName || "Gallery"}</Text>
       </div>
       <div className="bottom">
         <img
