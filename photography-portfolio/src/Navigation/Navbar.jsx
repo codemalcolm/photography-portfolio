@@ -15,7 +15,7 @@ import {
 import { useDisclosure } from "@chakra-ui/react";
 
 const Navbar = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isDrawerOpen, onDrawerOpen, onDrawerClose } = useDisclosure();
 
   const handleNavLinkClick = () => {
     // if (!scrollToSection(sectionId, { duration: 5 })) return;
@@ -121,21 +121,21 @@ const Navbar = () => {
           </Flex>
 
           {/* Hamburger */}
-          <Flex display={{ base: "flex", lg: "none" }} opacity={isOpen ? 0 : 1}>
+          <Flex display={{ base: "flex", lg: "none" }} opacity={isDrawerOpen ? 0 : 1}>
             <Image
               src={hamburgerIcon}
               style={{
                 cursor: "pointer",
               }}
-              onClick={onOpen}
+              onClick={onDrawerOpen}
             />
           </Flex>
 
           <Drawer
             onClose={
-              onClose
+              onDrawerClose
             }
-            isOpen={isOpen}
+            isOpen={isDrawerOpen}
             size={"xs"}
             zIndex={2}
           >
@@ -153,7 +153,7 @@ const Navbar = () => {
                     <RouterLink
                       to="photography"
                       _hover={{ color: "white" }}
-                      onClick={onClose}
+                      onClick={onDrawerClose}
                     >
                       <Text fontSize={22} pl={2} py={2}>
                         photography
@@ -162,7 +162,7 @@ const Navbar = () => {
                     <RouterLink
                       to="about"
                       _hover={{ color: "white" }}
-                      onClick={onClose}
+                      onClick={onDrawerClose}
                     >
                       <Text fontSize={22} pl={2} py={2}>
                         about
@@ -171,7 +171,7 @@ const Navbar = () => {
                     <RouterLink
                       to="contact"
                       _hover={{ color: "white" }}
-                      onClick={onClose}
+                      onClick={onDrawerClose}
                     >
                       <Text fontSize={22} pl={2} py={2}>
                         contact
