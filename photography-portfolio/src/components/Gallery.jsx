@@ -1,24 +1,23 @@
 import { useEffect, useState } from "react";
-import useFetchPhotosByIds from "../hooks/useFetchPhotosByIds";
 import useGetCollectionName from "../hooks/PhotoCollection/useGetCollectionName";
-import useFetchPhotoIdsByCollection from "../hooks/PhotoCollection/useFetchPhotoIdsByCollection";
 import gridIcon from "../assets/icons/grid-icon.svg";
 import carouselIcon from "../assets/icons/carousel-icon.svg";
 import { useParams } from "react-router-dom";
+import { Center, Spinner, Text } from "@chakra-ui/react";
+import useFetchPhotosByCollection from "../hooks/useFetchPhotosByCollection";
 
-const Gallery = (props) => {
+const Gallery = () => {
   const { collectionId } = useParams(); // Get collectionId from URL params
 
-  // Fetch photo IDs with caching
-  const { photoIds, isLoading, error } = useFetchPhotoIdsByCollection(collectionId);
+  // Fetch photos
+  const { photos, isLoading } = useFetchPhotosByCollection(collectionId);
 
   // Fetch collection name with caching
-  const { collectionName, isLoading: nameLoading, error: nameError } =
-    useGetCollectionName(collectionId);
-
-  // Fetch photo details by IDs
-  const { photos, isLoading: photosLoading, error: photosError } =
-    useFetchPhotosByIds(photoIds);
+  const {
+    collectionName,
+    isLoading: nameLoading,
+    error: nameError,
+  } = useGetCollectionName(collectionId);
 
   const [slideIndex, setSlideIndex] = useState(1);
   const [isGalleryShown, setIsGalleryShown] = useState(true);
@@ -73,10 +72,18 @@ const Gallery = (props) => {
 
   const sortedPhotos = photos?.sort((a, b) => a.order - b.order);
 
+  if (isLoading || nameLoading) {
+  return (
+    <Center height="75vh">
+      <Spinner size="md" color="white"/>
+    </Center>
+  );
+}
+
   return (
     <div className="container">
       <div className="top">
-        <h1>{collectionName || "Gallery"}</h1>
+        <Text fontSize={32}>{collectionName || "Gallery"}</Text>
       </div>
       <div className="bottom">
         <img
@@ -108,7 +115,8 @@ const Gallery = (props) => {
                 className="picture"
                 src={
                   bigPhotoUrls
-                    ? bigPhotoUrls.find((bigPhoto) => bigPhoto.id === photo.id)?.big
+                    ? bigPhotoUrls.find((bigPhoto) => bigPhoto.id === photo.id)
+                        ?.big
                     : photo.url.small
                 }
                 alt=""

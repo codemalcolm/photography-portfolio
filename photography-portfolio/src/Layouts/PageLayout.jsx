@@ -5,7 +5,6 @@ const PageLayout = ({ children }) => {
 	return (
 		<Flex flexDirection={"column"}>
 			<Box>
-				<Navbar />
 				{children}
 			</Box>
 		</Flex>
