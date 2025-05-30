@@ -23,7 +23,13 @@ const ContactPage = () => {
         justifyContent={"center"}
         flexDir="column"
       >
-        <Image src={profileImage} alt="profile-photo" objectFit={"cover"} />
+        <Image
+          minHeight={"260px"}
+          minWidth={"360px"}
+          src={profileImage}
+          alt="profile-photo"
+          objectFit={"cover"}
+        />
       </Flex>
     </Flex>
   );

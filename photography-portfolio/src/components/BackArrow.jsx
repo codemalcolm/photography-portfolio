@@ -11,7 +11,7 @@ const BackArrow = () => {
 
   return (
     <Box mt={"36px"} mx={"32px"} onClick={handleGoBack} cursor="pointer">
-      <Image src={arrowBack} alt="Go Back" />
+      <Image width={"60px"} height={"60px"}src={arrowBack} alt="Go Back" />
     </Box>
   );
 };

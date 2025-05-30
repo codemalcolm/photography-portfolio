@@ -50,19 +50,21 @@ const Navbar = () => {
           justifyContent={"space-between"}
           alignItems={"center"}
           color={"white"}
+          height={10}
         >
-          <Flex alignItems={"center"} justifyContent={"center"} gap={3}>
+          <Box width="160px" height="18px" gap={3}>
             <RouterLink to={"/"}>
               <Text
                 display={{ xs: "none", lg: "block" }}
                 _hover={{ color: "#ADD4D9" }}
                 cursor={"pointer"}
                 lineHeight={"18px"}
+                verticalAlign={"middle"}
               >
                 JIŘÍ MACHÁČEK
               </Text>
             </RouterLink>
-          </Flex>
+          </Box>
 
           {/* Navbar links */}
           <Flex
@@ -128,9 +130,13 @@ const Navbar = () => {
           <Flex
             display={{ base: "flex", lg: "none" }}
             opacity={isDrawerOpen ? 0 : 1}
+            minWidth={"28px"}
+            minHeight={"28px"}
           >
             <Image
-            alt="Hamburger navigation icon"
+              width={"28px"}
+              height={"28px"}
+              alt="Hamburger navigation icon"
               src={hamburgerIcon}
               style={{
                 cursor: "pointer",
