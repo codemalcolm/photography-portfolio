@@ -130,6 +130,7 @@ const Navbar = () => {
             opacity={isDrawerOpen ? 0 : 1}
           >
             <Image
+            alt="Hamburger navigation icon"
               src={hamburgerIcon}
               style={{
                 cursor: "pointer",

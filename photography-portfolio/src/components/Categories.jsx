@@ -117,7 +117,7 @@ const Categories = () => {
               >
                 <Image
                   src={category?.imageUrl}
-                  alt={category?.displayName}
+                  alt={"image with the name:" + category?.displayName}
                   objectFit="cover"
                   loading="lazy"
                   borderRadius="4px"

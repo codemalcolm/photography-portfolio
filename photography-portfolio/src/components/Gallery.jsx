@@ -119,7 +119,7 @@ const Gallery = () => {
                         ?.big
                     : photo.url.small
                 }
-                alt=""
+                alt={"Image slideshow big version"}
               />
             </div>
           ))}
