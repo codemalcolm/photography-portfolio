@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Box, Spinner } from "@chakra-ui/react";
 import useFetchPhotosByCollection from "../hooks/useFetchPhotosByCollection";
 
@@ -10,10 +10,15 @@ const Carousel = () => {
   const [isInitialRender, setIsInitialRender] = useState(true);
 
   const sortedPhotos = photos?.sort((a, b) => a.order - b.order);
+  const totalPhotos = sortedPhotos?.length || 0;
 
-  // Preload given image index (used for next image)
+  const intervalRef = useRef(null);
+
+  // === Preload image at a given index if not already loaded ===
   const preloadImage = (index) => {
-    const url = sortedPhotos?.[index]?.url?.big;
+    if (!sortedPhotos || index >= totalPhotos || index < 0) return;
+
+    const url = sortedPhotos[index]?.url?.big;
     if (!url || loadedImages[index]) return;
 
     const img = new Image();
@@ -23,27 +28,35 @@ const Carousel = () => {
     };
   };
 
+  // === Initial image preload (index 0 + 1) ===
   useEffect(() => {
-    if (!sortedPhotos || sortedPhotos.length === 0) return;
+    if (!sortedPhotos || totalPhotos === 0) return;
 
-    // Preload the next image
-    const nextIndex = (currentIndex + 1) % sortedPhotos.length;
+    preloadImage(0); // first image
+    preloadImage(1); // next image
+  }, [sortedPhotos]);
+
+  // === Transition effect ===
+  useEffect(() => {
+    if (!sortedPhotos || totalPhotos === 0 || isInitialRender) return;
+
+    // Preload next image
+    const nextIndex = (currentIndex + 1) % totalPhotos;
     preloadImage(nextIndex);
 
-    // Start interval once the first image has been loaded
-    if (!isInitialRender) {
-      const interval = setInterval(() => {
-        setCurrentIndex((prev) => (prev + 1) % sortedPhotos.length);
-      }, 6000);
-      return () => clearInterval(interval);
-    }
+    // Set up interval
+    intervalRef.current = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % totalPhotos);
+    }, 6000);
+
+    return () => clearInterval(intervalRef.current);
   }, [currentIndex, sortedPhotos, loadedImages, isInitialRender]);
 
+  // === Handle image load (ensures animation starts) ===
   const handleImageLoad = (index) => {
     setLoadedImages((prev) => ({ ...prev, [index]: true }));
-
     if (index === 0 && isInitialRender) {
-      setIsInitialRender(false); // start carousel once first image is ready
+      setIsInitialRender(false);
     }
   };
 
@@ -68,7 +81,10 @@ const Carousel = () => {
           const imageUrl = photo.url.big;
           const isVisible = currentIndex === index && loadedImages[index];
 
-          return (
+          // Optionally: only render images near the viewport (current ± 1)
+          const shouldRender = Math.abs(currentIndex - index) <= 1 || index === 0;
+
+          return shouldRender ? (
             <img
               key={index}
               src={imageUrl}
@@ -85,7 +101,7 @@ const Carousel = () => {
                 transition: "opacity 1s ease-in-out",
               }}
             />
-          );
+          ) : null;
         })
       )}
     </Box>
