@@ -34,7 +34,7 @@ const AboutPage = () => {
             <Flex gap={"8px"}>
               <Text>2024</Text>
               <Text>-</Text>
-              <Link href="https://www.akademiemichael.cz/pozvanka-na-vernisaz-vystavy-dvojite-videni/">
+              <Link href="https://www.akademiemichael.cz/pozvanka-na-vernisaz-vystavy-dvojite-videni/" target="_blank">
                 Dvojité Vidění | 400 ASA, Praha
               </Link>
             </Flex>
