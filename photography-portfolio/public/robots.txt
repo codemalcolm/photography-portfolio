@@ -3,3 +3,4 @@ Allow: /
 Disallow: /auth/
 Disallow: /image-picker/
 
+Sitemap: https://jirimachacek-photography.web.app/sitemap.xml
