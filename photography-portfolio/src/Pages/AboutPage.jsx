@@ -1,27 +1,8 @@
-import {
-  Box,
-  Button,
-  Divider,
-  Flex,
-  Image,
-  Link,
-  List,
-  ListItem,
-  Text,
-  UnorderedList,
-} from "@chakra-ui/react";
-import React from "react";
-import profileImage from "../assets/images/profilovka.webp";
-import { useNavigate } from "react-router-dom";
+import { Flex, Link, Text } from "@chakra-ui/react";
 
 const AboutPage = () => {
-  const navigate = useNavigate();
-  const handleBtnClick = () => {
-    navigate("/contact");
-  };
   return (
     <Flex
-      // style={{ height: "100vh" }}
       width={"100%"}
       justifyContent={"start"}
       alignItems={"center"}
@@ -60,9 +41,7 @@ const AboutPage = () => {
             <Flex gap={"8px"}>
               <Text>2024</Text>
               <Text>-</Text>
-              <Text href="https://www.akademiemichael.cz/pozvanka-na-vernisaz-vystavy-dvojite-videni/">
-                Teraformace & Spoty | Prague Photo Festival, Praha
-              </Text>
+              <Text>Teraformace & Spoty | Prague Photo Festival, Praha</Text>
             </Flex>
           </Flex>
           <Text fontSize={"22px"}>Awards</Text>
@@ -70,9 +49,7 @@ const AboutPage = () => {
             <Flex gap={"8px"}>
               <Text>2024</Text>
               <Text>-</Text>
-              <Link href="https://www.akademiemichael.cz/pozvanka-na-vernisaz-vystavy-dvojite-videni/">
-                Prague Photo Young Award 2024
-              </Link>
+              <Text>Prague Photo Young Award 2024</Text>
             </Flex>
           </Flex>
         </Flex>

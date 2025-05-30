@@ -1,8 +1,6 @@
 import React from "react";
 import { Box } from "@chakra-ui/react";
-import { Route, Routes } from "react-router-dom";
 const Categories = React.lazy(() => import("../components/Categories"));
-const CollectionPage = React.lazy(() => import("./CollectionPage"));
 
 const PhotographyPage = () => {
   return (
