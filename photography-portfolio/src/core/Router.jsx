@@ -6,7 +6,7 @@ import {
 import PageWrapper from "../Layouts/PageWrapper";
 
 import NotFoundPage from "../Layouts/NotFoundPage";
-import Gallery from "../components/Gallery";
+
 import CollectionPage from "../Pages/CollectionPage";
 import CollectionList from "../components/CollectionList";
 import React from "react";
@@ -19,6 +19,7 @@ const HomePage = React.lazy(() => import("../Pages/HomePage.jsx"));
 const ImagePicker = React.lazy(() => import("../components/ImagePicker.jsx"));
 const ContactPage = React.lazy(() => import("../Pages/ContactPage.jsx"));
 const AuthPage = React.lazy(() => import("../Pages/AuthPage.jsx"));
+const Gallery = React.lazy(() => import("../components/Gallery"));
 import { auth } from "../firebase/firebase.js";
 
 export const Router = () => {
