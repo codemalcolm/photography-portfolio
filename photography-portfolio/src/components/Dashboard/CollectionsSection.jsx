@@ -302,6 +302,7 @@ const CollectionsSection = () => {
                       : "gray"
                   }
                   mr={2}
+                  minW={"150px"}
                 >
                   {showPhotos && selectedCollection?.id === collection.id
                     ? "Hide Photos"
@@ -309,27 +310,36 @@ const CollectionsSection = () => {
                 </Button>
 
                 {/* Edit Button */}
-                {editingCollection === collection.id ? (
-                  <>
+                <Flex mr="8px">
+                  {editingCollection === collection.id ? (
+                    <>
+                      <Button
+                        onClick={() =>
+                          handleEditCollectionSubmit(collection.id)
+                        }
+                        colorScheme="blue"
+                        mr={2}
+                        minW={"75px"}
+                      >
+                        Save
+                      </Button>
+                      <Button
+                        onClick={handleCancelEdit}
+                        colorScheme="gray"
+                        minW={"75px"}
+                      >
+                        Cancel
+                      </Button>
+                    </>
+                  ) : (
                     <Button
-                      onClick={() => handleEditCollectionSubmit(collection.id)}
-                      colorScheme="blue"
+                      onClick={() => handleEditCollection(collection)}
                       mr={2}
                     >
-                      Save
+                      <Image src={editIcon} alt="Edit icon" m={"0 auto"} />
                     </Button>
-                    <Button onClick={handleCancelEdit} colorScheme="gray">
-                      Cancel
-                    </Button>
-                  </>
-                ) : (
-                  <Button
-                    onClick={() => handleEditCollection(collection)}
-                    mr={2}
-                  >
-                    <Image src={editIcon} alt="Edit icon" m={"0 auto"} />
-                  </Button>
-                )}
+                  )}
+                </Flex>
 
                 {/* Delete Button */}
                 <Button
@@ -392,7 +402,24 @@ const CollectionsSection = () => {
                       required
                     />
                   </Box>
+                <form onSubmit={handleSubmitCollection}>
+                  <Box mb={4}>
+                    <Text mb={2}>Collection Name:</Text>
+                    <Input
+                      type="text"
+                      value={collectionName}
+                      onChange={(e) => setCollectionName(e.target.value)}
+                      required
+                    />
+                  </Box>
 
+                  <Box mb={4}>
+                    <Text mb={2}>Collection Description (optional):</Text>
+                    <Textarea
+                      value={collectionDescription}
+                      onChange={(e) => setCollectionDescription(e.target.value)}
+                    />
+                  </Box>
                   <Box mb={4}>
                     <Text mb={2}>Collection Description (optional):</Text>
                     <Textarea
@@ -427,6 +454,23 @@ const CollectionsSection = () => {
             </ModalContent>
           </Modal>
 
+          {/* Display photos in selected collection */}
+          {selectedCollection && showPhotos && (
+            <Box>
+              <Flex justifyContent={"space-between"}>
+                <Flex fontSize="2xl" mb={4} gap={2}>
+                  <Text>Photos in</Text>{" "}
+                  <Text fontWeight={"700"}>{selectedCollection.name}</Text>
+                </Flex>
+                <Button
+                  borderRadius={"16px"}
+                  py={"16px"}
+                  px={"8px"}
+                  onClick={() => handleAddPhotos(selectedCollection.id)}
+                >
+                  <Image alt="Add Icon" src={plusIcon} />
+                </Button>
+              </Flex>
           {/* Display photos in selected collection */}
           {selectedCollection && showPhotos && (
             <Box>
@@ -546,6 +590,17 @@ const CollectionsSection = () => {
             </Box>
           )}
 
+          {/* Photo Uploading */}
+          <UploadPhotos
+            isOpen={isAddPhotosOpen}
+            onOpen={onAddPhotosOpen}
+            onClose={onAddPhotosClose}
+            setSelectedCollectionId={setSelectedCollectionId}
+          />
+        </VStack>
+      )}
+    </>
+  );
           {/* Photo Uploading */}
           <UploadPhotos
             isOpen={isAddPhotosOpen}
