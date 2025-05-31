@@ -96,7 +96,7 @@ const CollectionsSection = () => {
   } = useDisclosure(); // Add Collection Modal
 
   // Opening MODAL for creating collection
-  const handleOpenAddCollectionModal = () => {
+  const handleAddCollection = () => {
     onAddCollectionOpen();
   };
 
@@ -151,18 +151,13 @@ const CollectionsSection = () => {
   };
 
   // Handling submitting create collection form
-  const handleSubmitCollection = async (e) => {
+  const handleSubmitCollection = (e) => {
     e.preventDefault();
-
-    const response = await addPhotoCollection(selectedFromModalCategoryId, {
+    addPhotoCollection(selectedFromModalCategoryId, {
       name: collectionName,
       description: collectionDescription,
       photos: [], // Start with an empty photos array
     });
-
-    if (!response) {
-      return;
-    }
 
     // Clear the input fields after submission
     setCollectionName("");
@@ -234,15 +229,6 @@ const CollectionsSection = () => {
     setNewOrder(""); // Clear the order input field
   };
 
-  // closing a modal for creating a collection
-  const handleCloseCollectionModal = () => {
-    onAddCollectionClose();
-    // clearing inputs
-    setSelectedFromModalCategoryId("");
-    setCollectionName("");
-    setCollectionDescription("");
-  };
-
   return (
     <>
       {collectionsLoading ? (
@@ -265,7 +251,7 @@ const CollectionsSection = () => {
               borderRadius={"16px"}
               py={"16px"}
               px={"8px"}
-              onClick={handleOpenAddCollectionModal}
+              onClick={handleAddCollection}
             >
               <Image alt="Add Icon" src={plusIcon} />
             </Button>
@@ -277,6 +263,7 @@ const CollectionsSection = () => {
                 alignItems="center"
                 border={"gray 1px solid"}
                 p={"4px"}
+                // justifyContent={"space-between"}
               >
                 {/* Collection Name or Input Field */}
                 {editingCollection === collection.id ? (
@@ -355,7 +342,7 @@ const CollectionsSection = () => {
           {/* Add Collection Modal */}
           <Modal
             isOpen={isAddCollectionOpen}
-            onClose={handleCloseCollectionModal}
+            onClose={onAddCollectionClose}
             size="lg"
           >
             <ModalOverlay />
@@ -402,24 +389,7 @@ const CollectionsSection = () => {
                       required
                     />
                   </Box>
-                <form onSubmit={handleSubmitCollection}>
-                  <Box mb={4}>
-                    <Text mb={2}>Collection Name:</Text>
-                    <Input
-                      type="text"
-                      value={collectionName}
-                      onChange={(e) => setCollectionName(e.target.value)}
-                      required
-                    />
-                  </Box>
 
-                  <Box mb={4}>
-                    <Text mb={2}>Collection Description (optional):</Text>
-                    <Textarea
-                      value={collectionDescription}
-                      onChange={(e) => setCollectionDescription(e.target.value)}
-                    />
-                  </Box>
                   <Box mb={4}>
                     <Text mb={2}>Collection Description (optional):</Text>
                     <Textarea
@@ -432,14 +402,11 @@ const CollectionsSection = () => {
                     type="submit"
                     isLoading={addingCollection}
                     loadingText="Adding..."
-                    width={"100%"}
                   >
                     Add Collection
                   </Button>
                 </form>
-              </ModalBody>
 
-              <ModalFooter>
                 {addError && (
                   <Text color="red.500" mt={4}>
                     {addError}
@@ -450,27 +417,16 @@ const CollectionsSection = () => {
                     Collection added successfully!
                   </Text>
                 )}
+              </ModalBody>
+
+              <ModalFooter>
+                <Button onClick={onAddCollectionClose} colorScheme="gray">
+                  Close
+                </Button>
               </ModalFooter>
             </ModalContent>
           </Modal>
 
-          {/* Display photos in selected collection */}
-          {selectedCollection && showPhotos && (
-            <Box>
-              <Flex justifyContent={"space-between"}>
-                <Flex fontSize="2xl" mb={4} gap={2}>
-                  <Text>Photos in</Text>{" "}
-                  <Text fontWeight={"700"}>{selectedCollection.name}</Text>
-                </Flex>
-                <Button
-                  borderRadius={"16px"}
-                  py={"16px"}
-                  px={"8px"}
-                  onClick={() => handleAddPhotos(selectedCollection.id)}
-                >
-                  <Image alt="Add Icon" src={plusIcon} />
-                </Button>
-              </Flex>
           {/* Display photos in selected collection */}
           {selectedCollection && showPhotos && (
             <Box>
@@ -508,34 +464,38 @@ const CollectionsSection = () => {
                       overflow="hidden"
                       flexDirection={"column"}
                       alignItems={"center"}
+                      justifyContent={"space-between"}
+                      minH={"420px"}
                     >
-                      <Flex width={"100%"} justifyContent={"start"}>
-                        {/* Edit order */}
-                        {editingPhoto === photo.id ? (
-                          <Input
-                            type="number"
-                            value={
-                              newOrder === "" || newOrder === undefined
-                                ? photo.order
-                                : newOrder
-                            }
-                            onChange={(e) => {
-                              // Allow empty input by updating the state to an empty string when the user clears the field
-                              setNewOrder(
-                                e.target.value === "" ? "" : e.target.value
-                              );
-                            }}
-                            size="sm"
-                            w={"48px"}
-                            height={"48px"}
-                            borderRadius={"full"}
-                            m={"2px"}
-                            textAlign={"center"}
-                          />
-                        ) : (
-                          <Text m={"2px"}>{photo.order}</Text>
-                        )}
-                      </Flex>
+                      {/* Edit order */}
+                      {editingPhoto === photo.id ? (
+                        <Input
+                          type="number"
+                          value={
+                            newOrder === "" || newOrder === undefined
+                              ? photo.order
+                              : newOrder
+                          }
+                          onChange={(e) => {
+                            // Allow empty input by updating the state to an empty string when the user clears the field
+                            setNewOrder(
+                              e.target.value === "" ? "" : e.target.value
+                            );
+                          }}
+                          size="sm"
+                          w={"48px"}
+                          height={"48px"}
+                          borderRadius={"full"}
+                          m={"2px"}
+                          textAlign={"center"}
+                          fontSize={"16px"}
+                        />
+                      ) : (
+                        <Text mt={"16px"} fontSize={"16px"}>
+                          {photo.order}
+                        </Text>
+                      )}
+
                       <Image
                         src={photo.url.small}
                         alt={photo.name}
@@ -557,12 +517,21 @@ const CollectionsSection = () => {
                               onChange={(e) => setNewPhotoName(e.target.value)}
                               placeholder="Enter new name"
                             />
-                            <Button onClick={() => handleEditSubmit(photo.id)}>
-                              Save
-                            </Button>
-                            <Button onClick={() => setEditingPhoto(null)}>
-                              Cancel
-                            </Button>
+                            <Flex justifyContent={"space-between"} mt="8px">
+                              <Button
+                                onClick={() => handleEditSubmit(photo.id)}
+                                width={"45%"}
+                                colorScheme="green"
+                              >
+                                Save
+                              </Button>
+                              <Button
+                                onClick={() => setEditingPhoto(null)}
+                                width={"45%"}
+                              >
+                                Cancel
+                              </Button>
+                            </Flex>
                           </>
                         ) : (
                           <>
@@ -590,17 +559,6 @@ const CollectionsSection = () => {
             </Box>
           )}
 
-          {/* Photo Uploading */}
-          <UploadPhotos
-            isOpen={isAddPhotosOpen}
-            onOpen={onAddPhotosOpen}
-            onClose={onAddPhotosClose}
-            setSelectedCollectionId={setSelectedCollectionId}
-          />
-        </VStack>
-      )}
-    </>
-  );
           {/* Photo Uploading */}
           <UploadPhotos
             isOpen={isAddPhotosOpen}
