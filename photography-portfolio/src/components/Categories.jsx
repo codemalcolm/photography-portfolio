@@ -10,9 +10,17 @@ import {
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import useFetchCategories from "../hooks/Category/useFetchCategories";
 import { useEffect, useState } from "react";
+import useCategoriesStore from "../store/useCategoriesStore";
 
 const Categories = () => {
-  const { categories, loading, error } = useFetchCategories();
+  const { fetchCategories } = useFetchCategories();
+
+  const { categories, loading, error } = useCategoriesStore();
+
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
+
   const [loadedImages, setLoadedImages] = useState(new Set());
   // State to store the natural dimensions (width, height) of loaded images
   const [imageDimensions, setImageDimensions] = useState({});
@@ -112,8 +120,8 @@ const Categories = () => {
                 height="100%"
                 width="100%"
                 borderRadius="4px"
-				startColor="#101118"
-				endColor="#101118"
+                startColor="#101118"
+                endColor="#101118"
               >
                 <Image
                   src={category?.imageUrl}
