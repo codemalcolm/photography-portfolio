@@ -33,6 +33,7 @@ import UploadPhotos from "./UploadPhotos";
 import useEditCollection from "../../hooks/PhotoCollection/useEditCollection";
 import { useInstantTransition } from "framer-motion";
 import { useCollectionStore } from "../../store/useCollectionStore";
+import useCategoriesStore from "../../store/categoryStore";
 
 const CollectionsSection = () => {
   const [showPhotos, setShowPhotos] = useState(false); // Track if photos should be shown
@@ -73,15 +74,18 @@ const CollectionsSection = () => {
 
   const { fetchCollections } = useFetchCollections(); // Fetching all existing collections
 
+  const {
+    categories,
+    loading: categoriesLoading,
+    error: categoriesError,
+  } = useCategoriesStore();
+
+  const { fetchCategories } = useFetchCategories(); // Fetching all existing categories
+
   useEffect(() => {
     fetchCollections();
-  }, [fetchCollections]);
-
-  const {
-    categories: categoriesFetched,
-    loading: fetchingCategories,
-    error: fetchError,
-  } = useFetchCategories(); // Fetching all existing categories
+    fetchCategories();
+  }, [fetchCollections, fetchCategories]);
 
   const { addPhotoCollection } = useAddPhotoCollection(); // Adding a new collection
 
@@ -362,17 +366,17 @@ const CollectionsSection = () => {
               <ModalHeader />
 
               <ModalBody>
-                {fetchingCategories ? (
+                {categoriesLoading ? (
                   <Spinner size="lg" />
-                ) : fetchError ? (
+                ) : categoriesError ? (
                   <Text color="red.500">
-                    Error fetching categories: {fetchError}
+                    Error fetching categories: {categoriesError}
                   </Text>
                 ) : (
                   <Box mb={4}>
                     <Text mb={2}>Select Category:</Text>
                     <Box mb={4}>
-                      {categoriesFetched.map((category) => (
+                      {categories.map((category) => (
                         <Button
                           key={category.id}
                           onClick={() => handleCategoryClickModal(category.id)}
