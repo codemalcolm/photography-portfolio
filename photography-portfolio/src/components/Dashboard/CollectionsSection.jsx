@@ -19,7 +19,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import plusIcon from "../../assets/icons/plus-icon.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useDeleteCollection from "../../hooks/PhotoCollection/useDeleteCollection";
 import useDeletePhoto from "../../hooks/Photos/useDeletePhoto";
 import deleteIcon from "../../assets/icons/delete-icon.svg";
@@ -31,6 +31,8 @@ import useEditPhoto from "../../hooks/Photos/useEditPhoto";
 import useUploadPhotos from "../../hooks/Photos/useUploadPhotos";
 import UploadPhotos from "./UploadPhotos";
 import useEditCollection from "../../hooks/PhotoCollection/useEditCollection";
+import { useInstantTransition } from "framer-motion";
+import { useCollectionStore } from "../../store/useCollectionStore";
 
 const CollectionsSection = () => {
   const [showPhotos, setShowPhotos] = useState(false); // Track if photos should be shown
@@ -60,13 +62,20 @@ const CollectionsSection = () => {
     loading: photosLoading,
     error: photosError,
     success: photosSuccess,
+    success: addSuccess,
   } = useUploadPhotos();
 
   const {
     collections,
     loading: collectionsLoading,
     error: collectionsError,
-  } = useFetchCollections(); // Fetching all existing collections
+  } = useCollectionStore();
+
+  const { fetchCollections } = useFetchCollections(); // Fetching all existing collections
+
+  useEffect(() => {
+    fetchCollections();
+  }, [fetchCollections]);
 
   const {
     categories: categoriesFetched,
@@ -74,12 +83,7 @@ const CollectionsSection = () => {
     error: fetchError,
   } = useFetchCategories(); // Fetching all existing categories
 
-  const {
-    addPhotoCollection,
-    loading: addingCollection,
-    error: addError,
-    success: addSuccess,
-  } = useAddPhotoCollection(); // Adding a new collection
+  const { addPhotoCollection } = useAddPhotoCollection(); // Adding a new collection
 
   const { editPhoto } = useEditPhoto(); // Editting photo name
 
@@ -153,6 +157,7 @@ const CollectionsSection = () => {
   // Handling submitting create collection form
   const handleSubmitCollection = (e) => {
     e.preventDefault();
+
     addPhotoCollection(selectedFromModalCategoryId, {
       name: collectionName,
       description: collectionDescription,
@@ -162,6 +167,9 @@ const CollectionsSection = () => {
     // Clear the input fields after submission
     setCollectionName("");
     setCollectionDescription("");
+    setSelectedFromModalCategoryId("");
+
+    onAddCollectionClose();
   };
 
   // Opening MODAL for adding photos
@@ -194,11 +202,15 @@ const CollectionsSection = () => {
       console.error("Error deleting photo:", error);
     }
   };
+
   // handling editing collection submit
   const handleEditCollectionSubmit = async (collectionId) => {
     try {
       await editCollection(collectionId, { name: newCollectionName });
       setEditingCollection(null); // Exit editing mode after saving
+
+      // reset inputs
+      setNewCollectionName("");
     } catch (error) {
       console.error("Error editing collection:", error);
     }
@@ -338,7 +350,6 @@ const CollectionsSection = () => {
               </Flex>
             ))}
           </Flex>
-
           {/* Add Collection Modal */}
           <Modal
             isOpen={isAddCollectionOpen}
@@ -400,16 +411,16 @@ const CollectionsSection = () => {
 
                   <Button
                     type="submit"
-                    isLoading={addingCollection}
+                    isLoading={collectionsLoading}
                     loadingText="Adding..."
                   >
                     Add Collection
                   </Button>
                 </form>
 
-                {addError && (
+                {collectionsError && (
                   <Text color="red.500" mt={4}>
-                    {addError}
+                    {collectionsError}
                   </Text>
                 )}
                 {addSuccess && (
@@ -426,7 +437,6 @@ const CollectionsSection = () => {
               </ModalFooter>
             </ModalContent>
           </Modal>
-
           {/* Display photos in selected collection */}
           {selectedCollection && showPhotos && (
             <Box>
@@ -559,13 +569,14 @@ const CollectionsSection = () => {
             </Box>
           )}
 
+          {/* // TODO : FIX PhotoUploading for new global state management */}
           {/* Photo Uploading */}
-          <UploadPhotos
+          {/* <UploadPhotos
             isOpen={isAddPhotosOpen}
             onOpen={onAddPhotosOpen}
             onClose={onAddPhotosClose}
             setSelectedCollectionId={setSelectedCollectionId}
-          />
+          /> */}
         </VStack>
       )}
     </>
