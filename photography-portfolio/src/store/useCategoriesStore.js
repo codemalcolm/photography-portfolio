@@ -9,7 +9,7 @@ const useCategoriesStore = create((set) => ({
   setSuccess: (success) => set({ success }),
   setError: (error) => set({ error }),
   setCategories: (data) => set({ categories: data }),
-  addCategories: (category) =>
+  createCategory: (category) =>
     set((state) => ({ categories: [...state.categories, category] })),
   removeCategory: (id) =>
     set((state) => ({
