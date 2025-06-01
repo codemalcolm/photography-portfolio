@@ -17,4 +17,10 @@ export const useCollectionStore = create((set) => ({
     set((state) => ({
       collections: [...state.collections, collection],
     })),
+  updateCollection: (id, updatedData) =>
+    set((state) => ({
+      collections: state.collections.map((collection) =>
+        collection.id === id ? { ...collection, ...updatedData } : collection
+      ),
+    })),
 }));
