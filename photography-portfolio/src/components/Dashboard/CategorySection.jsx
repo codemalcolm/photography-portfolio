@@ -120,7 +120,7 @@ const CategorySection = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const addedCategory = await addCategory(
+    await addCategory(
       {
         displayName: categoryName,
         order: 0, // Default order
@@ -129,12 +129,9 @@ const CategorySection = () => {
       selectedImage
     );
 
-    if (addedCategory) {
-      createCategory(addedCategory); // Update the Zustand store with the new category
-      setCategoryName(""); // Clear form
-      setSelectedImage(null); // Clear form
-      onAddCategoryOpen(); // Close modal after submission
-    }
+    setCategoryName(""); // Clear form
+    setSelectedImage(null); // Clear form
+    onAddCategoryClose(); // Close modal after submission
   };
   return (
     <>
