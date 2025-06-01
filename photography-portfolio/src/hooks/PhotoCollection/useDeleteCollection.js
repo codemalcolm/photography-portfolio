@@ -1,25 +1,26 @@
-import { doc, deleteDoc } from 'firebase/firestore';
-import { firestore } from '../../firebase/firebase';
-import { useState } from 'react';
+import { doc, deleteDoc } from "firebase/firestore";
+import { firestore } from "../../firebase/firebase";
+import { useState } from "react";
+import { useCollectionStore } from "../../store/useCollectionStore";
 
 const useDeleteCollection = () => {
-  const [success, setSuccess] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const { removeCollection, setLoading, setError } = useCollectionStore();
+
   const deleteCollection = async (collectionId) => {
     try {
-      setLoading(true)
-      const collectionRef = doc(firestore, 'photoCollections', collectionId);
+      setLoading(true);
+
+      const collectionRef = doc(firestore, "photoCollections", collectionId);
       await deleteDoc(collectionRef);
-      setSuccess(true)
-    } catch (error) {
-      console.log(error)
-      setSuccess(false)
+      removeCollection(collectionId);
+    } catch (err) {
+      setError(err.message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
 
-  return { deleteCollection, loading, success };
+  return { deleteCollection };
 };
 
 export default useDeleteCollection;
