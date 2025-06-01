@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export const useCollectionStore = create((set) => ({
+export const useCollectionsStore = create((set) => ({
   collections: [],
   loading: false,
   error: null,

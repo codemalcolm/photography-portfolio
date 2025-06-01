@@ -1,10 +1,10 @@
 import { doc, updateDoc } from "firebase/firestore";
 import { firestore } from "../../firebase/firebase";
-import { useCollectionStore } from "../../store/useCollectionStore";
+import { useCollectionsStore } from "../../store/useCollectionsStore";
 
 const useEditCollection = () => {
   const { updateCollection, setLoading, setError } =
-    useCollectionStore();
+    useCollectionsStore();
   const editCollection = async (collectionId, updatedData) => {
     setLoading(true);
 

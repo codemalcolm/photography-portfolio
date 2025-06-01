@@ -32,8 +32,8 @@ import useUploadPhotos from "../../hooks/Photos/useUploadPhotos";
 import UploadPhotos from "./UploadPhotos";
 import useEditCollection from "../../hooks/PhotoCollection/useEditCollection";
 import { useInstantTransition } from "framer-motion";
-import { useCollectionStore } from "../../store/useCollectionStore";
-import useCategoriesStore from "../../store/categoryStore";
+import { useCollectionsStore } from "../../store/useCollectionsStore";
+import useCategoriesStore from "../../store/useCategoriesStore";
 
 const CollectionsSection = () => {
   const [showPhotos, setShowPhotos] = useState(false); // Track if photos should be shown
@@ -70,7 +70,7 @@ const CollectionsSection = () => {
     collections,
     loading: collectionsLoading,
     error: collectionsError,
-  } = useCollectionStore();
+  } = useCollectionsStore();
 
   const { fetchCollections } = useFetchCollections(); // Fetching all existing collections
 

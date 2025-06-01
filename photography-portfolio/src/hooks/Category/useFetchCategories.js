@@ -2,7 +2,7 @@
 import { useCallback } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { firestore } from "../../firebase/firebase"; // Adjust the path as needed
-import useCategoriesStore from "../../store/categoryStore";
+import useCategoriesStore from "../../store/useCategoriesStore";
 
 // Custom Hook to Fetch Categories
 export const useFetchCategories = () => {

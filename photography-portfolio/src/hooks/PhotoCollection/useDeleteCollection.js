@@ -1,10 +1,9 @@
 import { doc, deleteDoc } from "firebase/firestore";
 import { firestore } from "../../firebase/firebase";
-import { useState } from "react";
-import { useCollectionStore } from "../../store/useCollectionStore";
+import { useCollectionsStore } from "../../store/useCollectionsStore";
 
 const useDeleteCollection = () => {
-  const { removeCollection, setLoading, setError } = useCollectionStore();
+  const { removeCollection, setLoading, setError } = useCollectionsStore();
 
   const deleteCollection = async (collectionId) => {
     try {

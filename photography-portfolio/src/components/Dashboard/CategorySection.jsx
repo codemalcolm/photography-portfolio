@@ -24,10 +24,10 @@ import useFetchCategories from "../../hooks/Category/useFetchCategories";
 import useFetchCollectionsByCategory from "../../hooks/PhotoCollection/useFetchCollectionsByCategory";
 import useDeleteCollection from "../../hooks/PhotoCollection/useDeleteCollection";
 import useDeletePhoto from "../../hooks/Photos/useDeletePhoto";
-import useCategoryStore from "../../store/categoryStore";
+import useCategoryStore from "../../store/useCategoriesStore";
 import useAddCategory from "../../hooks/Category/useAddCategory";
 import useDeleteCategory from "../../hooks/Category/useDeleteCategory";
-import useCategoriesStore from "../../store/categoryStore";
+import useCategoriesStore from "../../store/useCategoriesStore";
 
 const CategorySection = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState(null); // Track selected category

@@ -10,12 +10,12 @@ import {
   getDoc,
 } from "firebase/firestore";
 import { firestore } from "../../firebase/firebase"; // Adjust the path as needed
-import { useCollectionStore } from "../../store/useCollectionStore";
+import { useCollectionsStore } from "../../store/useCollectionsStore";
 
 // Custom Hook to Add a Photo Collection to a Category
 export const useAddPhotoCollection = () => {
   const { addCollection, setLoading, setError, setSuccess } =
-    useCollectionStore();
+    useCollectionsStore();
 
   // Function to add a new photo collection
   const addPhotoCollection = async (categoryId, collectionData) => {

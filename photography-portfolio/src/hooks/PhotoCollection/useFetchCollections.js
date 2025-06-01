@@ -1,10 +1,10 @@
 import { useEffect, useState, useCallback } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { firestore } from "../../firebase/firebase";
-import { useCollectionStore } from "../../store/useCollectionStore";
+import { useCollectionsStore } from "../../store/useCollectionsStore";
 
 const useFetchCollections = () => {
-  const { setCollections, setLoading, setError } = useCollectionStore();
+  const { setCollections, setLoading, setError } = useCollectionsStore();
 
   // Define the fetch function with useCallback to ensure referential stability
   const fetchCollections = useCallback(async () => {
